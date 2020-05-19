@@ -8,8 +8,10 @@ export default class Game {
   }
 
   draw() {
+    this.board.drawBoard()
     let player = new Player();
     player.spawn(this.board.ctx)
   }
-  
+
+
 };

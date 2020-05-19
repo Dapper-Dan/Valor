@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Board; });\nclass Board {\r\n  constructor() {\r\n    this.gameBoard = document.getElementById(\"gameBoard\"); \r\n    this.ctx = this.gameBoard.getContext('2d');\r\n    this.gameBoard.width = 1000;\r\n    this.gameBoard.height = 600;\r\n  }\r\n\r\n  drawBoard() {\r\n    this.ctx.fillRect(0, 0, this.gameBoard.width, this.gameBoard.height)\r\n  }\r\n  \r\n};\n\n//# sourceURL=webpack:///./src/board.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Board; });\nclass Board {\r\n  constructor() {\r\n    this.gameBoard = document.getElementById(\"gameBoard\"); \r\n    this.ctx = this.gameBoard.getContext('2d');\r\n    this.gameBoard.width = 1000;\r\n    this.gameBoard.height = 600;\r\n  }\r\n\r\n  drawBoard() {\r\n    let background = new Image();\r\n    background.src = \"../src/images/dung.jpg\"\r\n    background.onload = () => {\r\n      this.ctx.drawImage(background, 0, 0); \r\n    }\r\n  }\r\n\r\n};\n\n//# sourceURL=webpack:///./src/board.js?");
 
 /***/ }),
 
@@ -106,7 +106,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Game; });\n/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./player */ \"./src/player.js\");\n/* harmony import */ var _monster__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./monster */ \"./src/monster.js\");\n/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./board */ \"./src/board.js\");\n\r\n\r\n\r\n\r\nclass Game {\r\n  constructor() {\r\n    this.board = new _board__WEBPACK_IMPORTED_MODULE_2__[\"default\"]();\r\n  }\r\n\r\n  draw() {\r\n    let player = new _player__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\r\n    player.spawn(this.board.ctx)\r\n  }\r\n  \r\n};\n\n//# sourceURL=webpack:///./src/game.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Game; });\n/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./player */ \"./src/player.js\");\n/* harmony import */ var _monster__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./monster */ \"./src/monster.js\");\n/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./board */ \"./src/board.js\");\n\r\n\r\n\r\n\r\nclass Game {\r\n  constructor() {\r\n    this.board = new _board__WEBPACK_IMPORTED_MODULE_2__[\"default\"]();\r\n  }\r\n\r\n  draw() {\r\n    this.board.drawBoard()\r\n    let player = new _player__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\r\n    player.spawn(this.board.ctx)\r\n  }\r\n\r\n\r\n};\n\n//# sourceURL=webpack:///./src/game.js?");
 
 /***/ }),
 
@@ -118,7 +118,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game */ \"./src/game.js\");\n\r\n\r\ndocument.addEventListener(\"DOMContentLoaded\", function () {\r\n    \r\n    const game = new _game__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\r\n    const board = game.board;\r\n    board.drawBoard();\r\n    game.draw();\r\n});\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game */ \"./src/game.js\");\n\r\n\r\ndocument.addEventListener(\"DOMContentLoaded\", function () {\r\n    const game = new _game__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\r\n    game.draw();\r\n\r\n});\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
@@ -142,7 +142,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Player; });\nclass Player {\r\n  constructor() {\r\n    this.posX = 0;\r\n    this.posY = 0;\r\n    this.color = \"#00FF00\"\r\n  }\r\n\r\n  spawn(ctx) {\r\n    ctx.fillStyle = \"#00FF00\"\r\n    ctx.fillRect(0, 0, 30, 30);\r\n  }\r\n  \r\n};\n\n//# sourceURL=webpack:///./src/player.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Player; });\nclass Player {\r\n  constructor() {\r\n    this.posX = 0;\r\n    this.posY = 0;\r\n  }\r\n\r\n  spawn(ctx) {\r\n    ctx.fillStyle = \"#00FF00\"\r\n    ctx.fillRect(this.posX, this.posY, 50, 50);\r\n  }\r\n\r\n};\n\n//# sourceURL=webpack:///./src/player.js?");
 
 /***/ })
 

@@ -7,7 +7,11 @@ export default class Board {
   }
 
   drawBoard() {
-    this.ctx.fillRect(0, 0, this.gameBoard.width, this.gameBoard.height)
+    let background = new Image();
+    background.src = "../src/images/dung.jpg"
+    background.onload = () => {
+      this.ctx.drawImage(background, 0, 0); 
+    }
   }
-  
+
 };
