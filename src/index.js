@@ -1,7 +1,9 @@
 import Game from "./game";
+import Player from "./player"
 
 document.addEventListener("DOMContentLoaded", function () {
     const game = new Game();
-    game.draw();
+    requestAnimationFrame(game.drawGame)
+    
 
 });
