@@ -11,6 +11,7 @@ export default class Game {
     this.drawGame = this.drawGame.bind(this)
   }
 
+  
   drawGame() {
     let sec = Math.floor(Date.now()/1000);
     if (sec !== this.currentSecond) {
@@ -34,6 +35,11 @@ export default class Game {
         this.board.ctx.fillRect(x * this.board.tileWidth, y * this.board.tileHeight, this.board.tileWidth, this.board.tileHeight);
       }
     }
+
+    this.board.ctx.fillStyle = "#ff0000";
+    this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 20);
+    
+    requestAnimationFrame(this.drawGame);
   }
 
 };
