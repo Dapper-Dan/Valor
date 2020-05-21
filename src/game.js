@@ -11,7 +11,6 @@ export default class Game {
     this.currentSecond = 0;
     this.frameCount = 0;
     this.framesLastSecond = 0;
-    // this.currentFrameTime = Date.now()
     this.lastFrameTime = 0; 
     this.drawGame = this.drawGame.bind(this)
   }
