@@ -6,7 +6,7 @@ export default class Player {
     this.nextPos = [1, 1];
     this.timeStart = 0;
     this.delayMove = 800;
-    this.size = [40, 40];
+    this.size = [30, 30];
     this.mapPos = [45, 45];
     this.sampleBoard = new Board();
   }
@@ -63,6 +63,48 @@ export default class Player {
 
   toIndex(x, y) {
     return ((y * this.sampleBoard.mapWidth) + x);
+  }
+
+  isWalkable(x, y) {
+    if (x < 0 || x >= this.sampleBoard.mapWidth || y < 0 || y >= this.sampleBoard.mapHeight) return false;
+    if (this.sampleBoard.tileTypes[this.sampleBoard.gameMap[this.toIndex(x, y)]].floor !== this.sampleBoard.floorTypes.walkable) return false; 
+    return true;
+  }
+
+  canMoveUp() {
+    return this.isWalkable(this.currentPos[0], this.currentPos[1] - 1);
+  }
+
+  canMoveDown() {
+    return this.isWalkable(this.currentPos[0], this.currentPos[1] + 1);
+  }
+
+  canMoveLeft() {
+    return this.isWalkable(this.currentPos[0] - 1, this.currentPos[1]);
+  }
+
+  canMoveRight() {
+    return this.isWalkable(this.currentPos[0] + 1, this.currentPos[1]);
+  }
+
+  moveUp(currentGameTime) {
+    this.nextPos[1] -= 1;
+    this.timeStart = currentGameTime;
+  }
+  
+  moveDown(currentGameTime) {
+    this.nextPos[1] += 1;
+    this.timeStart = currentGameTime;
+  }
+
+  moveLeft(currentGameTime) {
+    this.nextPos[0] -= 1;
+    this.timeStart = currentGameTime;
+  }
+
+  moveRight(currentGameTime) {
+    this.nextPos[0] += 1;
+    this.timeStart = currentGameTime;
   }
 
 };

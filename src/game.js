@@ -30,22 +30,12 @@ export default class Game {
     }
     
     if (!this.player.handleMove(currentFrameTime)) {
-      this.checkValidMove()
-      if (this.player.currentPos[0] !== this.player.nextPos[0] || this.player.currentPos[1] !== this.player.nextPos[1]) this.player.timeStart = currentFrameTime;
+      this.checkValidMove(currentFrameTime)
     }
-
-
 
     for (let y = 0; y < this.board.mapHeight; y++) {
       for (let x = 0; x < this.board.mapWidth; x++) {
-        switch(this.board.gameMap[((y * this.board.mapWidth) + x)]) {
-          case 0:
-            this.board.ctx.fillStyle = "#999999";
-            break;
-          case 1:
-            this.board.ctx.fillStyle = "#12c934";
-        }
-
+        this.board.ctx.fillStyle = this.board.tileTypes[this.board.gameMap[this.player.toIndex(x, y)]].color;
         this.board.ctx.fillRect(x * this.board.tileWidth, y * this.board.tileHeight, this.board.tileWidth, this.board.tileHeight);
       }
     }
@@ -60,17 +50,16 @@ export default class Game {
     requestAnimationFrame(this.drawGame);
   }
 
-  checkValidMove() {
-    if (this.keys[37] && this.player.currentPos[0] > 0 && this.board.gameMap[this.player.toIndex(this.player.currentPos[0] - 1, this.player.currentPos[1])] === 1) {
-      this.player.nextPos[0] -= 1;
-    } else if (this.keys[38] && this.player.currentPos[1] > 0 && this.board.gameMap[this.player.toIndex(this.player.currentPos[0], this.player.currentPos[1] - 1)]  === 1) {
-      this.player.nextPos[1] -= 1;
-    } else if (this.keys[39] && this.player.currentPos[0] < (this.board.mapWidth - 1) && this.board.gameMap[this.player.toIndex(this.player.currentPos[0] + 1, this.player.currentPos[1])] === 1) {
-      this.player.nextPos[0] += 1;
-    } else if (this.keys[40] && this.player.currentPos[1] < (this.board.mapHeight - 1) && this.board.gameMap[this.player.toIndex(this.player.currentPos[0], this.player.currentPos[1] + 1)]  === 1) {
-      this.player.nextPos[1] += 1;
+  checkValidMove(currentFrameTime) {
+    if (this.keys[37] && this.player.canMoveLeft()) {
+      this.player.moveLeft(currentFrameTime);
+    } else if (this.keys[38] && this.player.canMoveUp()) {
+      this.player.moveUp(currentFrameTime);
+    } else if (this.keys[39] && this.player.canMoveRight()) {
+      this.player.moveRight(currentFrameTime);
+    } else if (this.keys[40] && this.player.canMoveDown()) {
+      this.player.moveDown(currentFrameTime);
     }
   }
-
 
 };
