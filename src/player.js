@@ -60,6 +60,8 @@ export default class Player {
     }
   }
 
+  //toIndex?
+
 
 
 
