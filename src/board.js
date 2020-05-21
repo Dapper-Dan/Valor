@@ -1,4 +1,5 @@
 import Player from "./player"
+import Sprite from "./sprite";
 
 export default class Board {
   constructor() {
@@ -29,11 +30,18 @@ export default class Board {
     };
 
     this.tileTypes = {
-      0: { color: "#000000", type: "wall", floor: this.floorTypes.solid },
-      1: { color: "#808080", type: "ground", floor: this.floorTypes.walkable },
-      2: { color: "#0000ff", type: "water", floor: this.floorTypes.solid },
-      3: { color: "#ffa500", type: "debrisPillar", floor: this.floorTypes.solid },
-      4: { color: "#ffffff", type: "bridge", floor: this.floorTypes.walkable }
+      0: { color: "#000000", type: "wall", floor: this.floorTypes.solid, sprite: new Sprite([0, 0], [40, 40]) },
+      1: { color: "#808080", type: "ground", floor: this.floorTypes.walkable, sprite: new Sprite([40, 40], [40, 40]) },
+      2: { color: "#0000ff", type: "water", floor: this.floorTypes.solid, sprite: new Sprite([80, 80], [40, 40]) },
+      3: { color: "#ffa500", type: "debrisPillar", floor: this.floorTypes.solid, sprite: new Sprite([120, 120], [40, 40]) },
+      4: { color: "#ffffff", type: "bridge", floor: this.floorTypes.walkable, sprite: new Sprite([160, 160], [40, 40]) }
+    };
+
+    this.directions = {
+      up: 0,
+      right: 1,
+      down: 2,
+      left: 3
     };
 
 

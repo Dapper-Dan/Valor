@@ -9,6 +9,7 @@ export default class Player {
     this.size = [30, 30];
     this.mapPos = [45, 45];
     this.sampleBoard = new Board();
+    this.direction = this.sampleBoard.directions.up // change to right?
   }
 
 
@@ -90,21 +91,25 @@ export default class Player {
   moveUp(currentGameTime) {
     this.nextPos[1] -= 1;
     this.timeStart = currentGameTime;
+    this.direction = this.sampleBoard.directions.up;
   }
   
   moveDown(currentGameTime) {
     this.nextPos[1] += 1;
     this.timeStart = currentGameTime;
+    this.direction = this.sampleBoard.directions.down;
   }
 
   moveLeft(currentGameTime) {
     this.nextPos[0] -= 1;
     this.timeStart = currentGameTime;
+    this.direction = this.sampleBoard.directions.left;
   }
 
   moveRight(currentGameTime) {
     this.nextPos[0] += 1;
     this.timeStart = currentGameTime;
+    this.direction = this.sampleBoard.directions.right;
   }
 
 };
