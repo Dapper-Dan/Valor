@@ -7,11 +7,11 @@ export default class Player {
     this.nextPos = [1, 4];
     this.timeStart = 0;
     this.delayMove = 800;
-    this.size = [20, 20];
+    this.size = [50, 50];
     this.mapPos = [95, 305];
     this.sampleBoard = new Board();
     this.direction = this.sampleBoard.directions.right
-    this.sprite = new Sprite("./src/images/toons.png", [127, 76], [17, 20])
+    this.sprite = new Sprite("./src/images/toons.png", [320, 188], [40, 40])
   }
 
 
