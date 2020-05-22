@@ -11,6 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("keyup", function(e) {
       if (e.keyCode >= 37 && e.keyCode <= 40) game.keys[e.keyCode] = false;   
     });
-  
+
 
 });

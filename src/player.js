@@ -2,14 +2,14 @@ import Board from "./board";
 
 export default class Player {
   constructor() {
-    this.currentPos = [1, 1];
-    this.nextPos = [1, 1];
+    this.currentPos = [1, 4];
+    this.nextPos = [1, 4];
     this.timeStart = 0;
     this.delayMove = 800;
     this.size = [20, 20];
-    this.mapPos = [45, 45];
+    this.mapPos = [95, 305];
     this.sampleBoard = new Board();
-    this.direction = this.sampleBoard.directions.up // change to right?
+    this.direction = this.sampleBoard.directions.right
   }
 
 

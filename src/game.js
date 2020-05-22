@@ -46,7 +46,9 @@ export default class Game {
     this.board.ctx.fillRect(this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this. player.size[1]);
 
     this.board.ctx.fillStyle = "#ff0000";
-    this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 20);
+    this.board.ctx.fillText(this.player.mapPos, 10, 20)
+    this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
+    this.board.ctx.fillText(this.player.currentPos, 10, 50);
     
     this.lastFrameTime = currentFrameTime;
     requestAnimationFrame(this.drawGame);
