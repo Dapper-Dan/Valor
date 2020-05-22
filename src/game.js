@@ -35,8 +35,10 @@ export default class Game {
 
     for (let y = 0; y < this.board.mapHeight; y++) {
       for (let x = 0; x < this.board.mapWidth; x++) {
-        this.board.ctx.fillStyle = this.board.tileTypes[this.board.gameMap[this.player.toIndex(x, y)]].color;
-        this.board.ctx.fillRect(x * this.board.tileWidth, y * this.board.tileHeight, this.board.tileWidth, this.board.tileHeight);
+        let tile =  this.board.tileTypes[this.board.gameMap[this.player.toIndex(x, y)]];
+        let tileset = new Image()
+        tileset.src = tile.sprite.url
+        this.board.ctx.drawImage(tileset, tile.sprite.pos[0], tile.sprite.pos[1], tile.sprite.size[0], tile.sprite.size[1], (x * this.board.tileWidth), (y * this.board.tileHeight), this.board.tileWidth, this.board.tileHeight)
       }
     }
 

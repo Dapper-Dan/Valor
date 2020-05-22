@@ -6,7 +6,7 @@ export default class Player {
     this.nextPos = [1, 1];
     this.timeStart = 0;
     this.delayMove = 800;
-    this.size = [30, 30];
+    this.size = [20, 20];
     this.mapPos = [45, 45];
     this.sampleBoard = new Board();
     this.direction = this.sampleBoard.directions.up // change to right?

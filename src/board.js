@@ -13,14 +13,14 @@ export default class Board {
     this.mapHeight = 10;
     this.gameMap =  [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
       0, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
       0, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
       0, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
       0, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-      0, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     ];  
     
@@ -32,11 +32,25 @@ export default class Board {
     // this.tileSet = null, tileSetUrl = 
 
     this.tileTypes = {
-      0: { color: "#000000", type: "wall", floor: this.floorTypes.solid, sprite: new Sprite([0, 0], [40, 40]) },
-      1: { color: "#808080", type: "ground", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [26, 24], [40, 40]) },
-      2: { color: "#0000ff", type: "water", floor: this.floorTypes.solid, sprite: new Sprite([80, 80], [40, 40]) },
-      3: { color: "#ffa500", type: "debrisPillar", floor: this.floorTypes.solid, sprite: new Sprite([120, 120], [40, 40]) },
-      4: { color: "#ffffff", type: "bridge", floor: this.floorTypes.walkable, sprite: new Sprite([160, 160], [40, 40]) }
+      0: { type: "outOfMap", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      1: { type: "xWall", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      2: { type: "xWallPillDown", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      3: { type: "xWallPillUp", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      4: { type: "xWallDoorFrameR", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      5: { type: "xWallDoorFrameL", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      6: { type: "xDoor", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      7: { type: "xWallDecor", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      8: { type: "yWall", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      9: { type: "yDoor", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      10: { type: "spikes", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 95], [70, 70]) },
+      11: { type: "groundReg", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 16], [70, 70]) },
+      12: { type: "groundReg2", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 16], [70, 70]) },
+      13: { type: "groundReg3", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 16], [70, 70]) },
+      14: { type: "groundTop", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 16], [70, 70]) },
+      15: { type: "groundL", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 16], [70, 70]) },
+      16: { type: "groundR", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 16], [70, 70]) },
+      17: { type: "groundLCorner", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 16], [70, 70]) },
+      18: { type: "groundRCorner", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dTilesImproved.jpg", [13, 16], [70, 70]) }
     };
 
     this.directions = {
