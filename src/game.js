@@ -2,6 +2,7 @@ import Player from "./player";
 import Monster from "./monster";
 import Board from "./board";
 import * as Keys from "./keys";
+import Sprite from "./sprite";
 
 export default class Game {
   constructor() {
@@ -36,14 +37,18 @@ export default class Game {
     for (let y = 0; y < this.board.mapHeight; y++) {
       for (let x = 0; x < this.board.mapWidth; x++) {
         let tile =  this.board.tileTypes[this.board.gameMap[this.player.toIndex(x, y)]];
-        let tileset = new Image()
-        tileset.src = tile.sprite.url
+        let tileset = new Image();
+        tileset.src = tile.sprite.url;
         this.board.ctx.drawImage(tileset, tile.sprite.pos[0], tile.sprite.pos[1], tile.sprite.size[0], tile.sprite.size[1], (x * this.board.tileWidth), (y * this.board.tileHeight), this.board.tileWidth, this.board.tileHeight)
       }
     }
 
-    this.board.ctx.fillStyle = "#ff0000";
-    this.board.ctx.fillRect(this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this. player.size[1]);
+    let spritePlayer = this.player.sprite
+    let toonSet = new Image();
+    toonSet.src = spritePlayer.url
+    this.board.ctx.drawImage(toonSet, spritePlayer.pos[0], spritePlayer.pos[1], spritePlayer.size[0], spritePlayer.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
+
+
 
     this.board.ctx.fillStyle = "#ff0000";
     this.board.ctx.fillText(this.player.mapPos, 10, 20)

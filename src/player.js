@@ -1,4 +1,5 @@
 import Board from "./board";
+import Sprite from "./sprite";
 
 export default class Player {
   constructor() {
@@ -10,6 +11,7 @@ export default class Player {
     this.mapPos = [95, 305];
     this.sampleBoard = new Board();
     this.direction = this.sampleBoard.directions.right
+    this.sprite = new Sprite("./src/images/toons.png", [127, 76], [17, 20])
   }
 
 
