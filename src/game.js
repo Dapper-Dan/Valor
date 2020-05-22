@@ -43,7 +43,7 @@ export default class Game {
       }
     }
 
-    let spritePlayer = this.player.sprite
+    let spritePlayer = this.player.sprites[this.player.direction]
     let toonSet = new Image();
     toonSet.src = spritePlayer.url
     this.board.ctx.drawImage(toonSet, spritePlayer.pos[0], spritePlayer.pos[1], spritePlayer.size[0], spritePlayer.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])

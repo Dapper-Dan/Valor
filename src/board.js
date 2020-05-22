@@ -65,8 +65,6 @@ export default class Board {
       down: 2,
       left: 3
     };
-
-
   }
 
 
