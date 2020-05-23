@@ -69,6 +69,8 @@ export default class Game {
   }
 
   checkValidMove(currentFrameTime) {
+    // if (this.keys[37] && this.keys[38] && this.player.canMoveLeft() && this.player.canMoveUp()) {
+    //   this.player.moveUpLeft(currentFrameTime); NEEDS WORK- ANIMATION
     if (this.keys[37] && this.player.canMoveLeft()) {
       this.player.moveLeft(currentFrameTime);
     } else if (this.keys[38] && this.player.canMoveUp()) {

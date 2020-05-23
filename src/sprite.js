@@ -5,7 +5,6 @@ export default class Sprite {
     this.size = size;
     // this.dir = dir;
     // this.speed= speed;
-    // this.dir = dir;
     // this.frames = frames; 
     // this._index = 0;
   }
