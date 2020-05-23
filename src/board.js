@@ -59,12 +59,12 @@ export default class Board {
       33: { type: "bottomCornerUpR", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [455, 198], [70, 70]) }
     };
 
-    this.directions = {
-      up: 0,
-      right: 1,
-      down: 2,
-      left: 3
-    };
+    // this.directions = {
+    //   up: 0,
+    //   right: 1,
+    //   down: 2,
+    //   left: 3
+    // };
   }
 
 

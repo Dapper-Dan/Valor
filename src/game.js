@@ -46,9 +46,18 @@ export default class Game {
     let spritePlayer = this.player.sprites[this.player.direction]
     let toonSet = new Image();
     toonSet.src = spritePlayer.url
-    this.board.ctx.drawImage(toonSet, spritePlayer.pos[0], spritePlayer.pos[1], spritePlayer.size[0], spritePlayer.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
+    let totalSpriteTime = 0;
 
-    
+    for (let s in spritePlayer.frames) {
+      spritePlayer.frames[s]['start'] = totalSpriteTime;
+      totalSpriteTime += spritePlayer.aniTime;
+      spritePlayer.frames[s]['end'] = totalSpriteTime;
+    }
+
+    spritePlayer['totalSpriteDuration'] = totalSpriteTime;
+    let toon = this.getFrame(spritePlayer.frames, spritePlayer.totalSpriteDuration, currentFrameTime)
+    this.board.ctx.drawImage(toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
+  
     this.board.ctx.fillStyle = "#ff0000";
     this.board.ctx.fillText(this.player.mapPos, 10, 20)
     this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
@@ -67,6 +76,13 @@ export default class Game {
       this.player.moveRight(currentFrameTime);
     } else if (this.keys[40] && this.player.canMoveDown()) {
       this.player.moveDown(currentFrameTime);
+    }
+  }
+
+  getFrame(sprites, duration, time, moving) {
+    time = time % duration;
+    for (let i in sprites) {
+      if (sprites[i].end >= time) return sprites[i];
     }
   }
 

@@ -1,5 +1,5 @@
 import Board from "./board";
-import Sprite from "./sprite";
+import CharacterSprite from "./character_sprite";
 
 export default class Player {
   constructor() {
@@ -7,15 +7,27 @@ export default class Player {
     this.nextPos = [1, 4];
     this.timeStart = 0;
     this.delayMove = 800;
-    this.size = [40, 40]; //50
-    this.mapPos = [95, 305];
+    this.size = [50, 50]; 
+    this.mapPos = [90, 290];
     this.sampleBoard = new Board();
-    this.direction = this.sampleBoard.directions.right
+    this.direction = "right"//this.sampleBoard.directions.right
     this.sprites = {
-      0: new Sprite("./src/images/toons.png", [320, 188], [40, 40]), 
-      1: new Sprite("./src/images/knight40Wide.png", [0, 23], [40, 46]), //(20/35) [314, 398]
-      2: new Sprite("./src/images/toons.png", [320, 188], [40, 40]), 
-      3: new Sprite("./src/images/toons.png", [314, 352], [40, 40])
+      "up": new CharacterSprite("./src/images/knightFrames.png", { 1: { pos: [40, 166], size: [40, 39] },
+                                                                   2: { pos: [85, 165], size: [40, 39] }
+                                                                  },
+                                                                  200), 
+      "right": new CharacterSprite("./src/images/knightFrames.png", { 1: { pos: [40, 166], size: [40, 39] },
+                                                                     2: { pos: [85, 165], size: [40, 39] }
+                                                                   },
+                                                                   200), 
+      "down": new CharacterSprite("./src/images/knightFrames.png", { 1: { pos: [40, 166], size: [40, 39] },
+                                                                    2: { pos: [85, 165], size: [40, 39] }
+                                                                    },
+                                                                    200), 
+      "left": new CharacterSprite("./src/images/knightFrames.png", { 1: { pos: [40, 166], size: [40, 39] },
+                                                                    2: { pos: [85, 165], size: [40, 39] }
+                                                                    },
+                                                                    200)
 
     }
     
@@ -36,6 +48,7 @@ export default class Player {
 
     if ((currentTime - this.timeStart) >= this.delayMove ) {
       this.move(this.nextPos[0], this.nextPos[1]);
+      //right here
     } else {
       this.getMapPos();
       this.checkDirectionAndAdjust(currentTime);
@@ -46,7 +59,7 @@ export default class Player {
     return true;
   }
 
-  getMapPos() {
+  getMapPos() {// 
     this.mapPos[0] = (this.currentPos[0] * this.sampleBoard.tileWidth) + ((this.sampleBoard.tileWidth - this.size[0]) / 2);
     this.mapPos[1] = (this.currentPos[1] * this.sampleBoard.tileHeight) + ((this.sampleBoard.tileHeight - this.size[1]) / 2);
   }
@@ -100,25 +113,25 @@ export default class Player {
   moveUp(currentGameTime) {
     this.nextPos[1] -= 1;
     this.timeStart = currentGameTime;
-    this.direction = this.sampleBoard.directions.up;
+    this.direction = "up" //this.sampleBoard.directions.up;
   }
   
   moveDown(currentGameTime) {
     this.nextPos[1] += 1;
     this.timeStart = currentGameTime;
-    this.direction = this.sampleBoard.directions.down;
+    this.direction = "down" //this.sampleBoard.directions.down;
   }
 
   moveLeft(currentGameTime) {
     this.nextPos[0] -= 1;
     this.timeStart = currentGameTime;
-    this.direction = this.sampleBoard.directions.left;
+    this.direction = "left" //this.sampleBoard.directions.left;
   }
 
   moveRight(currentGameTime) {
     this.nextPos[0] += 1;
     this.timeStart = currentGameTime;
-    this.direction = this.sampleBoard.directions.right;
+    this.direction = "right"//this.sampleBoard.directions.right;
   }
 
 };
