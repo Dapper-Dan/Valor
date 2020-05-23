@@ -7,13 +7,13 @@ export default class Player {
     this.nextPos = [1, 4];
     this.timeStart = 0;
     this.delayMove = 800;
-    this.size = [50, 50];
+    this.size = [40, 40]; //50
     this.mapPos = [95, 305];
     this.sampleBoard = new Board();
     this.direction = this.sampleBoard.directions.right
     this.sprites = {
       0: new Sprite("./src/images/toons.png", [320, 188], [40, 40]), 
-      1: new Sprite("./src/images/toons.png", [314, 398], [40, 40]), //(20/35)
+      1: new Sprite("./src/images/knight40Wide.png", [0, 23], [40, 46]), //(20/35) [314, 398]
       2: new Sprite("./src/images/toons.png", [320, 188], [40, 40]), 
       3: new Sprite("./src/images/toons.png", [314, 352], [40, 40])
 
