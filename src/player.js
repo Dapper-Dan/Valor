@@ -6,28 +6,33 @@ export default class Player {
     this.currentPos = [1, 4];
     this.nextPos = [1, 4];
     this.timeStart = 0;
-    this.delayMove = 800;
+    this.delayMove = 500;
     this.size = [50, 50]; 
     this.mapPos = [90, 290];
     this.sampleBoard = new Board();
-    this.direction = "right"//this.sampleBoard.directions.right
+    this.direction = "right";
+    this.moving = false;
     this.sprites = {
-      "up": new CharacterSprite("./src/images/knightFrames.png", { 1: { pos: [40, 166], size: [40, 39] },
+      "up": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [40, 39] },
+                                                                   1: { pos: [40, 166], size: [40, 39] },
                                                                    2: { pos: [85, 165], size: [40, 39] }
                                                                   },
-                                                                  200), 
-      "right": new CharacterSprite("./src/images/knightFrames.png", { 1: { pos: [40, 166], size: [40, 39] },
+                                                                  200, this.moving), 
+      "right": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
+                                                                     1: { pos: [40, 166], size: [40, 39] },
                                                                      2: { pos: [85, 165], size: [40, 39] }
                                                                    },
-                                                                   200), 
-      "down": new CharacterSprite("./src/images/knightFrames.png", { 1: { pos: [40, 166], size: [40, 39] },
+                                                                   200, this.moving), 
+      "down": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [40, 39] },
+                                                                    1: { pos: [40, 166], size: [40, 39] },
                                                                     2: { pos: [85, 165], size: [40, 39] }
                                                                     },
-                                                                    200), 
-      "left": new CharacterSprite("./src/images/knightFrames.png", { 1: { pos: [40, 166], size: [40, 39] },
+                                                                    200, this.moving), 
+      "left": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [40, 39] },
+                                                                    1: { pos: [40, 166], size: [40, 39] },
                                                                     2: { pos: [85, 165], size: [40, 39] }
                                                                     },
-                                                                    200)
+                                                                    200, this.moving)
 
     }
     
@@ -48,7 +53,7 @@ export default class Player {
 
     if ((currentTime - this.timeStart) >= this.delayMove ) {
       this.move(this.nextPos[0], this.nextPos[1]);
-      //right here
+      this.moving = !this.moving
     } else {
       this.getMapPos();
       this.checkDirectionAndAdjust(currentTime);
@@ -113,25 +118,26 @@ export default class Player {
   moveUp(currentGameTime) {
     this.nextPos[1] -= 1;
     this.timeStart = currentGameTime;
-    this.direction = "up" //this.sampleBoard.directions.up;
+    this.direction = "up";
   }
   
   moveDown(currentGameTime) {
     this.nextPos[1] += 1;
     this.timeStart = currentGameTime;
-    this.direction = "down" //this.sampleBoard.directions.down;
+    this.direction = "down"; 
   }
 
   moveLeft(currentGameTime) {
     this.nextPos[0] -= 1;
     this.timeStart = currentGameTime;
-    this.direction = "left" //this.sampleBoard.directions.left;
+    this.direction = "left"; 
   }
 
   moveRight(currentGameTime) {
     this.nextPos[0] += 1;
     this.timeStart = currentGameTime;
-    this.direction = "right"//this.sampleBoard.directions.right;
+    this.direction = "right";
+    this.moving = true
   }
 
 };

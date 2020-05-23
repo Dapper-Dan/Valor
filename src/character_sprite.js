@@ -1,5 +1,5 @@
 export default class CharacterSprite {
-  constructor(url, frames, aniTime) {
+  constructor(url, frames, aniTime, moving) {
     this.url = url;
     // this.pos = pos;
     // this.size = size;
@@ -8,6 +8,7 @@ export default class CharacterSprite {
     // this.dir = dir;
     this.frames = frames; 
     this.aniTime = aniTime;
+    this.moving = moving;
     // this._index = 0;
   }
   

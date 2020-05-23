@@ -55,7 +55,8 @@ export default class Game {
     }
 
     spritePlayer['totalSpriteDuration'] = totalSpriteTime;
-    let toon = this.getFrame(spritePlayer.frames, spritePlayer.totalSpriteDuration, currentFrameTime)
+    console.log(this.player.moving)
+    let toon = this.getFrame(spritePlayer.frames, spritePlayer.totalSpriteDuration, currentFrameTime, this.player.moving)
     this.board.ctx.drawImage(toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
   
     this.board.ctx.fillStyle = "#ff0000";
@@ -80,6 +81,7 @@ export default class Game {
   }
 
   getFrame(sprites, duration, time, moving) {
+    if (!moving) return sprites[0]
     time = time % duration;
     for (let i in sprites) {
       if (sprites[i].end >= time) return sprites[i];
