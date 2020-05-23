@@ -48,8 +48,7 @@ export default class Game {
     toonSet.src = spritePlayer.url
     this.board.ctx.drawImage(toonSet, spritePlayer.pos[0], spritePlayer.pos[1], spritePlayer.size[0], spritePlayer.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
 
-
-
+    
     this.board.ctx.fillStyle = "#ff0000";
     this.board.ctx.fillText(this.player.mapPos, 10, 20)
     this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);

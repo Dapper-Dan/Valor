@@ -13,7 +13,7 @@ export default class Player {
     this.direction = this.sampleBoard.directions.right
     this.sprites = {
       0: new Sprite("./src/images/toons.png", [320, 188], [40, 40]), 
-      1: new Sprite("./src/images/toons.png", [320, 188], [40, 40]), 
+      1: new Sprite("./src/images/toons.png", [314, 398], [40, 40]), //(20/35)
       2: new Sprite("./src/images/toons.png", [320, 188], [40, 40]), 
       3: new Sprite("./src/images/toons.png", [314, 352], [40, 40])
 
