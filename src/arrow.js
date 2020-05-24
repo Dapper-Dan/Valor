@@ -1,51 +1,45 @@
 import Board from "./board";
-import CharacterSprite from "./character_sprite";
+import MonsterSprite from "./monster_sprite";
+import Player from "./player";
 
-export default class Player {
-  constructor() {
-    this.currentPos = [1, 4];
-    this.nextPos = [1, 4];
+export default class Arrow {
+  constructor(startPos, nextPos, mapPos) {
+    this.currentPos = startPos
+    this.nextPos = nextPos;
     this.timeStart = 0;
-    this.delayMove = 300;
-    this.size = [50, 50]; 
-    this.mapPos = [90, 290];
+    this.delayMove = 50;
+    this.size = [30, 30]; 
+    this.mapPos = mapPos;
     this.sampleBoard = new Board();
     this.direction = "right";
-    this.shootDir = {
-      "right": [1, 0],
-      "left": [-1, 0],
-      "up": [0, -1],
-      "down": [0, 1]
-    }
     this.lastDir = "right"
     this.moving = false;
     this.sprites = {
-      "up": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [1, 84], size: [46, 43] },
-                                                                   1: { pos: [57, 83], size: [46, 43] },
-                                                                   2: { pos: [111, 85], size: [46, 43] }
+      "up": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
+                                                                   1: { pos: [40, 166], size: [40, 39] },
+                                                                   2: { pos: [85, 165], size: [40, 39] }
                                                                   },
                                                                   200), 
-      "right": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 160], size: [35, 43] },
-                                                                     1: { pos: [40, 159], size: [40, 43] },
-                                                                     2: { pos: [85, 157], size: [40, 43] }
+      "right": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
+                                                                     1: { pos: [40, 166], size: [40, 39] },
+                                                                     2: { pos: [85, 165], size: [40, 39] }
                                                                    },
                                                                    200), 
-      "down": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [11, 220], size: [46, 40] },
-                                                                    1: { pos: [81, 220], size: [46, 40] },
-                                                                    2: { pos: [162, 217], size: [46, 40] }
+      "down": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
+                                                                    1: { pos: [40, 166], size: [40, 39] },
+                                                                    2: { pos: [85, 165], size: [40, 39] }
                                                                     },
                                                                     200), 
-      "left": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [83, 15], size: [35, 42] },
-                                                                    1: { pos: [46, 13], size: [36, 42] },
-                                                                    2: { pos: [10, 15], size: [36, 43] }
+      "left": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [84, 30], size: [40, 39] },
+                                                                    1: { pos: [50, 29], size: [34, 39] },
+                                                                    2: { pos: [15, 29], size: [34, 39] }
                                                                     },
                                                                     200)
 
     }
     
   }
-
-
+  
   move(x, y) {
     this.currentPos = [x, y];
     this.nextPos = [x, y];
@@ -125,14 +119,14 @@ export default class Player {
   moveUp(currentGameTime) {
     this.nextPos[1] -= 1;
     this.timeStart = currentGameTime;
-    this.direction = "up"
+    if (this.lastDir === "left") this.direction = "left";
     this.moving = true;
   }
   
   moveDown(currentGameTime) {
     this.nextPos[1] += 1;
     this.timeStart = currentGameTime;
-    this.direction = "down";
+    if (this.lastDir === "left") this.direction = "left";
     this.moving = true;
   }
 
@@ -150,6 +144,8 @@ export default class Player {
     this.moving = true;
   }
 
+}
+
   // moveUpLeft(currentGameTime) {
   //   this.nextPos[0] -= 1;  NEEDS WORK-ANIMATION
   //   this.nextPos[1] -= 1;
@@ -157,6 +153,4 @@ export default class Player {
   //   this.direction = "upLeft"
   //   this.moving = true;
   // }
-
-};
-
+  

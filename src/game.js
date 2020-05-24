@@ -3,12 +3,14 @@ import Monster from "./monster";
 import Board from "./board";
 import * as Keys from "./keys";
 import Sprite from "./sprite";
+import Arrow from "./arrow";
 
 export default class Game {
   constructor() {
     this.board = new Board();
     this.player = new Player();
     this.monsters = [];
+    this.arrows = [];
     this.keys = Keys.keysDown;
     this.currentSecond = 0;
     this.frameCount = 0;
@@ -70,6 +72,14 @@ export default class Game {
     if (!this.monsters[0].handleMove(currentFrameTime)) {
       this.monsterCheckValidMove(currentFrameTime)
     }
+
+    //arrrow handle
+    if (this.arrows.length > 0) {
+    if (!this.arrows[0].handleMove(currentFrameTime)) {
+      this.arrowCheckValidMove(currentFrameTime)
+    }
+   }
+    //////
     
     
     for (let m = 0; m < this.monsters.length; m++) {
@@ -77,9 +87,31 @@ export default class Game {
       let spriteMonster = this.monsters[m];
       let monsterSet = new Image();
       monsterSet.src = "./src/images/monsterSet.png";
-
       this.board.ctx.drawImage(monsterSet, 16, 14, 40, 40, spriteMonster.mapPos[0], spriteMonster.mapPos[1], spriteMonster.size[0], spriteMonster.size[1])
     }
+
+
+
+    /////arrows construction zone
+
+    if (this.keys[32]) {
+      this.arrows.push(new Arrow(this.player.currentPos, [(this.player.currentPos[0] + this.player.shootDir[this.player.direction][0]), (this.player.currentPos[1] + this.player.shootDir[this.player.direction][1])] , this.player.mapPos));
+      this.keys[32] = false;
+    }
+    let arrowSprite = this.arrows[0];
+    let arrowSet = new Image();
+    arrowSet.src = "./src/images/blueArrowFrames.png";
+    // console.log(this.arrows[0])
+    if (this.arrows.length > 0) {
+    this.board.ctx.drawImage(arrowSet, 6, 14, 20, 20, arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSprite.size[0], arrowSprite.size[1])
+    }
+
+    
+
+
+    /////arrows construction zone
+
+
 
     this.board.ctx.fillStyle = "#ff0000";
     this.board.ctx.fillText(this.player.mapPos, 10, 20)
@@ -113,6 +145,12 @@ export default class Game {
       this.monsters[0].moveRight(currentFrameTime);
     } else if (this.monsters[0].canMoveDown() && (this.player.currentPos[1] > this.monsters[0].currentPos[1])) {
       this.monsters[0].moveDown(currentFrameTime);
+    }
+  }
+
+  arrowCheckValidMove(currentFrameTime) {
+    if (this.arrows[0].canMoveRight()) {
+      this.arrows[0].moveRight(currentFrameTime);
     }
   }
 
