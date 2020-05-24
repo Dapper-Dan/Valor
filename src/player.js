@@ -14,24 +14,24 @@ export default class Player {
     this.lastDir = "right"
     this.moving = false;
     this.sprites = {
-      "up": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
-                                                                   1: { pos: [40, 166], size: [40, 39] },
-                                                                   2: { pos: [85, 165], size: [40, 39] }
+      "up": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [1, 84], size: [46, 43] },
+                                                                   1: { pos: [57, 83], size: [46, 43] },
+                                                                   2: { pos: [111, 85], size: [46, 43] }
                                                                   },
                                                                   200), 
-      "right": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
-                                                                     1: { pos: [40, 166], size: [40, 39] },
-                                                                     2: { pos: [85, 165], size: [40, 39] }
+      "right": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 160], size: [35, 43] },
+                                                                     1: { pos: [40, 159], size: [40, 43] },
+                                                                     2: { pos: [85, 157], size: [40, 43] }
                                                                    },
                                                                    200), 
-      "down": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
-                                                                    1: { pos: [40, 166], size: [40, 39] },
-                                                                    2: { pos: [85, 165], size: [40, 39] }
+      "down": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [11, 220], size: [46, 40] },
+                                                                    1: { pos: [81, 220], size: [46, 40] },
+                                                                    2: { pos: [162, 217], size: [46, 40] }
                                                                     },
                                                                     200), 
-      "left": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [84, 30], size: [40, 39] },
-                                                                    1: { pos: [50, 29], size: [34, 39] },
-                                                                    2: { pos: [15, 29], size: [34, 39] }
+      "left": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [83, 15], size: [35, 42] },
+                                                                    1: { pos: [46, 13], size: [36, 42] },
+                                                                    2: { pos: [10, 15], size: [36, 43] }
                                                                     },
                                                                     200)
 
@@ -119,14 +119,14 @@ export default class Player {
   moveUp(currentGameTime) {
     this.nextPos[1] -= 1;
     this.timeStart = currentGameTime;
-    if (this.lastDir === "left") this.direction = "left";
+    this.direction = "up"
     this.moving = true;
   }
   
   moveDown(currentGameTime) {
     this.nextPos[1] += 1;
     this.timeStart = currentGameTime;
-    if (this.lastDir === "left") this.direction = "left";
+    this.direction = "down";
     this.moving = true;
   }
 

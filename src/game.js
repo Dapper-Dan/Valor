@@ -94,16 +94,12 @@ export default class Game {
     // if (this.keys[37] && this.keys[38] && this.player.canMoveLeft() && this.player.canMoveUp()) {
     //   this.player.moveUpLeft(currentFrameTime); NEEDS WORK- ANIMATION
     if (this.keys[37] && this.player.canMoveLeft()) {
-      this.player.lastDir = "left"
       this.player.moveLeft(currentFrameTime);
     } else if (this.keys[38] && this.player.canMoveUp()) {
-      this.player.lastDir = "up"
       this.player.moveUp(currentFrameTime);
     } else if (this.keys[39] && this.player.canMoveRight()) {
-      this.player.lastDir = "right"
       this.player.moveRight(currentFrameTime);
     } else if (this.keys[40] && this.player.canMoveDown()) {
-      this.player.lastDir = "down"
       this.player.moveDown(currentFrameTime);
     }
   }
