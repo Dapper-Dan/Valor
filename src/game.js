@@ -61,21 +61,25 @@ export default class Game {
     this.board.ctx.drawImage(toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
   
 
-    //monsters
-    while (this.monsters.length < 2) {
+    
+    while (this.monsters.length < 1) {
       let monster = new Monster();
       this.monsters.push(monster);
     }
 
+    if (!this.monsters[0].handleMove(currentFrameTime)) {
+      this.monsterCheckValidMove(currentFrameTime)
+    }
+    
+    
     for (let m = 0; m < this.monsters.length; m++) {
 
       let spriteMonster = this.monsters[m];
       let monsterSet = new Image();
       monsterSet.src = "./src/images/monsterSet.png";
-      console.log(this.monsters[m])
-      this.board.ctx.drawImage(monsterSet, 16, 14, 40, 40, spriteMonster.possibleMapPos[m][0], spriteMonster.possibleMapPos[m][1], spriteMonster.size[0], spriteMonster.size[1])
+
+      this.board.ctx.drawImage(monsterSet, 16, 14, 40, 40, spriteMonster.mapPos[0], spriteMonster.mapPos[1], spriteMonster.size[0], spriteMonster.size[1])
     }
-    /////
 
     this.board.ctx.fillStyle = "#ff0000";
     this.board.ctx.fillText(this.player.mapPos, 10, 20)
@@ -104,29 +108,17 @@ export default class Game {
     }
   }
 
-  //monster functions
   monsterCheckValidMove(currentFrameTime) {
-    // if (this.keys[37] && this.keys[38] && this.player.canMoveLeft() && this.player.canMoveUp()) {
-    //   this.player.moveUpLeft(currentFrameTime); NEEDS WORK- ANIMATION
-    if (this.player.canMoveLeft()) {
-      this.player.lastDir = "left"
-      this.player.moveLeft(currentFrameTime);
-    } else if (this.keys[38] && this.player.canMoveUp()) {
-      this.player.lastDir = "up"
-      this.player.moveUp(currentFrameTime);
-    } else if (this.keys[39] && this.player.canMoveRight()) {
-      this.player.lastDir = "right"
-      this.player.moveRight(currentFrameTime);
-    } else if (this.keys[40] && this.player.canMoveDown()) {
-      this.player.lastDir = "down"
-      this.player.moveDown(currentFrameTime);
+    if (this.monsters[0].canMoveLeft() && (this.player.currentPos[0] < this.monsters[0].currentPos[0])) {
+      this.monsters[0].moveLeft(currentFrameTime)
+    } else if (this.monsters[0].canMoveUp() && (this.player.currentPos[1] < this.monsters[0].currentPos[1])) {
+      this.monsters[0].moveUp(currentFrameTime);
+    } else if (this.monsters[0].canMoveRight() && (this.player.currentPos[0] > this.monsters[0].currentPos[0])) {
+      this.monsters[0].moveRight(currentFrameTime);
+    } else if (this.monsters[0].canMoveDown() && (this.player.currentPos[1] > this.monsters[0].currentPos[1])) {
+      this.monsters[0].moveDown(currentFrameTime);
     }
   }
-
-
-
-
-  //
 
   getFrame(sprites, duration, time, moving) {
     if (!moving) return sprites[0]
