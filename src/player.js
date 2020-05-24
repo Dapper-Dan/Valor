@@ -6,11 +6,12 @@ export default class Player {
     this.currentPos = [1, 4];
     this.nextPos = [1, 4];
     this.timeStart = 0;
-    this.delayMove = 400;
+    this.delayMove = 300;
     this.size = [50, 50]; 
     this.mapPos = [90, 290];
     this.sampleBoard = new Board();
     this.direction = "right";
+    this.lastDir = "right"
     this.moving = false;
     this.sprites = {
       "up": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
@@ -33,6 +34,7 @@ export default class Player {
                                                                     2: { pos: [15, 29], size: [34, 39] }
                                                                     },
                                                                     200)
+
     }
     
   }
@@ -117,14 +119,14 @@ export default class Player {
   moveUp(currentGameTime) {
     this.nextPos[1] -= 1;
     this.timeStart = currentGameTime;
-    this.direction = "up";
+    if (this.lastDir === "left") this.direction = "left";
     this.moving = true;
   }
   
   moveDown(currentGameTime) {
     this.nextPos[1] += 1;
     this.timeStart = currentGameTime;
-    this.direction = "down"; 
+    if (this.lastDir === "left") this.direction = "left";
     this.moving = true;
   }
 
