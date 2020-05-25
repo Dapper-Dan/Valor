@@ -19,6 +19,7 @@ export default class Player {
     };
     this.lastDir = "right"
     this.moving = false;
+    
     this.sprites = {
       "up": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [1, 84], size: [46, 43] },
                                                                    1: { pos: [57, 83], size: [46, 43] },

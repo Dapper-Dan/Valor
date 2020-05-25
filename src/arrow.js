@@ -7,13 +7,14 @@ export default class Arrow {
     this.currentPos = startPos
     this.nextPos = nextPos;
     this.timeStart = 0;
-    this.delayMove = 500;
-    this.size = [30, 30]; 
+    this.delayMove = 100;
+    this.size = [60, 20]; 
     this.mapPos = mapPos;
     this.sampleBoard = new Board();
     this.direction = direction;
     this.lastDir = "right"
     this.moving = false;
+    this.destroyed = false;
     this.sprites = {
       "up": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
                                                                    1: { pos: [40, 166], size: [40, 39] },

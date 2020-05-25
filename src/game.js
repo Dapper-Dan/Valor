@@ -16,6 +16,7 @@ export default class Game {
     this.frameCount = 0;
     this.framesLastSecond = 0;
     this.lastFrameTime = 0; 
+    this.score = 0;
     this.drawGame = this.drawGame.bind(this)
   }
 
@@ -33,11 +34,21 @@ export default class Game {
       this.frameCount++;
     }
     
+    
+    if (this.enemyCollision()) {
+      let monster = new Monster();
+      this.monsters.push(monster);
+      this.score += 100;
+    }
+    
 
     if (this.keys[32]) {
       this.arrows.push(new Arrow(this.player.currentPos, [(this.player.currentPos[0] + this.player.shootDir[this.player.direction][0]), (this.player.currentPos[1] + this.player.shootDir[this.player.direction][1])] , this.player.mapPos, this.player.direction));
       this.keys[32] = false;
+      
     }
+
+
 
     if (!this.player.handleMove(currentFrameTime)) {
       this.checkValidMove(currentFrameTime)
@@ -79,7 +90,7 @@ export default class Game {
       this.monsterCheckValidMove(currentFrameTime)
     }
 
-    //arrrow handle
+   
     if (this.arrows.length > 0) {
       for (let arrow of this.arrows) {
         if (!arrow.handleMove(currentFrameTime)) {
@@ -88,48 +99,31 @@ export default class Game {
       }
     }
 
+    
 
-    
-    //////
-    
     
     for (let m = 0; m < this.monsters.length; m++) {
-
       let spriteMonster = this.monsters[m];
       let monsterSet = new Image();
       monsterSet.src = "./src/images/monsterSet.png";
-      this.board.ctx.drawImage(monsterSet, 16, 14, 40, 40, spriteMonster.mapPos[0], spriteMonster.mapPos[1], spriteMonster.size[0], spriteMonster.size[1])
+      if (this.monsters[m].alive === true) this.board.ctx.drawImage(monsterSet, 16, 14, 40, 40, spriteMonster.mapPos[0], spriteMonster.mapPos[1], spriteMonster.size[0], spriteMonster.size[1])
     }
 
 
-
-    /////arrows construction zone
-
-    
-
-
-
-    
 
     
     for(let a in this.arrows) {
-    let arrowSprite = this.arrows[a];
-    let arrowSet = new Image();
-    arrowSet.src = "./src/images/blueArrowFrames.png";
-     console.log(this.arrows)
-    if (this.arrows.length > 0) {
-    this.board.ctx.drawImage(arrowSet, 6, 14, 20, 20, arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSprite.size[0], arrowSprite.size[1])
-    }
+      let arrowSprite = this.arrows[a];
+      let arrowSet = new Image();
+      arrowSet.src = "./src/images/blueArrowFrames.png";
+      if (this.arrows.length > 0) {
+        if(arrowSprite.destroyed === false) this.board.ctx.drawImage(arrowSet, 3, 15, 20, 20, arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSprite.size[0], arrowSprite.size[1])
+      }
     }
 
   
-    
-
-
-    /////arrows construction zone
-
-
-
+   
+  
     this.board.ctx.fillStyle = "#ff0000";
     this.board.ctx.fillText(this.player.mapPos, 10, 20)
     this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
@@ -171,18 +165,26 @@ export default class Game {
     if (arrow.direction === "right") {
       if (arrow.canMoveRight()) {
         arrow.moveRight(currentFrameTime);
+      } else {
+        arrow.destroyed = true;
       }
     } else if (arrow.direction === "left") {
       if (arrow.canMoveLeft()) {
         arrow.moveLeft(currentFrameTime);
+      } else {
+        arrow.destroyed = true;
       }
     } else if (arrow.direction === "up") {
       if (arrow.canMoveUp()) {
         arrow.moveUp(currentFrameTime);
+      } else {
+        arrow.destroyed = true;
       }
     } else if (arrow.direction === "down") {
       if (arrow.canMoveDown()) {
         arrow.moveDown(currentFrameTime);
+      } else {
+        arrow.destroyed = true;
       }
     }
   }
@@ -194,5 +196,16 @@ export default class Game {
       if (sprites[i].end >= time) return sprites[i];
     }
   }
+
+  enemyCollision() {
+      for (let arrow of this.arrows) {
+        if (JSON.stringify(arrow.currentPos) === JSON.stringify(this.monsters[0].currentPos)) {
+          this.monsters[0].alive = false;
+          arrow.destroyed = true;
+          return true;
+        }
+      }
+  }
+  
 
 };

@@ -14,6 +14,7 @@ export default class Monster {
     this.direction = "right";
     this.lastDir = "right"
     this.moving = false;
+    this.alive = true;
     this.sprites = {
       "up": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
                                                                    1: { pos: [40, 166], size: [40, 39] },
