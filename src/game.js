@@ -33,6 +33,12 @@ export default class Game {
       this.frameCount++;
     }
     
+
+    if (this.keys[32]) {
+      this.arrows.push(new Arrow(this.player.currentPos, [(this.player.currentPos[0] + this.player.shootDir[this.player.direction][0]), (this.player.currentPos[1] + this.player.shootDir[this.player.direction][1])] , this.player.mapPos, this.player.direction));
+      this.keys[32] = false;
+    }
+
     if (!this.player.handleMove(currentFrameTime)) {
       this.checkValidMove(currentFrameTime)
     }
@@ -75,10 +81,15 @@ export default class Game {
 
     //arrrow handle
     if (this.arrows.length > 0) {
-    if (!this.arrows[0].handleMove(currentFrameTime)) {
-      this.arrowCheckValidMove(currentFrameTime)
+      for (let arrow of this.arrows) {
+        if (!arrow.handleMove(currentFrameTime)) {
+          this.arrowCheckValidMove(arrow, currentFrameTime)
+        }
+      }
     }
-   }
+
+
+    
     //////
     
     
@@ -94,18 +105,24 @@ export default class Game {
 
     /////arrows construction zone
 
-    if (this.keys[32]) {
-      this.arrows.push(new Arrow(this.player.currentPos, [(this.player.currentPos[0] + this.player.shootDir[this.player.direction][0]), (this.player.currentPos[1] + this.player.shootDir[this.player.direction][1])] , this.player.mapPos));
-      this.keys[32] = false;
-    }
-    let arrowSprite = this.arrows[0];
+    
+
+
+
+    
+
+    
+    for(let a in this.arrows) {
+    let arrowSprite = this.arrows[a];
     let arrowSet = new Image();
     arrowSet.src = "./src/images/blueArrowFrames.png";
-    // console.log(this.arrows[0])
+     console.log(this.arrows)
     if (this.arrows.length > 0) {
     this.board.ctx.drawImage(arrowSet, 6, 14, 20, 20, arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSprite.size[0], arrowSprite.size[1])
     }
+    }
 
+  
     
 
 
@@ -121,7 +138,9 @@ export default class Game {
     this.lastFrameTime = currentFrameTime;
     requestAnimationFrame(this.drawGame);
   }
+  
 
+  
   checkValidMove(currentFrameTime) {
     // if (this.keys[37] && this.keys[38] && this.player.canMoveLeft() && this.player.canMoveUp()) {
     //   this.player.moveUpLeft(currentFrameTime); NEEDS WORK- ANIMATION
@@ -148,9 +167,23 @@ export default class Game {
     }
   }
 
-  arrowCheckValidMove(currentFrameTime) {
-    if (this.arrows[0].canMoveRight()) {
-      this.arrows[0].moveRight(currentFrameTime);
+  arrowCheckValidMove(arrow, currentFrameTime) {
+    if (arrow.direction === "right") {
+      if (arrow.canMoveRight()) {
+        arrow.moveRight(currentFrameTime);
+      }
+    } else if (arrow.direction === "left") {
+      if (arrow.canMoveLeft()) {
+        arrow.moveLeft(currentFrameTime);
+      }
+    } else if (arrow.direction === "up") {
+      if (arrow.canMoveUp()) {
+        arrow.moveUp(currentFrameTime);
+      }
+    } else if (arrow.direction === "down") {
+      if (arrow.canMoveDown()) {
+        arrow.moveDown(currentFrameTime);
+      }
     }
   }
 

@@ -3,15 +3,15 @@ import MonsterSprite from "./monster_sprite";
 import Player from "./player";
 
 export default class Arrow {
-  constructor(startPos, nextPos, mapPos) {
+  constructor(startPos, nextPos, mapPos, direction) {
     this.currentPos = startPos
     this.nextPos = nextPos;
     this.timeStart = 0;
-    this.delayMove = 50;
+    this.delayMove = 500;
     this.size = [30, 30]; 
     this.mapPos = mapPos;
     this.sampleBoard = new Board();
-    this.direction = "right";
+    this.direction = direction;
     this.lastDir = "right"
     this.moving = false;
     this.sprites = {

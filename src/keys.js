@@ -3,5 +3,6 @@ export const keysDown = {
   38: false,
   39: false,
   40: false,
-  32: false
+  32: false,
+  67: false
 };
