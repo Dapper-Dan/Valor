@@ -33,12 +33,22 @@ export default class Game {
     } else {
       this.frameCount++;
     }
+
+    // let monsterSet = new Image();
+    // monsterSet.src = "./src/images/monsterSet.png";
+
+    // let arrowSet = new Image();
+    // arrowSet.src = "./src/images/blueArrowFrames.png";
+
+    // let tileset = new Image();
+    //     tileset.src = "./src/images/dungeonTiles.png" //tile.sprite.url;
     
-    
-    if (this.enemyCollision()) {
-      let monster = new Monster();
-      this.monsters.push(monster);
-      this.score += 100;
+    for (let m of this.monsters) {
+      if (this.enemyCollision(m)) {
+        let monster = new Monster();
+        this.monsters.push(monster);
+        this.score += 100;
+      }
     }
     
 
@@ -57,16 +67,18 @@ export default class Game {
     for (let y = 0; y < this.board.mapHeight; y++) {
       for (let x = 0; x < this.board.mapWidth; x++) {
         let tile =  this.board.tileTypes[this.board.gameMap[this.player.toIndex(x, y)]];
-        let tileset = new Image();
-        tileset.src = tile.sprite.url;
-        this.board.ctx.drawImage(tileset, tile.sprite.pos[0], tile.sprite.pos[1], tile.sprite.size[0], tile.sprite.size[1], (x * this.board.tileWidth), (y * this.board.tileHeight), this.board.tileWidth, this.board.tileHeight)
+        // let tileset = new Image();
+        // tileset.src = tile.sprite.url;
+        this.board.ctx.drawImage(window.tileset, tile.sprite.pos[0], tile.sprite.pos[1], tile.sprite.size[0], tile.sprite.size[1], (x * this.board.tileWidth), (y * this.board.tileHeight), this.board.tileWidth, this.board.tileHeight)
       }
     }
 
     let spritePlayer = this.player.sprites[this.player.direction]
-    let toonSet = new Image();
-    toonSet.src = spritePlayer.url
+    // let toonSet = new Image();
+    // toonSet.src = spritePlayer.url
     let totalSpriteTime = 0;
+
+    console.log(this.monsters.length)
 
     for (let s in spritePlayer.frames) {
       spritePlayer.frames[s]['start'] = totalSpriteTime;
@@ -77,18 +89,15 @@ export default class Game {
     spritePlayer['totalSpriteDuration'] = totalSpriteTime;
     
     let toon = this.getFrame(spritePlayer.frames, spritePlayer.totalSpriteDuration, currentFrameTime, this.player.moving)
-    this.board.ctx.drawImage(toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
+    this.board.ctx.drawImage(window.toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
   
 
     
-    while (this.monsters.length < 1) {
+    while (this.monsters.length < 6) {
       let monster = new Monster();
       this.monsters.push(monster);
     }
 
-    if (!this.monsters[0].handleMove(currentFrameTime)) {
-      this.monsterCheckValidMove(currentFrameTime)
-    }
 
    
     if (this.arrows.length > 0) {
@@ -103,10 +112,13 @@ export default class Game {
 
     
     for (let m = 0; m < this.monsters.length; m++) {
+      if (!this.monsters[m].handleMove(currentFrameTime)) {
+        this.monsterCheckValidMove(this.monsters[m], currentFrameTime)
+      }
       let spriteMonster = this.monsters[m];
-      let monsterSet = new Image();
-      monsterSet.src = "./src/images/monsterSet.png";
-      if (this.monsters[m].alive === true) this.board.ctx.drawImage(monsterSet, 16, 14, 40, 40, spriteMonster.mapPos[0], spriteMonster.mapPos[1], spriteMonster.size[0], spriteMonster.size[1])
+      // let monsterSet = new Image();
+      // monsterSet.src = "./src/images/monsterSet.png";
+      this.board.ctx.drawImage(window.monsterSet, 16, 14, 40, 40, spriteMonster.mapPos[0], spriteMonster.mapPos[1], spriteMonster.size[0], spriteMonster.size[1])
     }
 
 
@@ -114,20 +126,30 @@ export default class Game {
     
     for(let a in this.arrows) {
       let arrowSprite = this.arrows[a];
-      let arrowSet = new Image();
-      arrowSet.src = "./src/images/blueArrowFrames.png";
+      // let arrowSet = new Image();
+      // arrowSet.src = "./src/images/blueArrowFrames.png";
       if (this.arrows.length > 0) {
-        if(arrowSprite.destroyed === false) this.board.ctx.drawImage(arrowSet, 3, 15, 20, 20, arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSprite.size[0], arrowSprite.size[1])
+        if(arrowSprite.destroyed === false) this.board.ctx.drawImage(window.arrowSet, 3, 15, 20, 20, arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSprite.size[0], arrowSprite.size[1])
       }
     }
 
-  
+
+    for (let m in this.monsters) {
+      if (!this.monsters[m].alive) this.monsters.splice(m, 1)
+    }
+
+    for (let a in this.arrows) {
+      if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
+    }
+  console.log(this.monsters)
    
   
     this.board.ctx.fillStyle = "#ff0000";
     this.board.ctx.fillText(this.player.mapPos, 10, 20)
     this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
     this.board.ctx.fillText(this.player.currentPos, 10, 50);
+    this.board.ctx.fillText(this.score, 10, 70);
+
     
     this.lastFrameTime = currentFrameTime;
     requestAnimationFrame(this.drawGame);
@@ -149,15 +171,15 @@ export default class Game {
     }
   }
 
-  monsterCheckValidMove(currentFrameTime) {
-    if (this.monsters[0].canMoveLeft() && (this.player.currentPos[0] < this.monsters[0].currentPos[0])) {
-      this.monsters[0].moveLeft(currentFrameTime)
-    } else if (this.monsters[0].canMoveUp() && (this.player.currentPos[1] < this.monsters[0].currentPos[1])) {
-      this.monsters[0].moveUp(currentFrameTime);
-    } else if (this.monsters[0].canMoveRight() && (this.player.currentPos[0] > this.monsters[0].currentPos[0])) {
-      this.monsters[0].moveRight(currentFrameTime);
-    } else if (this.monsters[0].canMoveDown() && (this.player.currentPos[1] > this.monsters[0].currentPos[1])) {
-      this.monsters[0].moveDown(currentFrameTime);
+  monsterCheckValidMove(monster, currentFrameTime) {
+    if (monster.canMoveLeft() && (this.player.currentPos[0] < monster.currentPos[0])) {
+      monster.moveLeft(currentFrameTime)
+    } else if (monster.canMoveUp() && (this.player.currentPos[1] < monster.currentPos[1])) {
+      monster.moveUp(currentFrameTime);
+    } else if (monster.canMoveRight() && (this.player.currentPos[0] > monster.currentPos[0])) {
+      monster.moveRight(currentFrameTime);
+    } else if (monster.canMoveDown() && (this.player.currentPos[1] > monster.currentPos[1])) {
+      monster.moveDown(currentFrameTime);
     }
   }
 
@@ -197,13 +219,15 @@ export default class Game {
     }
   }
 
-  enemyCollision() {
+  enemyCollision(monster) {
       for (let arrow of this.arrows) {
-        if (JSON.stringify(arrow.currentPos) === JSON.stringify(this.monsters[0].currentPos)) {
-          this.monsters[0].alive = false;
+
+        if (JSON.stringify(arrow.currentPos) === JSON.stringify(monster.currentPos) && monster.alive) {
+          monster.alive = false;
           arrow.destroyed = true;
           return true;
         }
+        
       }
   }
   

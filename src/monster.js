@@ -4,12 +4,12 @@ import Player from "./player";
 
 export default class Monster {
   constructor() {
-    this.currentPos = [16, 2]//[[16, 2], [6, 7]];
+    this.currentPos = [16, 2]//[[16, 2], [6, 7], [5, 5]]
     this.nextPos = [15, 2];
     this.timeStart = 0;
     this.delayMove = 500;
     this.size = [50, 50]; 
-    this.mapPos = [1130, 150];//move these to a loop to iterate through in game file[[1130, 150], [570, 500]];
+    this.mapPos = [1130, 150]//[[1130, 150], [430, 500], [360, 360]]//[1130, 150];//move these to a loop to iterate through in game file[[1130, 150], [570, 500]];
     this.sampleBoard = new Board();
     this.direction = "right";
     this.lastDir = "right"
