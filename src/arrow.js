@@ -16,22 +16,22 @@ export default class Arrow {
     this.moving = false;
     this.destroyed = false;
     this.sprites = {
-      "up": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
+      "up": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [30, 211], size: [40, 30] },
                                                                    1: { pos: [40, 166], size: [40, 39] },
                                                                    2: { pos: [85, 165], size: [40, 39] }
                                                                   },
                                                                   200), 
-      "right": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
+      "right": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [32, 183], size: [60, 20] },
                                                                      1: { pos: [40, 166], size: [40, 39] },
                                                                      2: { pos: [85, 165], size: [40, 39] }
                                                                    },
                                                                    200), 
-      "down": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 167], size: [35, 39] },
+      "down": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [35, 286], size: [40, 30] },
                                                                     1: { pos: [40, 166], size: [40, 39] },
                                                                     2: { pos: [85, 165], size: [40, 39] }
                                                                     },
                                                                     200), 
-      "left": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [84, 30], size: [40, 39] },
+      "left": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [40, 331], size: [60, 20] },
                                                                     1: { pos: [50, 29], size: [34, 39] },
                                                                     2: { pos: [15, 29], size: [34, 39] }
                                                                     },

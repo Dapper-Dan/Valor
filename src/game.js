@@ -5,6 +5,7 @@ import * as Keys from "./keys";
 import Sprite from "./sprite";
 import Arrow from "./arrow";
 import MonsterSprite from "./monster_sprite";
+import SFXSprite from "./sfxSprite";
 
 export default class Game {
   constructor() {
@@ -18,6 +19,8 @@ export default class Game {
     this.framesLastSecond = 0;
     this.lastFrameTime = 0; 
     this.score = 0;
+    this.phase = 0;
+    this.totalTime = 0
     this.drawGame = this.drawGame.bind(this)
   }
 
@@ -25,6 +28,7 @@ export default class Game {
   drawGame() {
     let currentFrameTime = Date.now();
     let timeElapsed = currentFrameTime - this.lastFrameTime
+    
 
     let sec = Math.floor(Date.now()/1000);
     if (sec !== this.currentSecond) {
@@ -33,10 +37,11 @@ export default class Game {
       this.frameCount = 1;
     } else {
       this.frameCount++;
+      this.totalTime ++;
     }
 
-
-
+   
+    
     let possibleSpawns = {
       0: { pos: [16, 2] },
       1: { pos: [6, 7] },
@@ -47,9 +52,33 @@ export default class Game {
       6: { pos: [18, 3]},
       7: { pos: [18, 5]},
     }
+
+    let spawnMax 
+
+    switch (this.phase) {
+      case 1:
+        spawnMax = 4;
+        break;
+      case 2: 
+        spawnMax = 6;
+        break;
+      case 3: 
+        spawnMax = 8;
+      default: 
+        spawnMax = 2;
+    }
+
+    while (this.monsters.length < spawnMax) {
+      let num = Math.floor(Math.random() * 8);
+      let monster = new Monster();
+      monster.nextPos = possibleSpawns[num].pos
+      this.monsters.push(monster);
+    }
+
     
     for (let m of this.monsters) {
       if (this.enemyCollision(m)) {
+
         let num = Math.floor(Math.random() * 8); 
         let monster = new Monster();
         monster.nextPos = possibleSpawns[num].pos
@@ -78,7 +107,7 @@ export default class Game {
         this.board.ctx.drawImage(window.tileset, tile.sprite.pos[0], tile.sprite.pos[1], tile.sprite.size[0], tile.sprite.size[1], (x * this.board.tileWidth), (y * this.board.tileHeight), this.board.tileWidth, this.board.tileHeight)
       }
     }
-////////////////////////////////////////////////////////
+
     let spritePlayer = this.player.sprites[this.player.direction]
     let totalSpriteTime = 0;
 
@@ -94,17 +123,23 @@ export default class Game {
     
     let toon = this.getFrame(spritePlayer.frames, spritePlayer.totalSpriteDuration, currentFrameTime, this.player.moving)
     this.board.ctx.drawImage(window.toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
-  /////////////////////////////////////////////////////////////////
+  
 
-    
-    while (this.monsters.length < 1) {
-      let num = Math.floor(Math.random() * 8);
-      let monster = new Monster();
-      monster.nextPos = possibleSpawns[num].pos
-      this.monsters.push(monster);
+
+
+    switch(this.totalTime / 100) {
+      case 10:
+        this.phase = 1;
+        break;
+      case 25:
+        this.phase = 2;
+        break;
+      case 45:
+        this.phase = 3;
+        break;
     }
 
-
+  
    
     if (this.arrows.length > 0) {
       for (let arrow of this.arrows) {
@@ -139,20 +174,37 @@ export default class Game {
     
     for(let a in this.arrows) {
       let arrowSprite = this.arrows[a];
+      let arrowSpriteDir = arrowSprite.sprites[arrowSprite.direction].frames[0]
+      
       if (this.arrows.length > 0) {
-        if(arrowSprite.destroyed === false) this.board.ctx.drawImage(window.arrowSet, 3, 15, 20, 20, arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSprite.size[0], arrowSprite.size[1])
+        if(arrowSprite.destroyed === false) this.board.ctx.drawImage(window.arrowSet, arrowSpriteDir.pos[0], arrowSpriteDir.pos[1], arrowSpriteDir.size[0], arrowSpriteDir.size[1], arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSpriteDir.size[0], arrowSpriteDir.size[1])
       }
     }
 
 
     for (let m in this.monsters) {
-      if (!this.monsters[m].alive) this.monsters.splice(m, 1)
+      if (!this.monsters[m].alive) {
+        let bloodEffect = new SFXSprite()
+        for (let b in bloodEffect.frames) {
+          bloodEffect.frames[b]['start'] = totalSpriteTime;
+          totalSpriteTime += bloodEffect.aniTime;
+          bloodEffect.frames[b]['end'] = totalSpriteTime;
+        }
+        
+        bloodEffect['totalSpriteDuration'] = totalSpriteTime;
+        let blood = this.getFrame(bloodEffect.frames, bloodEffect.totalSpriteDuration, currentFrameTime, true)
+        console.log(blood)
+        // let deadMonsterCoord = this.monsters[m].
+        this.board.ctx.drawImage(window.bloodSet, blood.pos[0], blood.pos[1], blood.size[0], blood.size[1], this.monsters[m].mapPos[0], this.monsters[m].mapPos[1], 150, 150)
+        
+        this.monsters.splice(m, 1)
+      }
     }
 
     for (let a in this.arrows) {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
     }
-  console.log(this.monsters)
+  
    
   
     this.board.ctx.fillStyle = "#ff0000";
@@ -160,6 +212,7 @@ export default class Game {
     this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
     this.board.ctx.fillText(this.player.currentPos, 10, 50);
     this.board.ctx.fillText(this.score, 10, 70);
+    this.board.ctx.fillText(this.totalTime / 100, 10, 80);
 
     
     this.lastFrameTime = currentFrameTime;
