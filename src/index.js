@@ -18,9 +18,14 @@ window.bloodSet.src = "./src/images/bloodEffects.png"
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const game = new Game();
+  const play = document.getElementById("play")
+  play.addEventListener("click", () => { 
+    let gameMusic = new Audio("./src/audio/Doom.mp3")
+    gameMusic.play()
+  
+  
+   const game = new Game();
     
-
     window.addEventListener("keydown", function(e) {
       if (e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode === 32) game.keys[e.keyCode] = true;   
     });
@@ -32,5 +37,5 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
     requestAnimationFrame(game.drawGame);
-
+  })
 });
