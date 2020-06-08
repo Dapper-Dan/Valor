@@ -16,3 +16,6 @@
 html, body {
   overflow: hidden;
 }
+/* (viewPort.offset[0] + this.player.mapPos[0]), (viewPort.offset[1] + this.player.mapPos[1]), 
+
+this.player.size[0], this.player.size[1]) */

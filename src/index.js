@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.keyCode === 80) game.togglePause();
     });
     
+    game.board.viewPort.screen = [ game.board.gameBoard.width, game.board.gameBoard.height ]
     
     requestAnimationFrame(game.drawGame);
     

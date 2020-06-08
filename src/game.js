@@ -25,12 +25,14 @@ export default class Game {
     this.paused = false;
     this.timeStart = Math.floor(Date.now() / 1000);
     
+    
   }
 
 
   drawGame() {
     let currentFrameTime = Date.now();
     let timeElapsed = currentFrameTime - this.lastFrameTime
+    let viewPort = this.board.viewPort
 
     let seconds = Math.floor((this.totalTime / 60) % 60)
     let minutes = Math.floor((Math.floor(this.totalTime / 60)) / 60)
@@ -105,11 +107,14 @@ export default class Game {
     if (!this.player.handleMove(currentFrameTime)) {
       this.checkValidMove(currentFrameTime)
     }
-
-    for (let y = 0; y < this.board.mapHeight; y++) {
-      for (let x = 0; x < this.board.mapWidth; x++) {
+    
+    viewPort.update(this.player.mapPos[0] + (this.player.size[0] / 2), this.player.mapPos[1] + (this.player.size[1] / 2))
+    this.board.ctx.fillStyle = "#000000" // vp stuff
+    this.board.ctx.fillRect(0, 0, viewPort.screen[0], viewPort.screen[1]) 
+    for (let y = viewPort.startTile[1]; y < viewPort.endTile[1]; y++) {
+      for (let x = viewPort.startTile[0]; x < viewPort.endTile[0]; x++) {
         let tile =  this.board.tileTypes[this.board.gameMap[this.player.toIndex(x, y)]];
-        this.board.ctx.drawImage(window.tileset, tile.sprite.pos[0], tile.sprite.pos[1], tile.sprite.size[0], tile.sprite.size[1], (x * this.board.tileWidth), (y * this.board.tileHeight), this.board.tileWidth, this.board.tileHeight)
+        this.board.ctx.drawImage(window.tileset, tile.sprite.pos[0], tile.sprite.pos[1], tile.sprite.size[0], tile.sprite.size[1], (viewPort.offset[0] + (x * this.board.tileWidth)), (viewPort.offset[1] + (y * this.board.tileHeight)), this.board.tileWidth, this.board.tileHeight)
       }
     }
 
@@ -127,7 +132,7 @@ export default class Game {
     spritePlayer['totalSpriteDuration'] = totalSpriteTime;
     
     let toon = this.getFrame(spritePlayer.frames, spritePlayer.totalSpriteDuration, currentFrameTime, this.player.moving)
-    this.board.ctx.drawImage(window.toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], this.player.mapPos[0], this.player.mapPos[1], this.player.size[0], this.player.size[1])
+    this.board.ctx.drawImage(window.toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], (viewPort.offset[0] + this.player.mapPos[0]), (viewPort.offset[1] + this.player.mapPos[1]), this.player.size[0], this.player.size[1])
   
 
 
@@ -171,7 +176,7 @@ export default class Game {
 
       spriteMonster['totalSpriteDuration'] = totalSpriteTime;
       let monsterToon = this.getFrame(spriteMonster.frames, spriteMonster.totalSpriteDuration, currentFrameTime, this.monsters[m].moving)
-      this.board.ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], this.monsters[m].mapPos[0], this.monsters[m].mapPos[1], this.monsters[m].size[0], this.monsters[m].size[1])
+      this.board.ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], viewPort.offset[0] + this.monsters[m].mapPos[0], viewPort.offset[1] + this.monsters[m].mapPos[1], this.monsters[m].size[0], this.monsters[m].size[1])
     }
 
 
@@ -182,7 +187,7 @@ export default class Game {
       let arrowSpriteDir = arrowSprite.sprites[arrowSprite.direction].frames[0]
       
       if (this.arrows.length > 0) {
-        if(arrowSprite.destroyed === false) this.board.ctx.drawImage(window.arrowSet, arrowSpriteDir.pos[0], arrowSpriteDir.pos[1], arrowSpriteDir.size[0], arrowSpriteDir.size[1], arrowSprite.mapPos[0], arrowSprite.mapPos[1], arrowSpriteDir.size[0], arrowSpriteDir.size[1])
+        if(arrowSprite.destroyed === false) this.board.ctx.drawImage(window.arrowSet, arrowSpriteDir.pos[0], arrowSpriteDir.pos[1], arrowSpriteDir.size[0], arrowSpriteDir.size[1], viewPort.offset[0] + arrowSprite.mapPos[0], viewPort.offset[1] + arrowSprite.mapPos[1], arrowSpriteDir.size[0], arrowSpriteDir.size[1])
       }
     }
 
@@ -200,7 +205,7 @@ export default class Game {
         let blood = this.getFrame(bloodEffect.frames, bloodEffect.totalSpriteDuration, currentFrameTime, true)
         
         // let deadMonsterCoord = this.monsters[m].
-        this.board.ctx.drawImage(window.bloodSet, blood.pos[0], blood.pos[1], blood.size[0], blood.size[1], this.monsters[m].mapPos[0], this.monsters[m].mapPos[1], 150, 150)
+        this.board.ctx.drawImage(window.bloodSet, blood.pos[0], blood.pos[1], blood.size[0], blood.size[1], viewPort.offset[0] + this.monsters[m].mapPos[0], viewPort.offset[1] + this.monsters[m].mapPos[1], 150, 150)
         
         this.monsters.splice(m, 1)
       }
@@ -213,7 +218,7 @@ export default class Game {
     this.board.ctx.drawImage(window.HUD, 184, 168, 200, 200, 10, 10, 150, 150)
   
    
-  
+    
     this.board.ctx.fillStyle = "#ff0000";
     this.board.ctx.fillText(this.player.mapPos, 10, 20)
     this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
@@ -246,6 +251,9 @@ export default class Game {
     } else if (this.keys[40] && this.player.canMoveDown()) {
       this.player.moveDown(currentFrameTime);
     }
+    
+
+    // viewPort.update(this.player.mapPos[0] + (this.player.size[0] / 2), this.player.mapPos[1] + (this.player.size[1] / 2))
   }
 
   monsterCheckValidMove(monster, currentFrameTime) {
