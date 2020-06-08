@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   play.addEventListener("click", () => { 
     document.querySelectorAll(".intro")[0].setAttribute("hidden", "true")
     
-    let gameMusic = new Audio("./src/audio/Doom.mp3")
+    let gameMusic = new Audio("./src/audio/Resurrections.mp3")
     gameMusic.play()
   
     const game = new Game();
