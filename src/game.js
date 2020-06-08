@@ -23,14 +23,18 @@ export default class Game {
     this.totalTime = 0
     this.drawGame = this.drawGame.bind(this)
     this.paused = false;
+    this.timeStart = Math.floor(Date.now() / 1000);
+    
   }
 
 
   drawGame() {
     let currentFrameTime = Date.now();
     let timeElapsed = currentFrameTime - this.lastFrameTime
-    
 
+    let seconds = Math.floor((this.totalTime / 60) % 60)
+    let minutes = Math.floor((Math.floor(this.totalTime / 60)) / 60)
+    
     let sec = Math.floor(Date.now()/1000);
     if (sec !== this.currentSecond) {
       this.currentSecond = sec;
@@ -213,7 +217,7 @@ export default class Game {
     this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
     this.board.ctx.fillText(this.player.currentPos, 10, 50);
     this.board.ctx.fillText(this.score, 10, 70);
-    this.board.ctx.fillText(this.totalTime / 100, 10, 80);
+    this.board.ctx.fillText(`${minutes} minute(s) ${seconds} seconds`, 10, 80);
 
     
     this.lastFrameTime = currentFrameTime;
