@@ -35,8 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("keyup", function(e) {
       if (e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode === 32) game.keys[e.keyCode] = false;   
     });
+
+    window.addEventListener("keydown", function(e) {
+      if (e.keyCode === 80) game.togglePause();
+    });
+    
+    
+    requestAnimationFrame(game.drawGame);
     
 
-    requestAnimationFrame(game.drawGame);
+    
   })
 });

@@ -22,9 +22,10 @@ export default class Game {
     this.phase = 0;
     this.totalTime = 0
     this.drawGame = this.drawGame.bind(this)
+    this.paused = false;
   }
 
-  
+
   drawGame() {
     let currentFrameTime = Date.now();
     let timeElapsed = currentFrameTime - this.lastFrameTime
@@ -193,7 +194,7 @@ export default class Game {
         
         bloodEffect['totalSpriteDuration'] = totalSpriteTime;
         let blood = this.getFrame(bloodEffect.frames, bloodEffect.totalSpriteDuration, currentFrameTime, true)
-        console.log(blood)
+        
         // let deadMonsterCoord = this.monsters[m].
         this.board.ctx.drawImage(window.bloodSet, blood.pos[0], blood.pos[1], blood.size[0], blood.size[1], this.monsters[m].mapPos[0], this.monsters[m].mapPos[1], 150, 150)
         
@@ -216,8 +217,14 @@ export default class Game {
 
     
     this.lastFrameTime = currentFrameTime;
+
+    if (!this.paused) {
     requestAnimationFrame(this.drawGame);
+    }
+    
+  
   }
+
   
 
   
@@ -305,6 +312,16 @@ export default class Game {
         }
         
       }
+  }
+
+  togglePause() {
+    if (!this.paused) {
+      this.paused = true;
+      this.drawGame()
+    } else {
+      this.paused= false;
+      this.drawGame()
+    }
   }
   
 
