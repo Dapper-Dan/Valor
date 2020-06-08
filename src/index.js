@@ -17,14 +17,15 @@ window.bloodSet.src = "./src/images/bloodEffects.png"
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   const play = document.getElementById("play")
   play.addEventListener("click", () => { 
+    document.querySelectorAll(".intro")[0].setAttribute("hidden", "true")
+    
     let gameMusic = new Audio("./src/audio/Doom.mp3")
     gameMusic.play()
   
-  
-   const game = new Game();
+    const game = new Game();
     
     window.addEventListener("keydown", function(e) {
       if (e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode === 32) game.keys[e.keyCode] = true;   
