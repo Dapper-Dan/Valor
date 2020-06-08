@@ -209,6 +209,8 @@ export default class Game {
     for (let a in this.arrows) {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
     }
+
+    this.board.ctx.drawImage(window.HUD, 184, 168, 200, 200, 10, 10, 150, 150)
   
    
   

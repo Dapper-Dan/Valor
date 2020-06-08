@@ -15,6 +15,8 @@ window.toonSet.src = "./src/images/knightFrames.png"
 window.bloodSet = new Image();
 window.bloodSet.src = "./src/images/bloodEffects.png"
 
+window.HUD = new Image();
+window.HUD.src = "./src/images/HUD.png"
 
 
 document.addEventListener("DOMContentLoaded", () => {
