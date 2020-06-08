@@ -5,8 +5,8 @@ export default class Board {
   constructor() {
     this.gameBoard = document.getElementById("gameBoard"); 
     this.ctx = this.gameBoard.getContext('2d');
-    this.gameBoard.width = 1500;
-    this.gameBoard.height = 700;
+    this.gameBoard.width = window.innerWidth;
+    this.gameBoard.height = window.innerHeight;
     this.tileWidth = 70;
     this.tileHeight = 70;
     this.mapWidth = 20;
