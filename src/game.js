@@ -50,14 +50,14 @@ export default class Game {
    
     
     let possibleSpawns = {
-      0: { pos: [16, 2] },
-      1: { pos: [6, 7] },
-      2: { pos: [5, 6] },
-      3: { pos: [13, 7]},
-      4: { pos: [4, 3]},
-      5: { pos: [1, 7]},
-      6: { pos: [18, 3]},
-      7: { pos: [18, 5]},
+      0: { pos: [10, 13] },
+      1: { pos: [6, 8] },
+      2: { pos: [14, 8] },
+      3: { pos: [18, 13]}
+      // 4: { pos: [4, 3]},
+      // 5: { pos: [1, 7]},
+      // 6: { pos: [18, 3]},
+      // 7: { pos: [18, 5]},
     }
 
     let spawnMax 
@@ -76,7 +76,7 @@ export default class Game {
     }
 
     while (this.monsters.length < spawnMax) {
-      let num = Math.floor(Math.random() * 8);
+      let num = Math.floor(Math.random() * 4);
       let monster = new Monster();
       monster.nextPos = possibleSpawns[num].pos
       this.monsters.push(monster);
@@ -86,7 +86,7 @@ export default class Game {
     for (let m of this.monsters) {
       if (this.enemyCollision(m)) {
 
-        let num = Math.floor(Math.random() * 8); 
+        let num = Math.floor(Math.random() * 4); 
         let monster = new Monster();
         monster.nextPos = possibleSpawns[num].pos
         this.monsters.push(monster);

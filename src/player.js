@@ -3,12 +3,12 @@ import CharacterSprite from "./character_sprite";
 
 export default class Player {
   constructor() {
-    this.currentPos = [1, 4];
-    this.nextPos = [1, 4];
+    this.currentPos = [1, 10];
+    this.nextPos = [1, 10];
     this.timeStart = 0;
-    this.delayMove = 300;
+    this.delayMove = 100; //300 is def. boosted for map exploration rn- dan 6/9/20
     this.size = [50, 50]; 
-    this.mapPos = [90, 290];
+    this.mapPos = [80, 710];
     this.sampleBoard = new Board();
     this.direction = "right";
     this.shootDir = {
