@@ -18,6 +18,9 @@ window.bloodSet.src = "./src/images/bloodEffects.png"
 window.HUD = new Image();
 window.HUD.src = "./src/images/HUD.png"
 
+window.backdrop = new Image();
+window.backdrop.src = "./src/images/backdrop.png"
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const play = document.getElementById("play")
@@ -26,8 +29,29 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let gameMusic = new Audio("./src/audio/Resurrections.mp3")
     gameMusic.play()
+    
+    let muteButton = document.getElementById("mute")
+    let audioButton = document.getElementById("audio");
+    audioButton.hidden = false;
+    gameMusic.muted = false;
+
+    audioButton.addEventListener("click", () => {
+      gameMusic.muted = !gameMusic.muted
+      muteButton.hidden = !muteButton.hidden;
+      audioButton.hidden = !audioButton.hidden;
+      audioButton.blur()
+    })
+
+    muteButton.addEventListener("click", () => {
+      gameMusic.muted = !gameMusic.muted
+      muteButton.hidden = !muteButton.hidden;
+      audioButton.hidden = !audioButton.hidden;
+      muteButton.blur()
+    })
+    
   
     const game = new Game();
+   
     
     window.addEventListener("keydown", function(e) {
       if (e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode === 32) game.keys[e.keyCode] = true;   

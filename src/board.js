@@ -37,10 +37,10 @@ export default class Board {
     ]; 
     
     this.viewPort = {
-      screen: [0,0],
-      startTile: [0,0],
-      endTile: [0,0],
-      offset: [0,0],
+      screen: [0, 0],
+      startTile: [0, 0],
+      endTile: [0, 0],
+      offset: [0, 0],
       update: function(px, py) {
         this.offset[0] = Math.floor((this.screen[0] / 2) - px)
         this.offset[1] = Math.floor((this.screen[1] / 2) - py)
@@ -57,8 +57,8 @@ export default class Board {
         this.endTile[0] = tile[0] + 1 + Math.ceil((this.screen[0] / 2) / 70)
         this.endTile[1] = tile[1] + 1 + Math.ceil((this.screen[1] / 2) / 70)
 
-        if (this.endTile[0] >= Board.mapWidth) this.endTile[0] = Board.mapWidth - 1;
-        if (this.endTile[1] >= Board.mapHeight) this.endTile[1] = Board.mapHeight - 1;
+        if (this.endTile[0] >= 25) this.endTile[0] = 25 - 1;
+        if (this.endTile[1] >= 20) this.endTile[1] = 20 - 1;
       }
     }
     

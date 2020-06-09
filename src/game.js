@@ -23,7 +23,7 @@ export default class Game {
     this.totalTime = 0
     this.drawGame = this.drawGame.bind(this)
     this.paused = false;
-    this.timeStart = Math.floor(Date.now() / 1000);
+   
     
     
   }
@@ -109,7 +109,9 @@ export default class Game {
     }
     
     viewPort.update(this.player.mapPos[0] + (this.player.size[0] / 2), this.player.mapPos[1] + (this.player.size[1] / 2))
-    this.board.ctx.fillStyle = "#000000" // vp stuff
+    this.board.ctx.fillStyle = "#000000"
+
+    
     this.board.ctx.fillRect(0, 0, viewPort.screen[0], viewPort.screen[1]) 
     for (let y = viewPort.startTile[1]; y < viewPort.endTile[1]; y++) {
       for (let x = viewPort.startTile[0]; x < viewPort.endTile[0]; x++) {
@@ -215,7 +217,7 @@ export default class Game {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
     }
 
-    this.board.ctx.drawImage(window.HUD, 184, 168, 200, 200, 10, 10, 150, 150)
+    this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 10, 200, 205)
   
    
     
@@ -337,6 +339,6 @@ export default class Game {
       this.drawGame()
     }
   }
-  
+
 
 };
