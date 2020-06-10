@@ -1,5 +1,5 @@
 import Board from "./board";
-import CharacterSprite from "./character_sprite";
+import Sprite from "./sprite";
 
 export default class Player {
   constructor() {
@@ -23,22 +23,22 @@ export default class Player {
     this.lastArrowFired = 0;
     
     this.sprites = {
-      "up": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [1, 84], size: [46, 43] },
+      "up": new Sprite({ 0: { pos: [1, 84], size: [46, 43] },
                                                                    1: { pos: [57, 83], size: [46, 43] },
                                                                    2: { pos: [111, 85], size: [46, 43] }
                                                                   },
                                                                   200), 
-      "right": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [5, 160], size: [35, 43] },
+      "right": new Sprite({ 0: { pos: [5, 160], size: [35, 43] },
                                                                      1: { pos: [40, 159], size: [40, 43] },
                                                                      2: { pos: [85, 157], size: [40, 43] }
                                                                    },
                                                                    200), 
-      "down": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [11, 220], size: [46, 40] },
+      "down": new Sprite({ 0: { pos: [11, 220], size: [46, 40] },
                                                                     1: { pos: [81, 220], size: [46, 40] },
                                                                     2: { pos: [162, 217], size: [46, 40] }
                                                                     },
                                                                     200), 
-      "left": new CharacterSprite("./src/images/knightFrames.png", { 0: { pos: [83, 15], size: [35, 42] },
+      "left": new Sprite({ 0: { pos: [83, 15], size: [35, 42] },
                                                                     1: { pos: [46, 13], size: [36, 42] },
                                                                     2: { pos: [10, 15], size: [36, 43] }
                                                                     },

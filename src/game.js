@@ -2,9 +2,9 @@ import Player from "./player";
 import Monster from "./monster";
 import Board from "./board";
 import * as Keys from "./keys";
-import Sprite from "./sprite";
+import Tile from "./tile";
 import Arrow from "./arrow";
-import MonsterSprite from "./monster_sprite";
+import Sprite from "./sprite";
 import SFXSprite from "./sfxSprite";
 
 export default class Game {

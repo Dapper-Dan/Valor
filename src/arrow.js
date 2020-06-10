@@ -1,5 +1,5 @@
 import Board from "./board";
-import MonsterSprite from "./monster_sprite";
+import Sprite from "./sprite";
 import Player from "./player";
 
 export default class Arrow {
@@ -16,22 +16,22 @@ export default class Arrow {
     this.moving = false;
     this.destroyed = false;
     this.sprites = {
-      "up": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [30, 211], size: [40, 30] },
+      "up": new Sprite({ 0: { pos: [30, 211], size: [40, 30] },
                                                                    1: { pos: [40, 166], size: [40, 39] },
                                                                    2: { pos: [85, 165], size: [40, 39] }
                                                                   },
                                                                   200), 
-      "right": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [32, 183], size: [60, 20] },
+      "right": new Sprite({ 0: { pos: [32, 183], size: [60, 20] },
                                                                      1: { pos: [40, 166], size: [40, 39] },
                                                                      2: { pos: [85, 165], size: [40, 39] }
                                                                    },
                                                                    200), 
-      "down": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [35, 286], size: [40, 30] },
+      "down": new Sprite({ 0: { pos: [35, 286], size: [40, 30] },
                                                                     1: { pos: [40, 166], size: [40, 39] },
                                                                     2: { pos: [85, 165], size: [40, 39] }
                                                                     },
                                                                     200), 
-      "left": new MonsterSprite("./src/images/knightFrames.png", { 0: { pos: [40, 331], size: [60, 20] },
+      "left": new Sprite({ 0: { pos: [40, 331], size: [60, 20] },
                                                                     1: { pos: [50, 29], size: [34, 39] },
                                                                     2: { pos: [15, 29], size: [34, 39] }
                                                                     },

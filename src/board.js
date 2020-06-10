@@ -1,5 +1,5 @@
 import Player from "./player"
-import Sprite from "./sprite";
+import Tile from "./tile";
 
 export default class Board {
   constructor() {
@@ -9,35 +9,41 @@ export default class Board {
     this.gameBoard.height = window.innerHeight;
     this.tileWidth = 70;
     this.tileHeight = 70;
-    this.mapWidth = 25;
-    this.mapHeight = 25;
+    this.mapWidth = 36;
+    this.mapHeight = 31;
     this.gameMap =  [
-  //   0   1   2   3  4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20  21  22  23  24
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 21, 21, 21, 21, 21,// 0
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 18, 15, 15, 15, 15,// 1
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 21, 21, 21, 21, 21, 21, 21, 21, 21, 16, 14, 14, 14, 14,// 2
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 18, 15, 15, 15, 15, 15, 15, 15, 15, 14, 14, 14, 14, 14,// 3
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 16, 12, 12, 12, 12, 12, 12, 12, 12, 14, 14, 14, 14, 14,// 4
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 16, 12, 29, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14,// 5
-      28, 21, 21, 21, 29, 20, 20, 20, 20, 20, 28, 16, 12, 29, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14,// 6
-      28, 18, 15, 15, 29, 28, 21, 21, 21, 21, 25, 16, 14, 24, 21, 21, 21, 21, 21, 21, 14, 14, 14, 14, 14,// 7
-      28, 16, 12, 14, 21, 21, 18, 15, 15, 15, 15, 14, 14, 15, 15, 15, 15, 15, 15, 15, 14, 14, 14, 14, 14,// 8
-      28, 16, 12, 13, 15, 15, 12, 12, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 9
-      28, 16, 12, 12, 12, 13, 13, 12, 12, 12, 12, 12, 12, 12, 12, 12, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 10
-      28, 16, 14, 14, 14, 14, 13, 13, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 32, 33, 14, 14, 14, 14,// 11
-      28, 16, 12, 12, 14, 14, 13, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 29, 28, 14, 14, 14, 14,// 12
-      28, 16, 12, 12, 32, 33, 16, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 29, 28, 14, 14, 14, 14,// 13
-      30, 21, 21, 21, 31, 30, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 31, 28, 14, 14, 14, 14,// 14
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 14, 14, 14, 14, // 15
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, // 16
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, // 17
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, // 18
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, //19
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14,// 20
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, // 21
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14,// 22
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14,// 23
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14 // 24
+  //   0   1   2   3  4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 21, 21, 21, 21, 21, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, // 0
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 18, 15, 15, 15, 15, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 1
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 21, 21, 21, 21, 21, 21, 21, 21, 21, 16, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 2
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 18, 15, 15, 15, 15, 15, 15, 15, 15, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 3
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 16, 12, 12, 12, 12, 12, 12, 12, 12, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 4
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 16, 12, 29, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 5
+      28, 21, 21, 21, 29, 20, 20, 20, 20, 20, 28, 16, 12, 29, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 6
+      28, 18, 15, 15, 29, 28, 21, 21, 21, 21, 25, 16, 14, 24, 21, 21, 21, 21, 21, 21, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 7
+      28, 16, 12, 14, 21, 21, 18, 15, 15, 15, 15, 14, 14, 15, 15, 15, 15, 15, 15, 15, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 8
+      28, 16, 12, 13, 15, 15, 12, 12, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 9
+      28, 16, 12, 12, 12, 13, 13, 12, 12, 12, 12, 12, 12, 12, 12, 12, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 10
+      28, 16, 14, 14, 14, 14, 13, 13, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 32, 33, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 11
+      28, 16, 12, 12, 14, 14, 13, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 29, 28, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 12
+      28, 16, 12, 12, 32, 33, 16, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 29, 28, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 13
+      30, 21, 21, 21, 31, 30, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 31, 28, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 14
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 28, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 15
+      20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 16
+      20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 17
+      20, 14, 14, 14, 14, 20, 20, 20, 20, 14, 14, 14, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 18
+      20, 14, 14, 14, 14, 20, 20, 20, 20, 14, 14, 14, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,//19
+      20, 14, 14, 14, 14, 20, 20, 20, 20, 14, 14, 14, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 20
+      20, 14, 14, 14, 14, 20, 20, 20, 20, 21, 21, 21, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 21
+      20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 22
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 23
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 24
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 25
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 26
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 27
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 28
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,// 29
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14// 30
 
     ]; 
     
@@ -62,8 +68,8 @@ export default class Board {
         this.endTile[0] = tile[0] + 1 + Math.ceil((this.screen[0] / 2) / 70)
         this.endTile[1] = tile[1] + 1 + Math.ceil((this.screen[1] / 2) / 70)
 
-        if (this.endTile[0] >= 26) this.endTile[0] = 26 - 1;
-        if (this.endTile[1] >= 26) this.endTile[1] = 26 - 1;
+        if (this.endTile[0] >= 37) this.endTile[0] = 37 - 1;
+        if (this.endTile[1] >= 32) this.endTile[1] = 32 - 1;
       }
     }
     
@@ -74,30 +80,30 @@ export default class Board {
 
 
     this.tileTypes = {
-      20: { type: "outOfMap", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [14, 191], [70, 70]) },
-      21: { type: "xWall", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [13, 102], [70, 70]) },
-      22: { type: "xWallPillDown", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [103, 104], [70, 70]) },
-      23: { type: "xWallPillUp", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [456, 108], [70, 70]) },
-      24: { type: "xWallDoorFrameR", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [189, 101], [70, 70]) },
-      25: { type: "xWallDoorFrameL", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [277, 105], [70, 69]) },
-      26: { type: "xDoor", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [103, 194], [70, 70]) },
-      27: { type: "xWallDecor", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [165, 106], [70, 70]) },
-      28: { type: "yWallL", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [623, 107], [70, 70]) },
-      29: { type: "yWallR", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [539, 106], [70, 70]) },
-      // 10: { type: "yDoor", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [13, 95], [70, 70]) },
-      // 11: { type: "spikes", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [13, 95], [70, 70]) },
-      12: { type: "groundReg", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [100, 7], [70, 70]) },
-      13: { type: "groundReg2", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [189, 10], [70, 70]) },
-      14: { type: "groundReg3", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [370, 12], [70, 70]) },
-      15: { type: "groundTop", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [10, 7], [70, 70]) },
-      16: { type: "groundL", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [459, 13], [70, 70]) },
-      17: { type: "groundR", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [624, 15], [70, 70]) },
-      18: { type: "groundLCorner", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [280, 10], [70, 70]) },
-      19: { type: "groundRCorner", floor: this.floorTypes.walkable, sprite: new Sprite("./src/images/dungeonTiles.png", [543, 14], [70, 70]) },
-      30: { type: "bottomCornerPillL", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [194, 196], [70, 70]) },
-      31: { type: "bottomCornerPillR", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [283, 197], [70, 70]) },
-      32: { type: "bottomCornerUpL", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [368, 198], [70, 70]) },
-      33: { type: "bottomCornerUpR", floor: this.floorTypes.solid, sprite: new Sprite("./src/images/dungeonTiles.png", [455, 198], [70, 70]) }
+      20: { type: "outOfMap", floor: this.floorTypes.solid, sprite: new Tile([14, 191], [70, 70]) },
+      21: { type: "xWall", floor: this.floorTypes.solid, sprite: new Tile([13, 102], [70, 70]) },
+      22: { type: "xWallPillDown", floor: this.floorTypes.solid, sprite: new Tile([103, 104], [70, 70]) },
+      23: { type: "xWallPillUp", floor: this.floorTypes.solid, sprite: new Tile([456, 108], [70, 70]) },
+      24: { type: "xWallDoorFrameR", floor: this.floorTypes.solid, sprite: new Tile([189, 101], [70, 70]) },
+      25: { type: "xWallDoorFrameL", floor: this.floorTypes.solid, sprite: new Tile([277, 105], [70, 69]) },
+      26: { type: "xDoor", floor: this.floorTypes.solid, sprite: new Tile([103, 194], [70, 70]) },
+      27: { type: "xWallDecor", floor: this.floorTypes.solid, sprite: new Tile([165, 106], [70, 70]) },
+      28: { type: "yWallL", floor: this.floorTypes.solid, sprite: new Tile([623, 107], [70, 70]) },
+      29: { type: "yWallR", floor: this.floorTypes.solid, sprite: new Tile([539, 106], [70, 70]) },
+      // 10: { type: "yDoor", floor: this.floorTypes.solid, sprite: new Tile([13, 95], [70, 70]) },
+      // 11: { type: "spikes", floor: this.floorTypes.solid, sprite: new Tile([13, 95], [70, 70]) },
+      12: { type: "groundReg", floor: this.floorTypes.walkable, sprite: new Tile([100, 7], [70, 70]) },
+      13: { type: "groundReg2", floor: this.floorTypes.walkable, sprite: new Tile([189, 10], [70, 70]) },
+      14: { type: "groundReg3", floor: this.floorTypes.walkable, sprite: new Tile([370, 12], [70, 70]) },
+      15: { type: "groundTop", floor: this.floorTypes.walkable, sprite: new Tile([10, 7], [70, 70]) },
+      16: { type: "groundL", floor: this.floorTypes.walkable, sprite: new Tile([459, 13], [70, 70]) },
+      17: { type: "groundR", floor: this.floorTypes.walkable, sprite: new Tile([624, 15], [70, 70]) },
+      18: { type: "groundLCorner", floor: this.floorTypes.walkable, sprite: new Tile([280, 10], [70, 70]) },
+      19: { type: "groundRCorner", floor: this.floorTypes.walkable, sprite: new Tile([543, 14], [70, 70]) },
+      30: { type: "bottomCornerPillL", floor: this.floorTypes.solid, sprite: new Tile([194, 196], [70, 70]) },
+      31: { type: "bottomCornerPillR", floor: this.floorTypes.solid, sprite: new Tile([283, 197], [70, 70]) },
+      32: { type: "bottomCornerUpL", floor: this.floorTypes.solid, sprite: new Tile([368, 198], [70, 70]) },
+      33: { type: "bottomCornerUpR", floor: this.floorTypes.solid, sprite: new Tile([455, 198], [70, 70]) }
     };
 
     // this.directions = {

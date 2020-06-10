@@ -18,8 +18,9 @@ window.bloodSet.src = "./src/images/bloodEffects.png"
 window.HUD = new Image();
 window.HUD.src = "./src/images/HUD.png"
 
-window.backdrop = new Image();
-window.backdrop.src = "./src/images/backdrop.png"
+
+
+
 
 
 document.addEventListener("DOMContentLoaded", () => {

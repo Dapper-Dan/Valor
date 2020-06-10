@@ -1,8 +1,8 @@
 export default class Sprite {
-  constructor(url, pos, size) {
-    this.url = url;
-    this.pos = pos;
-    this.size = size;
-  }
-
+    constructor(frames, aniTime) {
+      
+      this.frames = frames; 
+      this.aniTime = aniTime;
+    }
+    
 };
