@@ -5,4 +5,4 @@ export default class Tile {
     this.size = size;
   }
 
-};
+}; 

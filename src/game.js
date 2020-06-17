@@ -6,6 +6,9 @@ import Tile from "./tile";
 import Arrow from "./arrow";
 import Sprite from "./sprite";
 import SFXSprite from "./sfxSprite";
+import Scenery from "./scenery";
+import findPath from "./pathfinder";
+
 
 export default class Game {
   constructor() {
@@ -23,6 +26,8 @@ export default class Game {
     this.totalTime = 0
     this.drawGame = this.drawGame.bind(this)
     this.paused = false;
+    this.scenery = new Scenery()
+    
    
     
     
@@ -60,7 +65,7 @@ export default class Game {
       // 7: { pos: [18, 5]},
     }
 
-    let spawnMax 
+    let spawnMax = 1
 
     switch (this.phase) {
       case 1:
@@ -76,7 +81,7 @@ export default class Game {
     }
 
     while (this.monsters.length < spawnMax) {
-      let num = Math.floor(Math.random() * 4);
+      let num = Math.floor(Math.random() * 4); 
       let monster = new Monster();
       monster.nextPos = possibleSpawns[num].pos
       this.monsters.push(monster);
@@ -90,7 +95,7 @@ export default class Game {
         let monster = new Monster();
         monster.nextPos = possibleSpawns[num].pos
         this.monsters.push(monster);
-        this.score += 100;
+        this.score += 10;
       }
     }
     
@@ -122,6 +127,7 @@ export default class Game {
 
     let spritePlayer = this.player.sprites[this.player.direction]
     let totalSpriteTime = 0;
+    this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
 
     
 
@@ -152,7 +158,7 @@ export default class Game {
     }
 
   
-   
+    this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
     if (this.arrows.length > 0) {
       for (let arrow of this.arrows) {
         if (!arrow.handleMove(currentFrameTime)) {
@@ -219,14 +225,20 @@ export default class Game {
 
     this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 10, 200, 205)
   
-   
-    
-    this.board.ctx.fillStyle = "#ff0000";
-    this.board.ctx.fillText(this.player.mapPos, 10, 20)
-    this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
-    this.board.ctx.fillText(this.player.currentPos, 10, 50);
-    this.board.ctx.fillText(this.score, 10, 70);
-    this.board.ctx.fillText(`${minutes} minute(s) ${seconds} seconds`, 10, 80);
+    this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+
+    this.board.ctx.font = "40px Ancient";
+    this.board.ctx.fillStyle = "#000000";
+    // this.board.ctx.fillText(this.player.mapPos, 10, 20)
+    // this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
+    // this.board.ctx.fillText(this.player.currentPos, 10, 50);
+    if (this.score < 100) {
+      this.board.ctx.fillText(this.score, 94, 80);
+    } else {
+      this.board.ctx.fillText(this.score, 80, 80);
+    }
+    this.board.ctx.font = "20px Ancient";
+    this.board.ctx.fillText(`${minutes} minute(s) ${seconds} seconds`, 32, 120);
 
     
     this.lastFrameTime = currentFrameTime;
@@ -259,27 +271,11 @@ export default class Game {
   }
 
   monsterCheckValidMove(monster, currentFrameTime) {
-    if (monster.canMoveLeft() && (this.player.currentPos[0] < monster.currentPos[0])) {
-      monster.moveLeft(currentFrameTime)
-    } else if (monster.canMoveUp() && (this.player.currentPos[1] < monster.currentPos[1])) {
-      monster.moveUp(currentFrameTime);
-    } else if (monster.canMoveRight() && (this.player.currentPos[0] > monster.currentPos[0])) {
-      monster.moveRight(currentFrameTime);
-    } else if (monster.canMoveDown() && (this.player.currentPos[1] > monster.currentPos[1])) {
-      monster.moveDown(currentFrameTime);
-    } else if ((this.player.currentPos[1] < monster.currentPos[1] || this.player.currentPos[1] === monster.currentPos[1]) && (!monster.canMoveLeft() || !monster.canMoveRight())) {
-      if (!monster.canMoveDown()) {
-        monster.moveUp(currentFrameTime);
-      } else if (!monster.canMoveUp()) {
-        monster.moveDown(currentFrameTime)
-      }
-    } else if ((this.player.currentPos[1] > monster.currentPos[1] || this.player.currentPos[1] === monster.currentPos[1]) && (!monster.canMoveLeft() || !monster.canMoveRight())) {
-      if (monster.canMoveUp()) {
-        monster.moveUp(currentFrameTime);
-      } else if (monster.canMoveDown()) {
-        monster.moveDown(currentFrameTime)
-      }
-    }  
+
+  monster.nextPos = findPath(this.board.gameMap, monster.currentPos, this.player.currentPos)[1]
+  monster.timeStart = currentFrameTime
+  monster.moving =  true;
+
   }
 
   arrowCheckValidMove(arrow, currentFrameTime) {

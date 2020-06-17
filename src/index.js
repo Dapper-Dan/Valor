@@ -18,6 +18,9 @@ window.bloodSet.src = "./src/images/bloodEffects.png"
 window.HUD = new Image();
 window.HUD.src = "./src/images/HUD.png"
 
+window.scenery = new Image();
+window.scenery.src = "./src/images/scenery.png"
+
 
 
 

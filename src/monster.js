@@ -12,7 +12,9 @@ export default class Monster {
     this.mapPos = [1130, 150]
     this.sampleBoard = new Board();
     this.direction = "right";
-    this.lastDir = "right"
+    this.walkingDIR = null 
+    this.needToGoDIR = null
+    this.stuck = false;
     this.moving = false;
     this.alive = true;
     this.sprites = {
@@ -21,25 +23,25 @@ export default class Monster {
                                                                    2: { pos: [117, 2], size: [40, 39] },
                                                                    3: { pos: [165, 8], size: [40, 39] }
                                                                   },
-                                                                  200), 
+                                                                  140), 
       "right": new Sprite({ 0: { pos: [5, 7], size: [35, 39] },
                                                                      1: { pos: [65, 6], size: [40, 39] },
                                                                      2: { pos: [117, 2], size: [40, 39] },
                                                                      3: { pos: [165, 8], size: [40, 39] }
                                                                    },
-                                                                   200), 
+                                                                   140), 
       "down": new Sprite({ 0: { pos: [5, 7], size: [35, 39] },
                                                                     1: { pos: [65, 6], size: [40, 39] },
                                                                     2: { pos: [117, 2], size: [40, 39] },
                                                                     3: { pos: [165, 8], size: [40, 39] }
                                                                     },
-                                                                    200), 
+                                                                    140), 
       "left": new Sprite({ 0: { pos: [5, 7], size: [40, 39] },
                                                                     1: { pos: [65, 6], size: [34, 39] },
                                                                     2: { pos: [117, 2], size: [34, 39] },
                                                                     3: { pos: [165, 8], size: [40, 39] }
                                                                     },
-                                                                    200)
+                                                                    140)
 
     }
     
@@ -126,6 +128,7 @@ export default class Monster {
     this.timeStart = currentGameTime;
     if (this.lastDir === "left") this.direction = "left";
     this.moving = true;
+    // this.walkingDIR = "up"
   }
   
   moveDown(currentGameTime) {
@@ -133,6 +136,7 @@ export default class Monster {
     this.timeStart = currentGameTime;
     if (this.lastDir === "left") this.direction = "left";
     this.moving = true;
+    // this.walkingDIR = "down"
   }
 
   moveLeft(currentGameTime) {
@@ -140,6 +144,7 @@ export default class Monster {
     this.timeStart = currentGameTime;
     this.direction = "left";
     this.moving = true; 
+    // this.walkingDIR = "left"
   }
 
   moveRight(currentGameTime) {
@@ -147,6 +152,7 @@ export default class Monster {
     this.timeStart = currentGameTime;
     this.direction = "right";
     this.moving = true;
+    // this.walkingDIR = "right"
   }
 
 }
