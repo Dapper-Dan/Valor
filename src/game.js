@@ -65,7 +65,7 @@ export default class Game {
       // 7: { pos: [18, 5]},
     }
 
-    let spawnMax = 0
+    let spawnMax = 1
 
     // switch (this.phase) {
     //   case 1:
@@ -220,6 +220,10 @@ export default class Game {
       }
     }
 
+    for (let m in this.monsters) {
+      if (this.monsters[m].currentPos[0] === this.player.currentPos[0] &&  this.monsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    }
+
     for (let a in this.arrows) {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
     }
@@ -248,10 +252,7 @@ export default class Game {
     
     this.lastFrameTime = currentFrameTime;
 
-    if (seconds === 10) {
-      this.gameOver = true;
-    }
-
+    
     if (this.gameOver) {
       this.reset()
     }
