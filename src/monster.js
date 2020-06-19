@@ -15,33 +15,33 @@ export default class Monster {
     this.walkingDIR = null 
     this.needToGoDIR = null
     this.stuck = false;
-    this.moving = false;
+    this.moving = true;
     this.alive = true;
     this.sprites = {
-      "up": new Sprite({ 0: { pos: [5, 7], size: [35, 39] },
-                                                                   1: { pos: [65, 6], size: [40, 39] },
-                                                                   2: { pos: [117, 2], size: [40, 39] },
-                                                                   3: { pos: [165, 8], size: [40, 39] }
+      "up": new Sprite({ 0: { pos: [6, 8], size: [30, 30] },
+                                  1: { pos: [65, 6], size: [40, 39] },
+                 2: { pos: [117, 2], size: [40, 41] },
+                                                                   3: { pos: [165, 8], size: [40, 41] }
                                                                   },
-                                                                  140), 
-      "right": new Sprite({ 0: { pos: [5, 7], size: [35, 39] },
-                                                                     1: { pos: [65, 6], size: [40, 39] },
-                                                                     2: { pos: [117, 2], size: [40, 39] },
-                                                                     3: { pos: [165, 8], size: [40, 39] }
+                                                                  200), 
+      "right": new Sprite({ 0: { pos: [6, 8], size: [35, 41] },
+                             1: { pos: [65, 6], size: [40, 41] },
+                                                                     2: { pos: [117, 2], size: [40, 41] },
+                                                                     3: { pos: [165, 8], size: [40, 41] }
                                                                    },
-                                                                   140), 
-      "down": new Sprite({ 0: { pos: [5, 7], size: [35, 39] },
-                                                                    1: { pos: [65, 6], size: [40, 39] },
-                                                                    2: { pos: [117, 2], size: [40, 39] },
-                                                                    3: { pos: [165, 8], size: [40, 39] }
+                                                                   200), 
+      "down": new Sprite({ 0: { pos: [6, 8], size: [35, 41] },
+                                                                    1: { pos: [65, 6], size: [40, 41] },
+                                                                    2: { pos: [117, 2], size: [40, 41] },
+                     3: { pos: [165, 8], size: [40, 41] }
                                                                     },
-                                                                    140), 
-      "left": new Sprite({ 0: { pos: [5, 7], size: [40, 39] },
-                                                                    1: { pos: [65, 6], size: [34, 39] },
-                                                                    2: { pos: [117, 2], size: [34, 39] },
-                                                                    3: { pos: [165, 8], size: [40, 39] }
+                                                                    200), 
+      "left": new Sprite({ 0: { pos: [6, 8], size: [40, 41] },
+                               1: { pos: [65, 6], size: [34, 41] },
+                                                                    2: { pos: [117, 2], size: [34, 41] },
+                                                                    3: { pos: [165, 8], size: [40, 41] }
                                                                     },
-                                                                    140)
+                                                                    200)
 
     }
     

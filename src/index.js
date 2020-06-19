@@ -25,7 +25,7 @@ window.scenery.src = "./src/images/scenery.png"
 
 
 
-
+const game = new Game();
 document.addEventListener("DOMContentLoaded", () => {
   const play = document.getElementById("play")
   play.addEventListener("click", () => { 
@@ -52,11 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
       audioButton.hidden = !audioButton.hidden;
       muteButton.blur()
     })
+
+    let playAgain = document.getElementById("playAgain")
+    playAgain.addEventListener("click", () => {
+      location.reload()
+    })
     
   
     const game = new Game();
    
-    
+ 
+
     window.addEventListener("keydown", function(e) {
       if (e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode === 32) game.keys[e.keyCode] = true;   
     });
@@ -72,9 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     game.board.viewPort.screen = [ game.board.gameBoard.width, game.board.gameBoard.height ]
     
-    requestAnimationFrame(game.drawGame);
     
-
+    requestAnimationFrame(game.drawGame);
     
   })
 });
+

@@ -27,6 +27,7 @@ export default class Game {
     this.drawGame = this.drawGame.bind(this)
     this.paused = false;
     this.scenery = new Scenery()
+    this.gameOver = false;
     
    
     
@@ -58,30 +59,29 @@ export default class Game {
       0: { pos: [10, 13] },
       1: { pos: [6, 8] },
       2: { pos: [14, 8] },
-      3: { pos: [18, 13]}
-      // 4: { pos: [4, 3]},
-      // 5: { pos: [1, 7]},
+      3: { pos: [18, 13]},
+      4: { pos: [1, 7]},
       // 6: { pos: [18, 3]},
       // 7: { pos: [18, 5]},
     }
 
-    let spawnMax = 1
+    let spawnMax = 0
 
-    switch (this.phase) {
-      case 1:
-        spawnMax = 4;
-        break;
-      case 2: 
-        spawnMax = 6;
-        break;
-      case 3: 
-        spawnMax = 8;
-      default: 
-        spawnMax = 2;
-    }
+    // switch (this.phase) {
+    //   case 1:
+    //     spawnMax = 4;
+    //     break;
+    //   case 2: 
+    //     spawnMax = 6;
+    //     break;
+    //   case 3: 
+    //     spawnMax = 8;
+    //   default: 
+    //     spawnMax = 2;
+    // }
 
     while (this.monsters.length < spawnMax) {
-      let num = Math.floor(Math.random() * 4); 
+      let num = Math.floor(Math.random() * 5); 
       let monster = new Monster();
       monster.nextPos = possibleSpawns[num].pos
       this.monsters.push(monster);
@@ -91,7 +91,7 @@ export default class Game {
     for (let m of this.monsters) {
       if (this.enemyCollision(m)) {
 
-        let num = Math.floor(Math.random() * 4); 
+        let num = Math.floor(Math.random() * 5); 
         let monster = new Monster();
         monster.nextPos = possibleSpawns[num].pos
         this.monsters.push(monster);
@@ -159,6 +159,7 @@ export default class Game {
 
   
     this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    
     if (this.arrows.length > 0) {
       for (let arrow of this.arrows) {
         if (!arrow.handleMove(currentFrameTime)) {
@@ -172,7 +173,7 @@ export default class Game {
     
     for (let m = 0; m < this.monsters.length; m++) {
       if (!this.monsters[m].handleMove(currentFrameTime)) {
-        this.monsterCheckValidMove(this.monsters[m], currentFrameTime)
+        this.monsterCheckValidMove(this.monsters[m], currentFrameTime, this.monsters)
       }
       let spriteMonster = this.monsters[m].sprites[this.monsters[m].direction];
 
@@ -226,26 +227,42 @@ export default class Game {
     this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 10, 200, 205)
   
     this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 10, 200, 205)
+
+    this.board.ctx.fillStyle = '#ff0000'
+    this.board.ctx.fillText(this.player.mapPos, 10, 600)
+    this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 700);
+    this.board.ctx.fillText(this.player.currentPos, 10, 500);
+
 
     this.board.ctx.font = "40px Ancient";
     this.board.ctx.fillStyle = "#000000";
-    // this.board.ctx.fillText(this.player.mapPos, 10, 20)
-    // this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 30);
-    // this.board.ctx.fillText(this.player.currentPos, 10, 50);
     if (this.score < 100) {
       this.board.ctx.fillText(this.score, 94, 80);
     } else {
       this.board.ctx.fillText(this.score, 80, 80);
     }
-    this.board.ctx.font = "20px Ancient";
-    this.board.ctx.fillText(`${minutes} minute(s) ${seconds} seconds`, 32, 120);
+    this.board.ctx.font = "19px Ancient";
+    this.board.ctx.fillText(`${minutes} minute(s) ${seconds} seconds`, 36, 120);
 
     
     this.lastFrameTime = currentFrameTime;
 
-    if (!this.paused) {
-    requestAnimationFrame(this.drawGame);
+    if (seconds === 10) {
+      this.gameOver = true;
     }
+
+    if (this.gameOver) {
+      this.reset()
+    }
+
+    
+
+    if (!this.paused && !this.gameOver) {
+      requestAnimationFrame(this.drawGame);
+    }
+
+
     
   
   }
@@ -270,9 +287,9 @@ export default class Game {
     // viewPort.update(this.player.mapPos[0] + (this.player.size[0] / 2), this.player.mapPos[1] + (this.player.size[1] / 2))
   }
 
-  monsterCheckValidMove(monster, currentFrameTime) {
+  monsterCheckValidMove(monster, currentFrameTime, monstersArray) {
 
-  monster.nextPos = findPath(this.board.gameMap, monster.currentPos, this.player.currentPos)[1]
+  monster.nextPos = findPath(this.board.gameMap, monster.currentPos, this.player.currentPos, monstersArray)[1]
   monster.timeStart = currentFrameTime
   monster.moving =  true;
 
@@ -335,6 +352,13 @@ export default class Game {
       this.drawGame()
     }
   }
+
+  reset() {
+    let playAgain = document.getElementById("playAgain")
+    playAgain.hidden = !playAgain.hidden;
+   
+  }
+
 
 
 };

@@ -2,7 +2,7 @@ import Board from "./board";
 
 let board = new Board()
 
-export default function findPath(world, pathStart, pathEnd) { 
+export default function findPath(world, pathStart, pathEnd, monsters) { 
     var worldWidth = 36; 
 	var worldHeight = 36; 
     var worldSize =	worldWidth * worldHeight; 
@@ -44,14 +44,13 @@ export default function findPath(world, pathStart, pathEnd) {
 		return result;
 	}
     
-    function canWalkHere(x, y)
-	{
+    function canWalkHere(x, y) {
+       
         return (board.tileTypes[world[x + y * 36]].floor === 1)
      
     };
     
-    function Node(Parent, Point)
-	{
+    function Node(Parent, Point) {
 		var newNode = {
 
 			Parent:Parent,
@@ -65,8 +64,7 @@ export default function findPath(world, pathStart, pathEnd) {
 		return newNode;
     }
     
-    function calculatePath()
-	{
+    function calculatePath() {
 		
 		var	mypathStart = Node(null, {x:pathStart[0], y:pathStart[1]});
 		var mypathEnd = Node(null, {x:pathEnd[0], y:pathEnd[1]});
@@ -87,12 +85,10 @@ export default function findPath(world, pathStart, pathEnd) {
 		
 		var length, max, min, i, j;
 		
-		while(length = Open.length)
-		{
+		while(length = Open.length){
 			max = worldSize;
 			min = -1;
-			for(i = 0; i < length; i++)
-			{
+			for(i = 0; i < length; i++){
 				if(Open[i].f < max)
 				{
 					max = Open[i].f;
@@ -102,11 +98,9 @@ export default function findPath(world, pathStart, pathEnd) {
 			
 			myNode = Open.splice(min, 1)[0];
 		
-			if(myNode.value === mypathEnd.value)
-			{
+			if(myNode.value === mypathEnd.value){
 				myPath = Closed[Closed.push(myNode) - 1];
-				do
-				{
+				do {
 					result.push([myPath.x, myPath.y]);
 				}
 				while (myPath = myPath.Parent);
@@ -115,13 +109,11 @@ export default function findPath(world, pathStart, pathEnd) {
 				
 				result.reverse();
 			}
-			else 
-			{
+			else {
 				
 				myNeighbours = Neighbours(myNode.x, myNode.y);
 				
-				for(i = 0, j = myNeighbours.length; i < j; i++)
-				{
+				for(i = 0, j = myNeighbours.length; i < j; i++) {
 					myPath = Node(myNode, myNeighbours[i]);
 					if (!AStar[myPath.value])
 					{
