@@ -65,7 +65,7 @@ export default class Game {
       // 7: { pos: [18, 5]},
     }
 
-    let spawnMax = 1
+    let spawnMax = 0
 
     // switch (this.phase) {
     //   case 1:
@@ -158,7 +158,7 @@ export default class Game {
     }
 
   
-    this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    // this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
     
     if (this.arrows.length > 0) {
       for (let arrow of this.arrows) {
@@ -228,10 +228,11 @@ export default class Game {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
     }
 
-    this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 10, 200, 205)
+   
   
-    this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
-    this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 10, 200, 205)
+    // this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 50, 200, 205)
+    this.board.ctx.drawImage(window.logo, 331, 205, 810, 371, 5, 5, 200, 50)
 
     this.board.ctx.fillStyle = '#ff0000'
     this.board.ctx.fillText(this.player.mapPos, 10, 600)
@@ -242,13 +243,13 @@ export default class Game {
     this.board.ctx.font = "40px Ancient";
     this.board.ctx.fillStyle = "#000000";
     if (this.score < 100) {
-      this.board.ctx.fillText(this.score, 94, 80);
+      this.board.ctx.fillText(this.score, 94, 130);
     } else {
-      this.board.ctx.fillText(this.score, 80, 80);
+      this.board.ctx.fillText(this.score, 80, 130);
     }
     this.board.ctx.font = "19px Ancient";
-    this.board.ctx.fillText(`${minutes} minute(s) ${seconds} seconds`, 36, 120);
-
+    this.board.ctx.fillText(`${minutes} minute(s) ${seconds} seconds`, 36, 168);
+    
     
     this.lastFrameTime = currentFrameTime;
 

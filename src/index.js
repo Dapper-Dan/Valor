@@ -21,6 +21,9 @@ window.HUD.src = "./src/images/HUD.png"
 window.scenery = new Image();
 window.scenery.src = "./src/images/scenery.png"
 
+window.logo = new Image();
+window.logo.src = "./src/images/logoValor.png"
+
 
 
 
