@@ -6,64 +6,14 @@ export default class Scenery {
 
 
     drawScenery(ctx, totalSpriteTime, currentFrameTime, viewPort) {
-     //CANDLE   
-      
-      let candle = new Scenery( {
-            0: { pos: [19, 18], size: [16, 40] },
-            1: { pos: [57, 19], size: [16, 41] },
-            2: { pos: [91, 20], size: [16, 39] }
-            }, 300   
-        );
-        
-        let spawns = [ [290, 600], [360, 600], [1345, 525], [715, 1870], [2465, 1515], [2115, 1995] ]
-        
-        for (let i in candle.frames) {
-            candle.frames[i]['start'] = totalSpriteTime;
-            totalSpriteTime += candle.aniTime;
-            candle.frames[i]['end'] = totalSpriteTime;
-        }
-        candle['totalSpriteDuration'] = totalSpriteTime;
-        let candleFrame = this.getFrame(candle.frames, candle.totalSpriteDuration, currentFrameTime, true)
-        for (let s in spawns) {
-          ctx.drawImage(window.scenery, candleFrame.pos[0], candleFrame.pos[1], candleFrame.size[0], candleFrame.size[1], viewPort.offset[0] + spawns[s][0], viewPort.offset[1] + spawns[s][1], 16, 40)
-        }
-
-
-
-
-      //RED FOUNTAIN
-        let redFountain = new Scenery( {
-          0: { pos: [13, 80], size: [30, 30] },
-          1: { pos: [58, 80], size: [30, 30] },
-          2: { pos: [102, 80], size: [30, 30] },
-          3: { pos: [13, 80], size: [30, 30] },
-          4: { pos: [58, 80], size: [30, 30] },
-          5: { pos: [102, 80], size: [30, 30] }
-          }, 700   
-      );
-      
-      let loc = [ [80, 460], [505, 531] ]
-      
-      for (let i in redFountain.frames) {
-          redFountain.frames[i]['start'] = totalSpriteTime;
-          totalSpriteTime += redFountain.aniTime;
-          redFountain.frames[i]['end'] = totalSpriteTime;
-      }
-      redFountain['totalSpriteDuration'] = totalSpriteTime;
-      let redFountainFrame = this.getFrame(redFountain.frames, redFountain.totalSpriteDuration, currentFrameTime, true)
-      for (let s in loc) {
-        ctx.drawImage(window.scenery, redFountainFrame.pos[0], redFountainFrame.pos[1], redFountainFrame.size[0], redFountainFrame.size[1], viewPort.offset[0] + loc[s][0], viewPort.offset[1] + loc[s][1], 30, 30)
-      
-      }
-
 
       //small wall candle
      
     let wallCandle = new Scenery( {
-        0: { pos: [207, 28], size: [30, 30] },
-        1: { pos: [247, 28], size: [30, 30] },
-        2: { pos: [292, 28], size: [30, 30] }
-        }, 300   
+        0: { pos: [209, 29], size: [25, 28] },
+        1: { pos: [249, 29], size: [25, 27] },
+        2: { pos: [293, 30], size: [27, 28] }
+        }, 250   
     );
     
     let spawnTwo = [ [785, 160], [975, 160], [1135, 160], [1345, 160], [1485, 1840], [1710, 1840], [1975, 1840], [295, 1145], [1135, 1145], [2325, 1210], [2325, 585]]
@@ -178,6 +128,58 @@ export default class Scenery {
 
 
 
+    }
+
+
+    drawTallCandle(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+        let candle = new Scenery( {
+          0: { pos: [19, 18], size: [16, 40] },
+          1: { pos: [57, 20], size: [16, 40] },
+          2: { pos: [91, 20], size: [16, 40] }
+          }, 300   
+      );
+      
+      let spawns = [ [290, 600], [360, 600], [1345, 525], [715, 1870], [2465, 1515], [2115, 1995] ]
+      
+      for (let i in candle.frames) {
+          candle.frames[i]['start'] = totalSpriteTime;
+          totalSpriteTime += candle.aniTime;
+          candle.frames[i]['end'] = totalSpriteTime;
+      }
+      candle['totalSpriteDuration'] = totalSpriteTime;
+      let candleFrame = this.getFrame(candle.frames, candle.totalSpriteDuration, currentFrameTime, true)
+      for (let s in spawns) {
+        ctx.drawImage(window.scenery, candleFrame.pos[0], candleFrame.pos[1], candleFrame.size[0], candleFrame.size[1], viewPort.offset[0] + spawns[s][0], viewPort.offset[1] + spawns[s][1], candleFrame.size[0], candleFrame.size[1])
+      }
+    }
+
+
+    drawLava(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+      
+        //RED FOUNTAIN
+        let redFountain = new Scenery( {
+          0: { pos: [13, 80], size: [30, 30] },
+          1: { pos: [58, 80], size: [30, 30] },
+          2: { pos: [102, 80], size: [30, 30] },
+          3: { pos: [13, 80], size: [30, 30] },
+          4: { pos: [58, 80], size: [30, 30] },
+          5: { pos: [102, 80], size: [30, 30] }
+          }, 300 
+      );
+      
+      let loc = [ [80, 460], [505, 531] ]
+      
+      for (let i in redFountain.frames) {
+          redFountain.frames[i]['start'] = totalSpriteTime;
+          totalSpriteTime += redFountain.aniTime;
+          redFountain.frames[i]['end'] = totalSpriteTime;
+      }
+      redFountain['totalSpriteDuration'] = totalSpriteTime;
+      let redFountainFrame = this.getFrame(redFountain.frames, redFountain.totalSpriteDuration, currentFrameTime, true)
+      for (let s in loc) {
+        ctx.drawImage(window.scenery, redFountainFrame.pos[0], redFountainFrame.pos[1], redFountainFrame.size[0], redFountainFrame.size[1], viewPort.offset[0] + loc[s][0], viewPort.offset[1] + loc[s][1], 30, 30)
+      
+      }
     }
 
 

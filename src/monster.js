@@ -18,30 +18,30 @@ export default class Monster {
     this.moving = true;
     this.alive = true;
     this.sprites = {
-      "up": new Sprite({ 0: { pos: [6, 8], size: [30, 30] },
-                                  1: { pos: [65, 6], size: [40, 39] },
-                 2: { pos: [117, 2], size: [40, 41] },
-                                                                   3: { pos: [165, 8], size: [40, 41] }
+      "up": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
+                                  1: { pos: [65, 6], size: [26, 32] },
+                 2: { pos: [118, 3], size: [23, 37] },
+                                                                   3: { pos: [165, 8], size: [27, 32] }
                                                                   },
-                                                                  200), 
-      "right": new Sprite({ 0: { pos: [6, 8], size: [35, 41] },
-                             1: { pos: [65, 6], size: [40, 41] },
-                                                                     2: { pos: [117, 2], size: [40, 41] },
-                                                                     3: { pos: [165, 8], size: [40, 41] }
-                                                                   },
-                                                                   200), 
-      "down": new Sprite({ 0: { pos: [6, 8], size: [35, 41] },
-                                                                    1: { pos: [65, 6], size: [40, 41] },
-                                                                    2: { pos: [117, 2], size: [40, 41] },
-                     3: { pos: [165, 8], size: [40, 41] }
-                                                                    },
-                                                                    200), 
-      "left": new Sprite({ 0: { pos: [6, 8], size: [40, 41] },
-                               1: { pos: [65, 6], size: [34, 41] },
-                                                                    2: { pos: [117, 2], size: [34, 41] },
-                                                                    3: { pos: [165, 8], size: [40, 41] }
-                                                                    },
-                                                                    200)
+                                                                  250), 
+      "right": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
+        1: { pos: [65, 6], size: [26, 32] },
+2: { pos: [118, 3], size: [23, 37] },
+                                         3: { pos: [165, 8], size: [27, 32] }
+                                        },
+                                        250),  
+      "down": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
+        1: { pos: [65, 6], size: [26, 32] },
+2: { pos: [118, 3], size: [23, 37] },
+                                         3: { pos: [165, 8], size: [27, 32] }
+                                        },
+                                        250),  
+      "left": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
+        1: { pos: [65, 6], size: [26, 32] },
+2: { pos: [118, 3], size: [23, 37] },
+                                         3: { pos: [165, 8], size: [27, 32] }
+                                        },
+                                        250)
 
     }
     
@@ -155,7 +155,7 @@ export default class Monster {
     // this.walkingDIR = "right"
   }
 
-}
+
 
   // moveUpLeft(currentGameTime) {
   //   this.nextPos[0] -= 1;  NEEDS WORK-ANIMATION
@@ -164,4 +164,8 @@ export default class Monster {
   //   this.direction = "upLeft"
   //   this.moving = true;
   // }
+
+
+
+}
   

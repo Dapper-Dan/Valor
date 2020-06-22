@@ -65,7 +65,7 @@ export default class Game {
       // 7: { pos: [18, 5]},
     }
 
-    let spawnMax = 0
+    let spawnMax = 1
 
     // switch (this.phase) {
     //   case 1:
@@ -128,7 +128,10 @@ export default class Game {
     let spritePlayer = this.player.sprites[this.player.direction]
     let totalSpriteTime = 0;
     this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    this.scenery.drawTallCandle(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    this.scenery.drawLava(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
 
+    this.drawMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.monsters, totalSpriteTime)
     
 
     for (let s in spritePlayer.frames) {
@@ -168,28 +171,7 @@ export default class Game {
       }
     }
 
-    
-
-    
-    for (let m = 0; m < this.monsters.length; m++) {
-      if (!this.monsters[m].handleMove(currentFrameTime)) {
-        this.monsterCheckValidMove(this.monsters[m], currentFrameTime, this.monsters)
-      }
-      let spriteMonster = this.monsters[m].sprites[this.monsters[m].direction];
-
-      for (let sm in spriteMonster.frames) {
-        spriteMonster.frames[sm]['start'] = totalSpriteTime;
-        totalSpriteTime += spriteMonster.aniTime;
-        spriteMonster.frames[sm]['end'] = totalSpriteTime;
-      }
-
-      spriteMonster['totalSpriteDuration'] = totalSpriteTime;
-      let monsterToon = this.getFrame(spriteMonster.frames, spriteMonster.totalSpriteDuration, currentFrameTime, this.monsters[m].moving)
-      this.board.ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], viewPort.offset[0] + this.monsters[m].mapPos[0], viewPort.offset[1] + this.monsters[m].mapPos[1], this.monsters[m].size[0], this.monsters[m].size[1])
-    }
-
-
-
+   
     
     for(let a in this.arrows) {
       let arrowSprite = this.arrows[a];
@@ -359,6 +341,26 @@ export default class Game {
     let playAgain = document.getElementById("playAgain")
     playAgain.hidden = !playAgain.hidden;
    
+  }
+
+  drawMonsters(ctx, totalSpriteTime, currentFrameTime, viewPort, mon) {
+    for (let m = 0; m < this.monsters.length; m++) {
+      if (!this.monsters[m].handleMove(currentFrameTime)) {
+        this.monsterCheckValidMove(this.monsters[m], currentFrameTime, this.monsters)
+      }
+      let spriteMonster = this.monsters[m].sprites[this.monsters[m].direction];
+
+      for (let sm in spriteMonster.frames) {
+        spriteMonster.frames[sm]['start'] = totalSpriteTime;
+        totalSpriteTime += spriteMonster.aniTime;
+        spriteMonster.frames[sm]['end'] = totalSpriteTime;
+      }
+
+      spriteMonster['totalSpriteDuration'] = totalSpriteTime;
+      let monsterToon = this.getFrame(spriteMonster.frames, spriteMonster.totalSpriteDuration, currentFrameTime, this.monsters[m].moving)
+      ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], viewPort.offset[0] + this.monsters[m].mapPos[0], viewPort.offset[1] + this.monsters[m].mapPos[1], this.monsters[m].size[0] / 1.4, this.monsters[m].size[1] / 1.4)
+    }
+
   }
 
 
