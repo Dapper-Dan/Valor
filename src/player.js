@@ -19,7 +19,7 @@ export default class Player {
     };
     this.lastDir = "right"
     this.moving = false;
-    this.ROF = 200;
+    this.ROF = 300;
     this.lastArrowFired = 0;
     
     this.sprites = {

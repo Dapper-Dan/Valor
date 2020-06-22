@@ -55,35 +55,31 @@ export default class Game {
 
    
     
-    let possibleSpawns = {
-      0: { pos: [10, 13] },
-      1: { pos: [6, 8] },
-      2: { pos: [14, 8] },
-      3: { pos: [18, 13]},
-      4: { pos: [1, 7]},
-      // 6: { pos: [18, 3]},
-      // 7: { pos: [18, 5]},
+    let redPossibleSpawns = {
+      0: { pos: [18, 12] },
+      1: { pos: [7, 8] },
+      2: { pos: [1, 7]},
     }
 
-    let spawnMax = 1
+    let redSpawnMax = 3
 
     // switch (this.phase) {
     //   case 1:
-    //     spawnMax = 4;
+    //     redSpawnMax = 4;
     //     break;
     //   case 2: 
-    //     spawnMax = 6;
+    //     redSpawnMax = 6;
     //     break;
     //   case 3: 
-    //     spawnMax = 8;
+    //     redSpawnMax = 8;
     //   default: 
-    //     spawnMax = 2;
+    //     redSpawnMax = 2;
     // }
 
-    while (this.monsters.length < spawnMax) {
-      let num = Math.floor(Math.random() * 5); 
+    while (this.monsters.length < redSpawnMax) {
+      let num = Math.floor(Math.random() * 3); 
       let monster = new Monster();
-      monster.nextPos = possibleSpawns[num].pos
+      monster.nextPos = redPossibleSpawns[num].pos
       this.monsters.push(monster);
     }
 
@@ -91,9 +87,9 @@ export default class Game {
     for (let m of this.monsters) {
       if (this.enemyCollision(m)) {
 
-        let num = Math.floor(Math.random() * 5); 
+        let num = Math.floor(Math.random() * 3); 
         let monster = new Monster();
-        monster.nextPos = possibleSpawns[num].pos
+        monster.nextPos = redPossibleSpawns[num].pos
         this.monsters.push(monster);
         this.score += 10;
       }

@@ -93,6 +93,7 @@ export default class Scenery {
       ctx.drawImage(window.scenery, 126, 19, 30, 45, viewPort.offset[0] + 645, viewPort.offset[1] + 1020, 30, 45)
       ctx.drawImage(window.scenery, 126, 19, 30, 45, viewPort.offset[0] + 1765, viewPort.offset[1] + 395, 30, 45)
       ctx.drawImage(window.scenery, 126, 19, 30, 45, viewPort.offset[0] + 2140, viewPort.offset[1] + 395, 30, 45)
+      ctx.drawImage(window.scenery, 126, 19, 30, 45, viewPort.offset[0] + 435, viewPort.offset[1] + 1790, 30, 45)
 
       //chair
       ctx.drawImage(window.scenery, 97, 125, 20, 30, viewPort.offset[0] + 785, viewPort.offset[1] + 1030, 25, 35)
@@ -125,6 +126,30 @@ export default class Scenery {
       //gate
       ctx.drawImage(window.scenery, 231, 134, 42, 42, viewPort.offset[0] + 1960, viewPort.offset[1] + 17, 45, 55)
       ctx.drawImage(window.scenery, 231, 134, 42, 42, viewPort.offset[0] + 1765, viewPort.offset[1] + 1345, 45, 55)
+
+      //gold
+      ctx.drawImage(window.scenery, 10, 182, 41, 30, viewPort.offset[0] + 925, viewPort.offset[1] + 1395, 60, 49)
+      ctx.drawImage(window.scenery, 332, 164, 50, 53, viewPort.offset[0] + 1268, viewPort.offset[1] + 1625, 80, 83)
+      ctx.drawImage(window.scenery, 153, 183, 41, 30, viewPort.offset[0] + 1282, viewPort.offset[1] + 1380, 60, 49)
+      ctx.drawImage(window.scenery, 65, 183, 30, 28, viewPort.offset[0] + 1100, viewPort.offset[1] + 1395, 45, 43)
+      ctx.drawImage(window.scenery, 109, 186, 27, 22, viewPort.offset[0] + 1000, viewPort.offset[1] + 1395, 45, 40)
+      ctx.drawImage(window.scenery, 215, 186, 41, 30, viewPort.offset[0] + 1150, viewPort.offset[1] + 1395, 60, 40)
+
+      ctx.drawImage(window.scenery, 262, 237, 23, 17, viewPort.offset[0] + 1065, viewPort.offset[1] + 1625, 36, 30)
+      ctx.drawImage(window.scenery, 262, 237, 23, 17, viewPort.offset[0] + 1135, viewPort.offset[1] + 1415, 36, 30)
+      ctx.drawImage(window.scenery, 262, 237, 23, 17, viewPort.offset[0] + 925, viewPort.offset[1] + 1905, 30, 24)
+      ctx.drawImage(window.scenery, 302, 238, 23, 17, viewPort.offset[0] + 1215, viewPort.offset[1] + 1485, 36, 30)
+
+
+      ctx.drawImage(window.scenery, 272, 263, 4, 4, viewPort.offset[0] + 995, viewPort.offset[1] + 1555, 8, 8)
+      ctx.drawImage(window.scenery, 272, 263, 4, 4, viewPort.offset[0] + 925, viewPort.offset[1] + 1485, 8, 8)
+
+      ctx.drawImage(window.scenery, 289, 254, 9, 10, viewPort.offset[0] + 1135, viewPort.offset[1] + 1555, 11, 12)
+      ctx.drawImage(window.scenery, 262, 182, 45, 52, viewPort.offset[0] + 915, viewPort.offset[1] + 1675, 75, 82)
+
+
+      //chest2
+      ctx.drawImage(window.scenery, 157, 234, 38, 28, viewPort.offset[0] + 1250, viewPort.offset[1] + 1396, 40, 30)
 
 
 
@@ -180,6 +205,8 @@ export default class Scenery {
         ctx.drawImage(window.scenery, redFountainFrame.pos[0], redFountainFrame.pos[1], redFountainFrame.size[0], redFountainFrame.size[1], viewPort.offset[0] + loc[s][0], viewPort.offset[1] + loc[s][1], 30, 30)
       
       }
+
+      ctx.drawImage(window.scenery, 179, 293, 11, 31, viewPort.offset[0] + 1322, viewPort.offset[1] + 855, 11, 31)
     }
 
 
