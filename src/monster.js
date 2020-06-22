@@ -7,7 +7,10 @@ export default class Monster {
     this.currentPos = [16, 2]
     this.nextPos = [15, 2];
     this.timeStart = 0;
-    this.delayMove = 500;
+    this.delayMove =  {
+                        skull: 250,
+                          red: 400
+    }
     this.size = [50, 50]; 
     this.mapPos = [1130, 150]
     this.sampleBoard = new Board();
@@ -18,32 +21,34 @@ export default class Monster {
     this.moving = true;
     this.alive = true;
     this.sprites = {
-      "up": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
+      "red": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
                                   1: { pos: [65, 6], size: [26, 32] },
                  2: { pos: [118, 3], size: [23, 37] },
                                                                    3: { pos: [165, 8], size: [27, 32] }
                                                                   },
                                                                   250), 
-      "right": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
-        1: { pos: [65, 6], size: [26, 32] },
-2: { pos: [118, 3], size: [23, 37] },
-                                         3: { pos: [165, 8], size: [27, 32] }
+      "skull": new Sprite({ 0: { pos: [12, 61], size: [11, 14] },
+        1: { pos: [43, 61], size: [11, 14] },
+2: { pos: [86, 61], size: [11, 15] },
+                                         3: { pos: [114, 61], size: [11, 14] }
                                         },
                                         250),  
-      "down": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
-        1: { pos: [65, 6], size: [26, 32] },
-2: { pos: [118, 3], size: [23, 37] },
-                                         3: { pos: [165, 8], size: [27, 32] }
-                                        },
-                                        250),  
-      "left": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
-        1: { pos: [65, 6], size: [26, 32] },
-2: { pos: [118, 3], size: [23, 37] },
-                                         3: { pos: [165, 8], size: [27, 32] }
-                                        },
-                                        250)
+//       "down": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
+//         1: { pos: [65, 6], size: [26, 32] },
+// 2: { pos: [118, 3], size: [23, 37] },
+//                                          3: { pos: [165, 8], size: [27, 32] }
+//                                         },
+//                                         250),  
+//       "left": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
+//         1: { pos: [65, 6], size: [26, 32] },
+// 2: { pos: [118, 3], size: [23, 37] },
+//                                          3: { pos: [165, 8], size: [27, 32] }
+//                                         },
+//                                         250)
 
-    }
+    };
+
+
     
   }
   
@@ -56,20 +61,22 @@ export default class Monster {
     ];
   }
 
-  handleMove(currentTime) {
+  handleMove(currentTime, type) {
+    if (this.nextPos) {
     if (this.currentPos[0] === this.nextPos[0] && this.currentPos[1] === this.nextPos[1]) return false;
 
-    if ((currentTime - this.timeStart) >= this.delayMove ) {
+    if ((currentTime - this.timeStart) >= this.delayMove[type] ) {
       this.move(this.nextPos[0], this.nextPos[1]);
       this.moving = !this.moving
     } else {
       this.getMapPos();
-      this.checkDirectionAndAdjust(currentTime);
+      this.checkDirectionAndAdjust(currentTime, type);
       this.mapPos[0] = Math.round(this.mapPos[0]);
       this.mapPos[1] = Math.round(this.mapPos[1]);
     }
 
     return true;
+  }
   }
 
   getMapPos() {// 
@@ -77,9 +84,9 @@ export default class Monster {
     this.mapPos[1] = (this.currentPos[1] * this.sampleBoard.tileHeight) + ((this.sampleBoard.tileHeight - this.size[1]) / 2);
   }
 
-  checkDirectionAndAdjust(currentTime) {
+  checkDirectionAndAdjust(currentTime, type) {
     if (this.nextPos[0] !== this.currentPos[0]) {
-      let pixelDist = (this.sampleBoard.tileWidth / this.delayMove) * (currentTime - this.timeStart);
+      let pixelDist = (this.sampleBoard.tileWidth / this.delayMove[type]) * (currentTime - this.timeStart);
 
       if (this.nextPos[0] < this.currentPos[0]) {
         this.mapPos[0] += (0 - pixelDist);
@@ -87,7 +94,7 @@ export default class Monster {
         this.mapPos[0] += (pixelDist);
       }
     } else {
-      let pixelDist = (this.sampleBoard.tileHeight / this.delayMove) * (currentTime - this.timeStart);
+      let pixelDist = (this.sampleBoard.tileHeight / this.delayMove[type]) * (currentTime - this.timeStart);
 
       if (this.nextPos[1] < this.currentPos[1]) {
         this.mapPos[1] += (0 - pixelDist);

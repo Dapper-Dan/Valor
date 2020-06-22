@@ -2,7 +2,7 @@ import Board from "./board";
 
 let board = new Board()
 
-export default function findPath(world, pathStart, pathEnd, monsters) { 
+export default function findPath(world, pathStart, pathEnd) { 
     var worldWidth = 36; 
 	var worldHeight = 36; 
     var worldSize =	worldWidth * worldHeight; 

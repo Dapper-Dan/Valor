@@ -70,7 +70,7 @@ export default class Scenery {
       ctx.drawImage(window.scenery, 149, 80, 20, 28, viewPort.offset[0] + 855, viewPort.offset[1] + 1910, 20, 55)
 
       //box
-      ctx.drawImage(window.scenery, 213, 228, 30, 32, viewPort.offset[0] + 70, viewPort.offset[1] + 948, 30, 32)
+      ctx.drawImage(window.scenery, 213, 228, 30, 32, viewPort.offset[0] + 70, viewPort.offset[1] + 900, 30, 32)
       ctx.drawImage(window.scenery, 213, 228, 30, 32, viewPort.offset[0] + 2325, viewPort.offset[1] + 2025, 30, 32)
 
 
@@ -151,7 +151,10 @@ export default class Scenery {
       //chest2
       ctx.drawImage(window.scenery, 157, 234, 38, 28, viewPort.offset[0] + 1250, viewPort.offset[1] + 1396, 40, 30)
 
-
+      //skull spawn
+      ctx.drawImage(window.scenery, 213, 288, 33, 41, viewPort.offset[0] + 855, viewPort.offset[1] + 200, 15, 23)
+      ctx.drawImage(window.scenery, 213, 288, 33, 41, viewPort.offset[0] + 1600, viewPort.offset[1] + 295, 15, 23)
+      ctx.drawImage(window.scenery, 213, 288, 33, 41, viewPort.offset[0] + 1415, viewPort.offset[1] + 1880, 15, 23)
 
     }
 
