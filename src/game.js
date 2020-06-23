@@ -17,6 +17,7 @@ export default class Game {
     this.redMonsters = [];
     this.skullMonsters = [];
     this.greenMonsters = [];
+    this.purpleMonsters = [];
     this.arrows = [];
     this.keys = Keys.keysDown;
     this.currentSecond = 0;
@@ -34,6 +35,22 @@ export default class Game {
       0: { pos: [12, 3], taken: false },
       1: { pos: [22, 4], taken: false },
       2: { pos: [20, 27], taken: false }
+    };
+    this.greenPossibleSpawns = {
+      0: { pos: [26, 8], taken: false },
+      1: { pos: [29, 10], taken: false },
+      2: { pos: [26, 14], taken: false },
+      3: { pos: [30, 16], taken: false }
+    };
+    this.purplePossibleSpawns = {
+      0: { pos: [34, 15], taken: false },
+      1: { pos: [10, 20], taken: false },
+      2: { pos: [2, 29], taken: false },
+      3: { pos: [32, 25], taken: false },
+      4: { pos: [23, 20], taken: false },
+      5: { pos: [24, 1], taken: false },
+      6: { pos: [4, 21], taken: false },
+      7: { pos: [1, 24], taken: false }
     }
     
    
@@ -68,23 +85,23 @@ export default class Game {
       2: { pos: [1, 7]},
     }
 
-    let redSpawnMax = 0
+    let redSpawnMax = 3
 
-    // switch (this.phase) {
-    //   case 1:
-    //     redSpawnMax = 4;
-    //     break;
-    //   case 2: 
-    //     redSpawnMax = 6;
-    //     break;
-    //   case 3: 
-    //     redSpawnMax = 8;
-    //   default: 
-    //     redSpawnMax = 2;
-    // }
+    switch (this.phase) {
+      case 1:
+        redSpawnMax = 5;
+        break;
+      case 2: 
+        redSpawnMax = 6;
+        break;
+      case 3: 
+        redSpawnMax = 8;
+      default: 
+        redSpawnMax = 2;
+    }
 
 
-    let skullSpawnMax = 0
+    let skullSpawnMax = 3
 
     // switch (this.phase) {
     //   case 1:
@@ -99,11 +116,41 @@ export default class Game {
     //     skullSpawnMax = 2;
     // }
 
+
+    let greenSpawnMax = 3
+
+    // switch (this.phase) {
+    //   case 1:
+    //     greenSpawnMax = 4;
+    //     break;
+    //   case 2: 
+    //     greenSpawnMax = 6;
+    //     break;
+    //   case 3: 
+    //     greenSpawnMax = 8;
+    //   default: 
+    //     greenSpawnMax = 2;
+    // }
+
+
+     let purpleSpawnMax = 8
+
+    // switch (this.phase) {
+    //   case 1:
+    //     greenSpawnMax = 4;
+    //     break;
+    //   case 2: 
+    //     greenSpawnMax = 6;
+    //     break;
+    //   case 3: 
+    //     greenSpawnMax = 8;
+    //   default: 
+    //     greenSpawnMax = 2;
+    // }
+
     
     while (this.skullMonsters.length < skullSpawnMax) {
       let monster = new Monster();
-
-     
       for (let i = 0; i < Object.keys(this.skullPossibleSpawns).length; i ++) {
         if (!this.skullPossibleSpawns[i].taken) {
           monster.nextPos = this.skullPossibleSpawns[i].pos
@@ -157,13 +204,79 @@ export default class Game {
     
 
     
-    while (this.greenMonsters.length < 1) { 
+    while (this.greenMonsters.length < greenSpawnMax) { 
       let monster = new Monster();
-      monster.spawnPoint = [27, 10]
-      monster.nextPos = [27, 10]
-      this.greenMonsters.push(monster);
-      console.log(this.greenMonsters)
+    
+      for (let i = 0; i < Object.keys(this.greenPossibleSpawns).length; i ++) {
+        if (!this.greenPossibleSpawns[i].taken) {
+          monster.nextPos = this.greenPossibleSpawns[i].pos
+          monster.guardPoint = this.greenPossibleSpawns[i].pos
+          monster.spawnNum = i
+          this.greenMonsters.push(monster);
+          this.greenPossibleSpawns[i].taken = true
+          break
+        }
+      }
     }
+
+    for (let mon of this.greenMonsters) {
+      if (this.enemyCollision(mon)) {
+        this.score += 10;
+        this.greenPossibleSpawns[mon.spawnNum].taken = false;
+        let monster = new Monster();
+
+        for (let i = 0; i < Object.keys(this.greenPossibleSpawns).length; i ++) {
+          if (!this.greenPossibleSpawns[i].taken) {
+            monster.nextPos = this.greenPossibleSpawns[i].pos
+            monster.guardPoint = this.greenPossibleSpawns[i].pos
+            monster.spawnNum = i
+            this.greenMonsters.push(monster);
+            this.greenPossibleSpawns[i].taken = true
+            break
+          }
+        }
+    
+      }
+    }
+
+
+     
+    while (this.purpleMonsters.length < purpleSpawnMax) {
+      let monster = new Monster();
+      for (let i = 0; i < Object.keys(this.purplePossibleSpawns).length; i ++) {
+        if (!this.purplePossibleSpawns[i].taken) {
+          monster.nextPos = this.purplePossibleSpawns[i].pos
+          monster.spawnNum = i
+          this.purpleMonsters.push(monster);
+          this.purplePossibleSpawns[i].taken = true
+          break
+        }
+      }
+    }
+
+    
+    for (let mon of this.purpleMonsters) {
+      if (this.enemyCollision(mon)) {
+        this.score += 10;
+        this.purplePossibleSpawns[mon.spawnNum].taken = false;
+        let monster = new Monster();
+
+        for (let i = 0; i < Object.keys(this.purplePossibleSpawns).length; i ++) {
+          if (!this.purplePossibleSpawns[i].taken) {
+            monster.nextPos = this.purplePossibleSpawns[i].pos
+            monster.spawnNum = i
+            this.purpleMonsters.push(monster);
+            this.purplePossibleSpawns[i].taken = true
+            break
+          }
+        }
+    
+      }
+    }
+    
+
+
+
 
     if (this.keys[32] && (currentFrameTime - this.player.lastArrowFired) > this.player.ROF) {
       this.arrows.push(new Arrow(this.player.currentPos, [(this.player.currentPos[0] + this.player.shootDir[this.player.direction][0]), (this.player.currentPos[1] + this.player.shootDir[this.player.direction][1])] , this.player.mapPos, this.player.direction));
@@ -199,6 +312,7 @@ export default class Game {
     this.drawRedMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.redMonsters, totalSpriteTime)
     this.drawSkullMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.skullMonsters, totalSpriteTime)
     this.drawGreenMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.greenMonsters, totalSpriteTime)
+    this.drawPurpleMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.greenMonsters, totalSpriteTime)
     
 
     for (let s in spritePlayer.frames) {
@@ -289,13 +403,59 @@ export default class Game {
       }
     }
 
-    for (let m in this.redMonsters) {
-      if (this.redMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.redMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    for (let m in this.greenMonsters) {
+      if (!this.greenMonsters[m].alive) {
+        let bloodEffect = new SFXSprite()
+        for (let b in bloodEffect.frames) {
+          bloodEffect.frames[b]['start'] = totalSpriteTime;
+          totalSpriteTime += bloodEffect.aniTime;
+          bloodEffect.frames[b]['end'] = totalSpriteTime;
+        }
+        
+        bloodEffect['totalSpriteDuration'] = totalSpriteTime;
+        let blood = this.getFrame(bloodEffect.frames, bloodEffect.totalSpriteDuration, currentFrameTime, true)
+        
+        // let deadMonsterCoord = this.greenMonsters[m].
+        this.board.ctx.drawImage(window.bloodSet, blood.pos[0], blood.pos[1], blood.size[0], blood.size[1], viewPort.offset[0] + this.greenMonsters[m].mapPos[0], viewPort.offset[1] + this.greenMonsters[m].mapPos[1], 150, 150)
+        
+        this.greenMonsters.splice(m, 1)
+      }
     }
 
-    for (let m in this.skullMonsters) {
-      if (this.skullMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.skullMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    for (let m in this.purpleMonsters) {
+      if (!this.purpleMonsters[m].alive) {
+        let bloodEffect = new SFXSprite()
+        for (let b in bloodEffect.frames) {
+          bloodEffect.frames[b]['start'] = totalSpriteTime;
+          totalSpriteTime += bloodEffect.aniTime;
+          bloodEffect.frames[b]['end'] = totalSpriteTime;
+        }
+        
+        bloodEffect['totalSpriteDuration'] = totalSpriteTime;
+        let blood = this.getFrame(bloodEffect.frames, bloodEffect.totalSpriteDuration, currentFrameTime, true)
+        
+        // let deadMonsterCoord = this.purpleMonsters[m].
+        this.board.ctx.drawImage(window.bloodSet, blood.pos[0], blood.pos[1], blood.size[0], blood.size[1], viewPort.offset[0] + this.purpleMonsters[m].mapPos[0], viewPort.offset[1] + this.purpleMonsters[m].mapPos[1], 150, 150)
+        
+        this.purpleMonsters.splice(m, 1)
+      }
     }
+
+    // for (let m in this.redMonsters) {
+    //   if (this.redMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.redMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    // }
+
+    // for (let m in this.greenMonsters) {
+    //   if (this.greenMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.greenMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    // }
+
+    // for (let m in this.purpleMonsters) {
+    //   if (this.purpleMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.purpleMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    // }
+
+    // for (let m in this.skullMonsters) {
+    //   if (this.skullMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.skullMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    // }
 
     for (let a in this.arrows) {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
@@ -390,25 +550,76 @@ export default class Game {
   }
 
 
-  monsterProximityCheckValidMove(monster, currentFrameTime, radius) {
+  monsterProximityCheckValidMove(monster, radius) {
     for (let i = 1; i < radius; i ++) {
-      if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0] + i, monster.spawnPoint[1] ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0], monster.spawnPoint[1] + i ]) ) {
+      if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] + i, monster.currentPos[1] ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0], monster.currentPos[1] + i ]) ) {
         return true
-      } else if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0] - i, monster.spawnPoint[1] ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0], monster.spawnPoint[1] - i ])) {
+      } else if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] - i, monster.currentPos[1] ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0], monster.currentPos[1] - i ])) {
         return true;
       }
 
       for (let j = 1; j < radius; j ++) {
-        if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0] + i, monster.spawnPoint[1] + j ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0] + j, monster.spawnPoint[1] + i ]) ) {
+        if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] + i, monster.currentPos[1] + j ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] + j, monster.currentPos[1] + i ]) ) {
           return true
-        } else if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0] - i, monster.spawnPoint[1] - j ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0] - j, monster.spawnPoint[1] - i ])) {
+        } else if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] - i, monster.currentPos[1] - j ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] - j, monster.currentPos[1] - i ])) {
           return true;
-        } else if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0] + i, monster.spawnPoint[1] - j ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.spawnPoint[0] - j, monster.spawnPoint[1] + i ])) {
+        } else if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] + i, monster.currentPos[1] - j ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] - j, monster.currentPos[1] + i ])) {
           return true;
         }
       }
+    }}
+
+
+
+    monsterDineRoomCheckValidMove() {
+      if ((this.player.currentPos[1] >= 6 && this.player.currentPos[1] <= 16) && (this.player.currentPos[0] >= 25 && this.player.currentPos[0] <= 30)) {
+        return true;
+      }
     }
-  }
+
+
+
+    randomCheckValidMove(monster, currentFrameTime){
+      let dirs = {
+        "left": function() {
+          if (monster.canMoveLeft()) {
+           monster.moveLeft(currentFrameTime)
+          } else {
+            monster.direction = randomDirs[Math.floor(Math.random() * 4)]
+          }
+        },
+        "right": function() {
+          if (monster.canMoveRight()) {
+            monster.moveRight(currentFrameTime)
+          } else {
+            monster.direction = randomDirs[Math.floor(Math.random() * 4)]
+          }
+        },
+        "up": function() {
+          if (monster.canMoveUp()) {
+            monster.moveUp(currentFrameTime)
+          } else {
+            monster.direction = randomDirs[Math.floor(Math.random() * 4)]
+          }
+        },
+        "down": function() {
+          if (monster.canMoveDown()) {
+            monster.moveDown(currentFrameTime)
+          } else {
+            monster.direction = randomDirs[Math.floor(Math.random() * 4)]
+          }
+        }
+      }
+
+      let randomDirs = ["left", "right", "up", "down"]
+
+      dirs[monster.direction]()
+
+
+
+
+
+    }
 
   arrowCheckValidMove(arrow, currentFrameTime) {
     if (arrow.direction === "right") {
@@ -518,14 +729,15 @@ export default class Game {
 
   drawGreenMonsters(ctx, totalSpriteTime, currentFrameTime, viewPort) {
     for (let m = 0; m < this.greenMonsters.length; m++) {
-      if (!this.greenMonsters[m].handleMove(currentFrameTime, "red")) {
-        if (this.monsterProximityCheckValidMove(this.greenMonsters[m], currentFrameTime, 5)){
+      if (!this.greenMonsters[m].handleMove(currentFrameTime, "green")) {
+        // if (this.monsterProximityCheckValidMove(this.greenMonsters[m], 5)){
+        if (this.monsterDineRoomCheckValidMove()){
           this.greenMonsters[m].nextPos = findPath(this.board.gameMap, this.greenMonsters[m].currentPos, this.player.currentPos)[1]
           this.greenMonsters[m].timeStart = currentFrameTime
           this.greenMonsters[m].moving =  true;
         } else {
           if (this.greenMonsters[m].nextPos !== undefined) {
-            this.greenMonsters[m].nextPos = findPath(this.board.gameMap, this.greenMonsters[m].currentPos, this.greenMonsters[m].spawnPoint)[1]
+            this.greenMonsters[m].nextPos = findPath(this.board.gameMap, this.greenMonsters[m].currentPos, this.greenMonsters[m].guardPoint)[1]
             this.greenMonsters[m].timeStart = currentFrameTime
             this.greenMonsters[m].moving =  true;
           } else{
@@ -533,7 +745,7 @@ export default class Game {
           }
         }
       }
-      let spriteMonster = this.greenMonsters[m].sprites['red'];
+      let spriteMonster = this.greenMonsters[m].sprites['green'];
 
       for (let sm in spriteMonster.frames) {
         spriteMonster.frames[sm]['start'] = totalSpriteTime;
@@ -543,7 +755,34 @@ export default class Game {
 
       spriteMonster['totalSpriteDuration'] = totalSpriteTime;
       let monsterToon = this.getFrame(spriteMonster.frames, spriteMonster.totalSpriteDuration, currentFrameTime, this.greenMonsters[m].moving)
-      ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], viewPort.offset[0] + this.greenMonsters[m].mapPos[0], viewPort.offset[1] + this.greenMonsters[m].mapPos[1], this.greenMonsters[m].size[0] / 1.4, this.greenMonsters[m].size[1] / 1.4)
+      ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], viewPort.offset[0] + this.greenMonsters[m].mapPos[0], viewPort.offset[1] + this.greenMonsters[m].mapPos[1] + 15, this.greenMonsters[m].size[0] / 2, this.greenMonsters[m].size[1] / 2)
+    }
+
+  }
+
+
+  drawPurpleMonsters(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+    for (let m = 0; m < this.purpleMonsters.length; m++) {
+      if (!this.purpleMonsters[m].handleMove(currentFrameTime, "purple")) {
+        if (this.monsterProximityCheckValidMove(this.purpleMonsters[m], 4)) {
+          this.purpleMonsters[m].nextPos = findPath(this.board.gameMap, this.purpleMonsters[m].currentPos, this.player.currentPos)[1]
+          this.purpleMonsters[m].timeStart = currentFrameTime
+          this.purpleMonsters[m].moving =  true;
+        } else {
+          this.randomCheckValidMove(this.purpleMonsters[m], currentFrameTime)
+        }
+      }
+      let spriteMonster = this.purpleMonsters[m].sprites['purple'];
+
+      for (let sm in spriteMonster.frames) {
+        spriteMonster.frames[sm]['start'] = totalSpriteTime;
+        totalSpriteTime += spriteMonster.aniTime;
+        spriteMonster.frames[sm]['end'] = totalSpriteTime;
+      }
+
+      spriteMonster['totalSpriteDuration'] = totalSpriteTime;
+      let monsterToon = this.getFrame(spriteMonster.frames, spriteMonster.totalSpriteDuration, currentFrameTime, this.purpleMonsters[m].moving)
+      ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], viewPort.offset[0] + this.purpleMonsters[m].mapPos[0], viewPort.offset[1] + this.purpleMonsters[m].mapPos[1] + 10, this.purpleMonsters[m].size[0] / 2.5, this.purpleMonsters[m].size[1] / 1.8)
     }
 
   }

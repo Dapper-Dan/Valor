@@ -80,6 +80,8 @@ export default class Scenery {
       ctx.drawImage(window.scenery, 63, 223, 30, 40, viewPort.offset[0] + 1205, viewPort.offset[1] + 1985, 40, 50)
       ctx.drawImage(window.scenery, 63, 223, 30, 40, viewPort.offset[0] + 2185, viewPort.offset[1] + 1350, 40, 50)
       ctx.drawImage(window.scenery, 13, 226, 30, 40, viewPort.offset[0] + 1695, viewPort.offset[1] + 1350, 40, 50)
+      ctx.drawImage(window.scenery, 13, 226, 30, 40, viewPort.offset[0] + 715, viewPort.offset[1] + 1000, 40, 50)
+      ctx.drawImage(window.scenery, 13, 226, 30, 40, viewPort.offset[0] + 155, viewPort.offset[1] + 1425, 40, 50)
 
       //rug
       ctx.drawImage(window.scenery, 81, 300, 70, 45, viewPort.offset[0] + 670, viewPort.offset[1] + 1370, 140, 90)
@@ -126,6 +128,7 @@ export default class Scenery {
       //gate
       ctx.drawImage(window.scenery, 231, 134, 42, 42, viewPort.offset[0] + 1960, viewPort.offset[1] + 17, 45, 55)
       ctx.drawImage(window.scenery, 231, 134, 42, 42, viewPort.offset[0] + 1765, viewPort.offset[1] + 1345, 45, 55)
+      ctx.drawImage(window.scenery, 231, 134, 42, 42, viewPort.offset[0] + 225, viewPort.offset[1] + 1415, 45, 55)
 
       //gold
       ctx.drawImage(window.scenery, 10, 182, 41, 30, viewPort.offset[0] + 925, viewPort.offset[1] + 1395, 60, 49)

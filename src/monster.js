@@ -9,7 +9,9 @@ export default class Monster {
     this.timeStart = 0;
     this.delayMove =  {
                         skull: 250,
-                          red: 400
+                          red: 400,
+                          green: 350,
+                          purple: 600
     }
     this.size = [50, 50]; 
     this.mapPos = [1130, 150]
@@ -33,18 +35,18 @@ export default class Monster {
                                          3: { pos: [114, 61], size: [11, 14] }
                                         },
                                         250),  
-//       "down": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
-//         1: { pos: [65, 6], size: [26, 32] },
-// 2: { pos: [118, 3], size: [23, 37] },
-//                                          3: { pos: [165, 8], size: [27, 32] }
-//                                         },
-//                                         250),  
-//       "left": new Sprite({ 0: { pos: [6, 7], size: [25, 32] },
-//         1: { pos: [65, 6], size: [26, 32] },
-// 2: { pos: [118, 3], size: [23, 37] },
-//                                          3: { pos: [165, 8], size: [27, 32] }
-//                                         },
-//                                         250)
+      "green": new Sprite({ 0: { pos: [10, 93], size: [15, 13] },
+        1: { pos: [46, 92], size: [16, 14] },
+2: { pos: [85, 92], size: [14, 14] },
+                                         3: { pos: [119, 90], size: [14, 16] }
+                                        },
+                                        250),  
+      "purple": new Sprite({ 0: { pos: [10, 128], size: [13, 15] },
+        1: { pos: [35, 128], size: [8, 17] },
+2: { pos: [67, 128], size: [13, 16] },
+                                         3: { pos: [95, 128], size: [14, 14] }
+                                        },
+                                        250)
 
     };
 
