@@ -28,8 +28,10 @@ export default class Game {
     this.score = 0;
     this.phase = 0;
     this.totalTime = 0
-    this.deathTime = 0;
-    this.spawnTime = 3000;
+    this.bossDeathTime = 0;
+    this.bossSpawnTime = 2500;
+    this.purpleDeathTime = 0;
+    this.purpleSpawnTime = 300;
     this.holyStartTime = 0;
     this.holyEndTime = 2500;
     this.drawGame = this.drawGame.bind(this)
@@ -280,13 +282,13 @@ export default class Game {
       }
     }
 
-    if (this.bossMonster === null && this.deathTime === this.spawnTime) {
+    if (this.bossMonster === null && this.bossDeathTime === this.bossSpawnTime) {
      
       this.bossMonster = new Monster();
       this.bossMonster.nextPos = [17, 22]
       this.bossMonster.guardPoint = [17, 22]
-    } else if (this.bossMonster === null && this.deathTime !== this.spawnTime) {
-      this.deathTime += 1
+    } else if (this.bossMonster === null && this.bossDeathTime !== this.bossSpawnTime) {
+      this.bossDeathTime += 1
     }
 
     if (this.bossMonster !== null) {
@@ -493,7 +495,7 @@ export default class Game {
       // let deadMonsterCoord = this.bossMonster.
       this.board.ctx.drawImage(window.bloodSet, blood.pos[0], blood.pos[1], blood.size[0], blood.size[1], viewPort.offset[0] + this.bossMonster.mapPos[0], viewPort.offset[1] + this.bossMonster.mapPos[1], 150, 150)
       this.bossMonster = null
-      this.deathTime = 0
+      this.bossDeathTime = 0
     }
    }
 
@@ -527,10 +529,10 @@ export default class Game {
     this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 50, 200, 205)
     this.board.ctx.drawImage(window.logo, 331, 205, 810, 371, 5, 5, 200, 50)
 
-    this.board.ctx.fillStyle = '#ff0000'
-    this.board.ctx.fillText(this.player.mapPos, 10, 600)
-    this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 700);
-    this.board.ctx.fillText(this.player.currentPos, 10, 500);
+    // this.board.ctx.fillStyle = '#ff0000'
+    // this.board.ctx.fillText(this.player.mapPos, 10, 600)
+    // this.board.ctx.fillText(`FPS: ${this.framesLastSecond}`, 10, 700);
+    // this.board.ctx.fillText(this.player.currentPos, 10, 500);
 
 
     this.board.ctx.font = "40px Ancient";
