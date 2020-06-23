@@ -18,6 +18,7 @@ export default class Game {
     this.skullMonsters = [];
     this.greenMonsters = [];
     this.purpleMonsters = [];
+    this.bossMonster = new Monster();
     this.arrows = [];
     this.keys = Keys.keysDown;
     this.currentSecond = 0;
@@ -27,6 +28,10 @@ export default class Game {
     this.score = 0;
     this.phase = 0;
     this.totalTime = 0
+    this.deathTime = 0;
+    this.spawnTime = 3000;
+    this.holyStartTime = 0;
+    this.holyEndTime = 2500;
     this.drawGame = this.drawGame.bind(this)
     this.paused = false;
     this.scenery = new Scenery()
@@ -50,7 +55,7 @@ export default class Game {
       4: { pos: [23, 20], taken: false },
       5: { pos: [24, 1], taken: false },
       6: { pos: [4, 21], taken: false },
-      7: { pos: [1, 24], taken: false }
+      7: { pos: [2, 22], taken: false }
     }
     
    
@@ -66,7 +71,8 @@ export default class Game {
 
     let seconds = Math.floor((this.totalTime / 60) % 60)
     let minutes = Math.floor((Math.floor(this.totalTime / 60)) / 60)
-    
+
+  
     let sec = Math.floor(Date.now()/1000);
     if (sec !== this.currentSecond) {
       this.currentSecond = sec;
@@ -273,6 +279,21 @@ export default class Game {
     
       }
     }
+
+    if (this.bossMonster === null && this.deathTime === this.spawnTime) {
+     
+      this.bossMonster = new Monster();
+      this.bossMonster.nextPos = [17, 22]
+      this.bossMonster.guardPoint = [17, 22]
+    } else if (this.bossMonster === null && this.deathTime !== this.spawnTime) {
+      this.deathTime += 1
+    }
+
+    if (this.bossMonster !== null) {
+    if (this.enemyCollision(this.bossMonster)) {
+      this.score += 100;
+    }
+  }
     
 
 
@@ -285,7 +306,20 @@ export default class Game {
       
     }
 
+    if (JSON.stringify(this.player.mapPos) === JSON.stringify([1275, 1485])) this.player.holy = true;
 
+    if (this.player.holy && this.holyStartTime !== this.holyEndTime) {
+      this.player.ROF = 150;
+      this.player.delayMove = 100
+      this.holyStartTime += 1
+      console.log(this.holyStartTime)
+    } else if (this.player.holy && this.holyStartTime === this.holyEndTime) {
+      console.log('notholy')
+      this.player.holy = false;
+      this.holyStartTime = 0;
+      this.player.ROF = 400;
+      this.player.delayMove = 300
+    }
 
     if (!this.player.handleMove(currentFrameTime)) {
       this.checkValidMove(currentFrameTime)
@@ -308,11 +342,13 @@ export default class Game {
     this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
     this.scenery.drawTallCandle(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
     this.scenery.drawLava(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    if (!this.player.holy) this.scenery.drawPotion(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
 
     this.drawRedMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.redMonsters, totalSpriteTime)
     this.drawSkullMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.skullMonsters, totalSpriteTime)
     this.drawGreenMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.greenMonsters, totalSpriteTime)
     this.drawPurpleMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.greenMonsters, totalSpriteTime)
+    this.drawBossMonster(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.greenMonsters, totalSpriteTime)
     
 
     for (let s in spritePlayer.frames) {
@@ -441,21 +477,45 @@ export default class Game {
       }
     }
 
-    // for (let m in this.redMonsters) {
-    //   if (this.redMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.redMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    // }
+    if (this.bossMonster !== null) {
+    if (!this.bossMonster.alive) {
+      console.log('dead')
+      let bloodEffect = new SFXSprite()
+      for (let b in bloodEffect.frames) {
+        bloodEffect.frames[b]['start'] = totalSpriteTime;
+        totalSpriteTime += bloodEffect.aniTime;
+        bloodEffect.frames[b]['end'] = totalSpriteTime;
+      }
+      
+      bloodEffect['totalSpriteDuration'] = totalSpriteTime;
+      let blood = this.getFrame(bloodEffect.frames, bloodEffect.totalSpriteDuration, currentFrameTime, true)
+      
+      // let deadMonsterCoord = this.bossMonster.
+      this.board.ctx.drawImage(window.bloodSet, blood.pos[0], blood.pos[1], blood.size[0], blood.size[1], viewPort.offset[0] + this.bossMonster.mapPos[0], viewPort.offset[1] + this.bossMonster.mapPos[1], 150, 150)
+      this.bossMonster = null
+      this.deathTime = 0
+    }
+   }
 
-    // for (let m in this.greenMonsters) {
-    //   if (this.greenMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.greenMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    // }
+    for (let m in this.redMonsters) {
+      if (this.redMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.redMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    }
 
-    // for (let m in this.purpleMonsters) {
-    //   if (this.purpleMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.purpleMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    // }
+    for (let m in this.greenMonsters) {
+      if (this.greenMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.greenMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    }
 
-    // for (let m in this.skullMonsters) {
-    //   if (this.skullMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.skullMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    // }
+    for (let m in this.purpleMonsters) {
+      if (this.purpleMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.purpleMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    }
+
+    for (let m in this.skullMonsters) {
+      if (this.skullMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.skullMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    }
+
+    if (this.bossMonster !== null) {
+    if (this.bossMonster.currentPos[0] === this.player.currentPos[0] &&  this.bossMonster.currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
+    }
 
     for (let a in this.arrows) {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
@@ -573,6 +633,12 @@ export default class Game {
 
     monsterDineRoomCheckValidMove() {
       if ((this.player.currentPos[1] >= 6 && this.player.currentPos[1] <= 16) && (this.player.currentPos[0] >= 25 && this.player.currentPos[0] <= 30)) {
+        return true;
+      }
+    }
+
+    monsterTreasureRoomCheckValidMove() {
+      if ((this.player.currentPos[1] >= 20 && this.player.currentPos[1] <= 26) && (this.player.currentPos[0] >= 13 && this.player.currentPos[0] <= 18)) {
         return true;
       }
     }
@@ -786,6 +852,38 @@ export default class Game {
     }
 
   }
+
+ 
+  drawBossMonster(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+  if (this.bossMonster !== null) {
+    if (!this.bossMonster.handleMove(currentFrameTime, "boss")) {
+      if (this.monsterTreasureRoomCheckValidMove()){
+        this.bossMonster.nextPos = findPath(this.board.gameMap, this.bossMonster.currentPos, this.player.currentPos)[1]
+        this.bossMonster.timeStart = currentFrameTime
+        this.bossMonster.moving =  true;
+      } else {
+        if (this.bossMonster.nextPos !== undefined) {
+          this.bossMonster.nextPos = findPath(this.board.gameMap, this.bossMonster.currentPos, this.bossMonster.guardPoint)[1]
+          this.bossMonster.timeStart = currentFrameTime
+          this.bossMonster.moving =  true;
+        } else{
+          this.bossMonster.moving =  false;
+        }
+      }
+    }
+    let spriteMonster = this.bossMonster.sprites['boss'];
+
+    for (let sm in spriteMonster.frames) {
+      spriteMonster.frames[sm]['start'] = totalSpriteTime;
+      totalSpriteTime += spriteMonster.aniTime;
+      spriteMonster.frames[sm]['end'] = totalSpriteTime;
+    }
+
+    spriteMonster['totalSpriteDuration'] = totalSpriteTime;
+    let monsterToon = this.getFrame(spriteMonster.frames, spriteMonster.totalSpriteDuration, currentFrameTime, this.bossMonster.moving)
+    ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], viewPort.offset[0] + this.bossMonster.mapPos[0], viewPort.offset[1] + this.bossMonster.mapPos[1], this.bossMonster.size[0] / 1.3, this.bossMonster.size[1]  )
+  
+  }}
 
 
 

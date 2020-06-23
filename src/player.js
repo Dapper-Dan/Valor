@@ -6,11 +6,12 @@ export default class Player {
     this.currentPos = [1, 10];
     this.nextPos = [1, 10];
     this.timeStart = 0;
-    this.delayMove = 100; //300 is def. boosted for map exploration rn- dan 6/9/20
+    this.delayMove = 300; //300 is def. boosted for map exploration rn- dan 6/9/20
     this.size = [40, 40]; 
     this.mapPos = [80, 710];
     this.sampleBoard = new Board();
     this.direction = "right";
+    this.holy = false;
     this.shootDir = {
       "right": [1, 0],
       "left": [-1, 0],

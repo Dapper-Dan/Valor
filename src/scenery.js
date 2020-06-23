@@ -216,6 +216,31 @@ export default class Scenery {
     }
 
 
+
+
+    drawPotion(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+      let potion = new Scenery( {
+        0: { pos: [18, 388], size: [8, 11] },
+        1: { pos: [37, 388], size: [8, 11] },
+        2: { pos: [54, 388], size: [8, 11] },
+        3: { pos: [71, 388], size: [8, 11] }
+        }, 50   
+    );
+    
+    
+    for (let i in potion.frames) {
+        potion.frames[i]['start'] = totalSpriteTime;
+        totalSpriteTime += potion.aniTime;
+        potion.frames[i]['end'] = totalSpriteTime;
+    }
+    potion['totalSpriteDuration'] = totalSpriteTime;
+    let potionFrame = this.getFrame(potion.frames, potion.totalSpriteDuration, currentFrameTime, true)
+    
+      ctx.drawImage(window.scenery, potionFrame.pos[0], potionFrame.pos[1], potionFrame.size[0], potionFrame.size[1], viewPort.offset[0] + 1275, viewPort.offset[1] + 1485, potionFrame.size[0] * 1.3, potionFrame.size[1] * 1.3)
+    
+  }
+
+
     getFrame(sprites, duration, time, moving) {
         if (!moving) return sprites[0]
         time = time % duration;

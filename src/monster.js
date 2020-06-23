@@ -4,19 +4,29 @@ import Player from "./player";
 
 export default class Monster {
   constructor() {
-    this.currentPos = [16, 2]
-    this.nextPos = [15, 2];
+    this.currentPos = [17, 21]
+    this.nextPos = [17, 22];
+    this.guardPoint = [17, 22]
     this.timeStart = 0;
     this.delayMove =  {
                         skull: 250,
                           red: 400,
                           green: 350,
-                          purple: 600
+                          purple: 600,
+                          boss: 500
     }
     this.size = [50, 50]; 
     this.mapPos = [1130, 150]
     this.sampleBoard = new Board();
     this.direction = "right";
+    this.life = {
+      skull: 1,
+        red: 2,
+        green: 1,
+        purple: 3,
+        boss: 5
+}
+
     this.walkingDIR = null 
     this.needToGoDIR = null
     this.stuck = false;
@@ -46,7 +56,13 @@ export default class Monster {
 2: { pos: [67, 128], size: [13, 16] },
                                          3: { pos: [95, 128], size: [14, 14] }
                                         },
-                                        250)
+                                        250),
+                                        "boss": new Sprite({ 0: { pos: [15, 163], size: [18, 27] },
+                                          1: { pos: [62, 158], size: [20, 27] },
+                                  2: { pos: [107, 155], size: [19, 33] },
+                                                                           3: { pos: [152, 159], size: [20, 29] }
+                                                                          },
+                                                                          150)
 
     };
 
