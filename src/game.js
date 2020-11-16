@@ -409,9 +409,6 @@ export default class Game {
 
     this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 50, 200, 205)
     this.board.ctx.drawImage(window.logo, 331, 205, 810, 371, 5, 5, 200, 50)
-    this.board.ctx.fillStyle = '#ff0000';
-    this.board.ctx.fillText(this.player.mapPos, 10, 600)
-    this.board.ctx.fillText(this.player.currentPos, 10, 500);
     this.board.ctx.font = "40px Ancient";
     this.board.ctx.fillStyle = "#000000";
     if (this.score < 100) {

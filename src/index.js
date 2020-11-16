@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const play = document.getElementById("play")
   play.addEventListener("click", () => { 
     document.querySelectorAll(".intro")[0].setAttribute("hidden", "true")
+    document.querySelectorAll(".overlay")[0].style.display = "none"
     
     let gameMusic = new Audio("./src/audio/Resurrections.mp3");
     gameMusic.play()
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     game.board.viewPort.screen = [ game.board.gameBoard.width, game.board.gameBoard.height ]
   
     requestAnimationFrame(game.drawGame);
-    
+
   });
 });
 
