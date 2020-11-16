@@ -1,4 +1,3 @@
-import Player from "./player"
 import Tile from "./tile";
 
 export default class Board {
@@ -44,12 +43,11 @@ export default class Board {
       20, 28, 16, 38, 38, 14, 38, 21, 21, 21, 16, 38, 15, 38, 38, 12, 21, 21, 21, 21, 16, 32, 33, 14, 32, 21, 33, 16, 38, 38, 21, 21, 21, 21, 16, 36,// 28
       20, 28, 16, 12, 38, 38, 38, 15, 40, 40, 38, 38, 32, 33, 16, 13, 40, 40, 15, 40, 38, 29, 30, 21, 31, 20, 28, 16, 38, 14, 15, 40, 40, 15, 12, 36,// 29
       20, 30, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 31, 30, 21, 21, 21, 21, 21, 21, 21, 31, 20, 20, 20, 20, 30, 21, 21, 21, 21, 21, 21, 21, 21, 21,//30
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,  //31
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,  //32
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,  //33
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,  //34
-      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20 //35
-
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,//31
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,//32
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,//33
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,//34
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20//35
     ]; 
     
     this.viewPort = {
@@ -58,21 +56,15 @@ export default class Board {
       endTile: [0, 0],
       offset: [0, 0],
       update: function(px, py) {
-        this.offset[0] = Math.floor((this.screen[0] / 2) - px)
-        this.offset[1] = Math.floor((this.screen[1] / 2) - py)
-
-        let tile = [ Math.floor(px / 70), Math.floor(py / 70) ]
-
-        this.startTile[0] = tile[0] - 1 - Math.ceil((this.screen[0] / 2) / 70)
-        this.startTile[1] = tile[1] - 1 - Math.ceil((this.screen[1] / 2) / 70)
-
+        this.offset[0] = Math.floor((this.screen[0] / 2) - px);
+        this.offset[1] = Math.floor((this.screen[1] / 2) - py);
+        let tile = [ Math.floor(px / 70), Math.floor(py / 70) ];
+        this.startTile[0] = tile[0] - 1 - Math.ceil((this.screen[0] / 2) / 70);
+        this.startTile[1] = tile[1] - 1 - Math.ceil((this.screen[1] / 2) / 70);
         if (this.startTile[0] < 0) this.startTile[0] = 0;
         if (this.startTile[1] < 0) this.startTile[1] = 0;
-
-
-        this.endTile[0] = tile[0] + 1 + Math.ceil((this.screen[0] / 2) / 70)
-        this.endTile[1] = tile[1] + 1 + Math.ceil((this.screen[1] / 2) / 70)
-
+        this.endTile[0] = tile[0] + 1 + Math.ceil((this.screen[0] / 2) / 70);
+        this.endTile[1] = tile[1] + 1 + Math.ceil((this.screen[1] / 2) / 70);
         if (this.endTile[0] >= 37) this.endTile[0] = 37 - 1;
         if (this.endTile[1] >= 32) this.endTile[1] = 32 - 1;
       }
@@ -82,7 +74,6 @@ export default class Board {
       solid: 0,
       walkable: 1
     };
-
 
     this.tileTypes = {
       20: { type: "outOfMap", floor: this.floorTypes.solid, sprite: new Tile([14, 191], [70, 70]) },
@@ -95,8 +86,6 @@ export default class Board {
       27: { type: "xWallDecor", floor: this.floorTypes.solid, sprite: new Tile([165, 106], [70, 70]) },
       28: { type: "yWallL", floor: this.floorTypes.solid, sprite: new Tile([623, 107], [70, 70]) },
       29: { type: "yWallR", floor: this.floorTypes.solid, sprite: new Tile([539, 106], [70, 70]) },
-      // 10: { type: "yDoor", floor: this.floorTypes.solid, sprite: new Tile([13, 95], [70, 70]) },
-      // 11: { type: "spikes", floor: this.floorTypes.solid, sprite: new Tile([13, 95], [70, 70]) },
       12: { type: "groundReg", floor: this.floorTypes.walkable, sprite: new Tile([100, 7], [70, 70]) },
       13: { type: "groundReg2", floor: this.floorTypes.walkable, sprite: new Tile([189, 10], [70, 70]) },
       14: { type: "groundReg3", floor: this.floorTypes.walkable, sprite: new Tile([370, 12], [70, 70]) },
@@ -117,17 +106,8 @@ export default class Board {
       40: { type: "groundTopAlt", floor: this.floorTypes.walkable, sprite: new Tile([597, 308], [70, 70]) },
       41: { type: "fakeOut", floor: this.floorTypes.solid, sprite: new Tile([370, 12], [70, 70]) },
       42: { type: "narrowC2", floor: this.floorTypes.solid, sprite: new Tile([102, 395], [70, 70]) }
-    };
-
-    // this.directions = {
-    //   up: 0,
-    //   right: 1,
-    //   down: 2,
-    //   left: 3
-    // };
+    }
   }
-
-
-};
+}
 
 
