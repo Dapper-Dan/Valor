@@ -7,7 +7,35 @@
     <title>Valor</title>
   </head>
   <body>
-    <div class="intro"> <button id="play"> For Valor! </button></div>
+    <div class="overlay">
+      <div class="enemyInfoBox">
+        <ul>
+          <li>
+            <img id="demon" src="./src/images/demonInfo.png">
+            <p>These demons spawn from lava fountains found on the walls of the dungeon. They will follow you no matter where you go!</p>
+          </li>
+          <li>
+            <img id="skull" src="./src/images/skullInfo.png">
+            <p>They look cute but these little guys are fast... and dangerous. They spawn on skull stacks and can only move horizontally.</p>
+          </li>
+          <li>
+            <img id="ghost" src="./src/images/ghostInfo.png">
+            <p>These lost souls wander the halls found in the lower sections of the dungeon. They are slow, spawn randomly, and will only pursue you if you're in proximity.</p>
+          </li>
+          <li>
+            <img id="greenMonster" src="./src/images/greenInfo.png">
+            <p>There's no time to snack in the dungeon's kitchen. These slimes will attack if you enter their culinary home but leave you be otherwise.</p>
+          </li>
+          <li>
+            <img id="ogre" src="./src/images/ogreInfo.png">
+            <p>Big boss man. He guards the treasurey and a vial of holy water that will temporary super power you!</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="intro"> 
+      <button id="play"> For Valor! </button>
+    </div>
     <input type="image"  id="audio" src="./src/images/audioButton.png" hidden="true" />
     <input type="image"  id="mute" src="./src/images/muteButton.png" hidden="true" />
     <button id="playAgain" hidden="true"> Play Again? </button>
