@@ -5,4 +5,4 @@ You will most likely only survive for a day or two so you might as well take out
 
 ### [Live Game](https://dapper-dan.github.io/Valor/)
 
-![Valor Screen Shot](https://github.com/Dapper-Dan/AudioCloud/blob/master/app/assets/images/WikiScreenShot1.png)
+![Valor Screen Shot](https://github.com/Dapper-Dan/Valor/blob/master/src/images/Screenshot.png)
