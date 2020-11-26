@@ -16,6 +16,4 @@ Upon loading into the game, you are greeted with a landing page that contains in
 
 ![Valor Menu](https://github.com/Dapper-Dan/Valor/blob/master/src/images/Screenshot2.png)
 
-<p align="center">
-<img src="https://github.com/Dapper-Dan/Valor/blob/master/src/images/valorRecording.gif"/>
-</p>
+![Valor Recording](https://github.com/Dapper-Dan/Valor/blob/master/src/images/valorRecording.gif)
