@@ -15,4 +15,7 @@ You will most likely only survive for a day or two so you might as well take out
 Upon loading into the game, you are greeted with a landing page that contains information about the enemies in the game, a backstory, and instructions on how to play. 
 
 ![Valor Menu](https://github.com/Dapper-Dan/Valor/blob/master/src/images/Screenshot2.png)
-![Valor Recording](https://github.com/Dapper-Dan/Valor/blob/master/src/images/valorRecording.gif)
+
+<p align="center">
+<img src="https://github.com/Dapper-Dan/Valor/blob/master/src/images/valorRecording.gif"/>
+</p>
