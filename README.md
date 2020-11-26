@@ -13,3 +13,5 @@ You will most likely only survive for a day or two so you might as well take out
 
 ## The Rundown
 Upon loading into the game, you are greeted with a landing page that contains information about the enemies in the game, a backstory, and instructions on how to play. 
+
+![Valor Recording](https://github.com/Dapper-Dan/Valor/blob/master/src/images/valorRecording.gif)
