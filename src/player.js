@@ -22,6 +22,11 @@ export default class Player {
     this.moving = false;
     this.ROF = 400;
     this.lastArrowFired = 0;
+    this.maxHealth = 6;
+    this.currentHealth = this.maxHealth;
+    this.isInvulnerable = false;
+    this.invulnerabilityTime = 1000;
+    this.lastDamageTime = 0;
     this.sprites = {
       "up": new Sprite({ 
         0: { pos: [1, 84], size: [46, 43] },
@@ -148,5 +153,25 @@ export default class Player {
     this.moving = true;
   }
 
+  takeDamage(currentTime) {
+    if (this.isInvulnerable) return false;
+    
+    this.currentHealth--;
+    this.isInvulnerable = true;
+    this.lastDamageTime = currentTime;
+    
+    return this.currentHealth <= 0;
+  }
+
+  updateInvulnerability(currentTime) {
+    if (this.isInvulnerable && (currentTime - this.lastDamageTime) >= this.invulnerabilityTime) {
+      this.isInvulnerable = false;
+    }
+  }
+
+  resetHealth() {
+    this.currentHealth = this.maxHealth;
+    this.isInvulnerable = false;
+  }
 }
 

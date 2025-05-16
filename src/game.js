@@ -59,22 +59,14 @@ export default class Game {
 
   }
 
+  /**
+   * Main game loop: handles spawning, movement, drawing, and game state updates.
+   */
   drawGame() {
     let currentFrameTime = Date.now();
     let viewPort = this.board.viewPort;
-    let seconds = Math.floor((this.totalTime / 60) % 60);
-    let minutes = Math.floor((Math.floor(this.totalTime / 60)) / 60);
 
-    let sec = Math.floor(Date.now()/1000);
-    if (sec !== this.currentSecond) {
-      this.currentSecond = sec;
-      this.framesLastSecond = this.frameCount; 
-      this.frameCount = 1;
-    } else {
-      this.frameCount++;
-      this.totalTime ++;
-    }
-
+    // Set up possible spawn locations for red monsters
     let redPossibleSpawns = {
       0: { pos: [18, 12] },
       1: { pos: [7, 8] },
@@ -83,6 +75,7 @@ export default class Game {
 
     let redSpawnMax = 3;
 
+    // Adjust red monster spawn max based on game phase
     switch (this.phase) {
       case 1:
         redSpawnMax = 5;
@@ -100,6 +93,7 @@ export default class Game {
     let greenSpawnMax = 3;
     let purpleSpawnMax = 8;
 
+    // Spawn skull monsters if needed
     while (this.skullMonsters.length < skullSpawnMax) {
       let monster = new Monster();
       for (let i = 0; i < Object.keys(this.skullPossibleSpawns).length; i ++) {
@@ -113,6 +107,7 @@ export default class Game {
       }
     }
 
+    // Check for dead skull monsters and respawn them
     for (let mon of this.skullMonsters) {
       if (this.enemyCollision(mon)) {
         this.score += 10;
@@ -130,6 +125,7 @@ export default class Game {
       }
     }
     
+    // Spawn red monsters if needed
     while (this.redMonsters.length < redSpawnMax) {
       let num = Math.floor(Math.random() * 3); 
       let monster = new Monster();
@@ -137,7 +133,7 @@ export default class Game {
       this.redMonsters.push(monster);
     }
 
-    
+    // Check for dead red monsters and respawn them
     for (let mon of this.redMonsters) {
       if (this.enemyCollision(mon)) {
         let num = Math.floor(Math.random() * 3); 
@@ -148,8 +144,7 @@ export default class Game {
       }
     }
     
-
-    
+    // Spawn green monsters if needed
     while (this.greenMonsters.length < greenSpawnMax) { 
       let monster = new Monster();
       for (let i = 0; i < Object.keys(this.greenPossibleSpawns).length; i ++) {
@@ -164,6 +159,7 @@ export default class Game {
       }
     }
 
+    // Check for dead green monsters and respawn them
     for (let mon of this.greenMonsters) {
       if (this.enemyCollision(mon)) {
         this.score += 10;
@@ -182,6 +178,7 @@ export default class Game {
       }
     }
 
+    // Spawn purple monsters if needed
     while (this.purpleMonsters.length < purpleSpawnMax) {
       let monster = new Monster();
       for (let i = 0; i < Object.keys(this.purplePossibleSpawns).length; i ++) {
@@ -195,6 +192,7 @@ export default class Game {
       }
     }
 
+    // Check for dead purple monsters and respawn them
     for (let mon of this.purpleMonsters) {
       if (this.enemyCollision(mon)) {
         this.score += 10;
@@ -212,6 +210,7 @@ export default class Game {
       }
     }
 
+    // Boss monster spawn/respawn logic
     if (this.bossMonster === null && this.bossDeathTime === this.bossSpawnTime) {
       this.bossMonster = new Monster();
       this.bossMonster.nextPos = [17, 22];
@@ -220,16 +219,20 @@ export default class Game {
       this.bossDeathTime += 1;
     }
 
+    // If boss monster is killed by an arrow, add score
     if (this.bossMonster !== null && this.enemyCollision(this.bossMonster)) this.score += 100;
    
+    // Handle player shooting arrows
     if (this.keys[32] && (currentFrameTime - this.player.lastArrowFired) > this.player.ROF) {
       this.arrows.push(new Arrow(this.player.currentPos, [(this.player.currentPos[0] + this.player.shootDir[this.player.direction][0]), (this.player.currentPos[1] + this.player.shootDir[this.player.direction][1])] , this.player.mapPos, this.player.direction));
       this.player.lastArrowFired = currentFrameTime;
       this.keys[32] = false;
     }
 
+    // Check for special player state (holy mode)
     if (JSON.stringify(this.player.mapPos) === JSON.stringify([1275, 1485])) this.player.holy = true;
 
+    // Handle holy mode timing and effects
     if (this.player.holy && this.holyStartTime !== this.holyEndTime) {
       this.player.ROF = 150;
       this.player.delayMove = 100;
@@ -241,14 +244,18 @@ export default class Game {
       this.player.delayMove = 300;
     }
 
+    // Handle player movement
     if (!this.player.handleMove(currentFrameTime)) {
       this.checkValidMove(currentFrameTime)
     }
     
+    // Update viewport based on player position
     viewPort.update(this.player.mapPos[0] + (this.player.size[0] / 2), this.player.mapPos[1] + (this.player.size[1] / 2))
     this.board.ctx.fillStyle = "#000000";
 
+    // Draw the background
     this.board.ctx.fillRect(0, 0, viewPort.screen[0], viewPort.screen[1]) 
+    // Draw the map tiles
     for (let y = viewPort.startTile[1]; y < viewPort.endTile[1]; y++) {
       for (let x = viewPort.startTile[0]; x < viewPort.endTile[0]; x++) {
         let tile =  this.board.tileTypes[this.board.gameMap[this.player.toIndex(x, y)]];
@@ -256,6 +263,7 @@ export default class Game {
       }
     }
 
+    // Draw scenery and monsters
     let spritePlayer = this.player.sprites[this.player.direction]
     let totalSpriteTime = 0;
     this.scenery.drawScenery(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
@@ -263,12 +271,14 @@ export default class Game {
     this.scenery.drawLava(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
     if (!this.player.holy) this.scenery.drawPotion(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
 
-    this.drawRedMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.redMonsters, totalSpriteTime)
-    this.drawSkullMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.skullMonsters, totalSpriteTime)
-    this.drawGreenMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.greenMonsters, totalSpriteTime)
-    this.drawPurpleMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.greenMonsters, totalSpriteTime)
-    this.drawBossMonster(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort, this.greenMonsters, totalSpriteTime)
+    // Draw all monsters
+    this.drawRedMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    this.drawSkullMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    this.drawGreenMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    this.drawPurpleMonsters(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
+    this.drawBossMonster(this.board.ctx, totalSpriteTime, currentFrameTime, viewPort)
     
+    // Animate player sprite
     for (let s in spritePlayer.frames) {
       spritePlayer.frames[s]['start'] = totalSpriteTime;
       totalSpriteTime += spritePlayer.aniTime;
@@ -279,6 +289,7 @@ export default class Game {
     let toon = this.getFrame(spritePlayer.frames, spritePlayer.totalSpriteDuration, currentFrameTime, this.player.moving);
     this.board.ctx.drawImage(window.toonSet, toon.pos[0], toon.pos[1], toon.size[0], toon.size[1], (viewPort.offset[0] + this.player.mapPos[0]), (viewPort.offset[1] + this.player.mapPos[1]), this.player.size[0], this.player.size[1])
   
+    // Handle phase changes based on time
     switch(this.totalTime / 100) {
       case 10:
         this.phase = 1;
@@ -291,6 +302,7 @@ export default class Game {
         break;
     }
 
+    // Move arrows and check for collisions
     if (this.arrows.length > 0) {
       for (let arrow of this.arrows) {
         if (!arrow.handleMove(currentFrameTime)) {
@@ -299,6 +311,7 @@ export default class Game {
       }
     }
 
+    // Draw all arrows
     for(let a in this.arrows) {
       let arrowSprite = this.arrows[a];
       let arrowSpriteDir = arrowSprite.sprites[arrowSprite.direction].frames[0];
@@ -307,7 +320,9 @@ export default class Game {
       }
     }
 
+    // Draw blood effects and remove dead monsters
     for (let m in this.redMonsters) {
+      // For each dead red monster, play blood effect and remove from array
       if (!this.redMonsters[m].alive) {
         let bloodEffect = new SFXSprite();
         for (let b in bloodEffect.frames) {
@@ -323,6 +338,7 @@ export default class Game {
     }
 
     for (let m in this.skullMonsters) {
+      // For each dead skull monster, play blood effect and remove from array
       if (!this.skullMonsters[m].alive) {
         let bloodEffect = new SFXSprite();
         for (let b in bloodEffect.frames) {
@@ -338,6 +354,7 @@ export default class Game {
     }
 
     for (let m in this.greenMonsters) {
+      // For each dead green monster, play blood effect and remove from array
       if (!this.greenMonsters[m].alive) {
         let bloodEffect = new SFXSprite();
         for (let b in bloodEffect.frames) {
@@ -353,6 +370,7 @@ export default class Game {
     }
 
     for (let m in this.purpleMonsters) {
+      // For each dead purple monster, play blood effect and remove from array
       if (!this.purpleMonsters[m].alive) {
         let bloodEffect = new SFXSprite();
         for (let b in bloodEffect.frames) {
@@ -368,6 +386,7 @@ export default class Game {
     }
 
     if (this.bossMonster !== null) {
+    // For dead boss monster, play blood effect and reset boss state
     if (!this.bossMonster.alive) {
       let bloodEffect = new SFXSprite();
       for (let b in bloodEffect.frames) {
@@ -383,53 +402,45 @@ export default class Game {
     }
    }
 
-    for (let m in this.redMonsters) {
-      if (this.redMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.redMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    }
+    // Update player invulnerability and check for collisions
+    this.player.updateInvulnerability(currentFrameTime);
+    this.checkCollisions(currentFrameTime);
 
-    for (let m in this.greenMonsters) {
-      if (this.greenMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.greenMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    }
-
-    for (let m in this.purpleMonsters) {
-      if (this.purpleMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.purpleMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    }
-
-    for (let m in this.skullMonsters) {
-      if (this.skullMonsters[m].currentPos[0] === this.player.currentPos[0] &&  this.skullMonsters[m].currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    }
-
-    if (this.bossMonster !== null) {
-    if (this.bossMonster.currentPos[0] === this.player.currentPos[0] &&  this.bossMonster.currentPos[1] === this.player.currentPos[1]) this.gameOver = true;
-    }
-
+    // Remove destroyed arrows
     for (let a in this.arrows) {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
     }
 
-    this.board.ctx.drawImage(window.HUD, 175, 257, 135, 205, 10, 50, 200, 205)
-    this.board.ctx.drawImage(window.logo, 331, 205, 810, 371, 5, 5, 200, 50)
-    this.board.ctx.font = "40px Ancient";
-    this.board.ctx.fillStyle = "#000000";
-    if (this.score < 100) {
-      this.board.ctx.fillText(this.score, 94, 130);
-    } else {
-      this.board.ctx.fillText(this.score, 80, 130);
-    }
     this.board.ctx.font = "19px Ancient";
-    this.board.ctx.fillText(`${minutes} minute(s) ${seconds} seconds`, 36, 168);
     this.lastFrameTime = currentFrameTime;
 
+    // Draw game title
+    this.board.ctx.font = "48px Pixel";
+    this.board.ctx.fillStyle = "#fff";
+    this.board.ctx.textAlign = "center";
+    this.board.ctx.fillText("VALOR", viewPort.screen[0] / 2, 100);
+
+    // Handle game over state
     if (this.gameOver) {
       this.reset()
     }
 
+    // Continue the game loop if not paused or over
     if (!this.paused && !this.gameOver) {
       requestAnimationFrame(this.drawGame);
     }
 
+    // Draw health bar and check for game over
+    this.drawPlayerHealthBar();
+    if (this.player.currentHealth <= 0) {
+      this.gameOver = true;
+      this.drawGameOver();
+    }
   }
 
+  /**
+   * Checks which direction the player can move and moves them if a key is pressed.
+   */
   checkValidMove(currentFrameTime) {
     if (this.keys[37] && this.player.canMoveLeft()) {
       this.player.moveLeft(currentFrameTime);
@@ -442,12 +453,18 @@ export default class Game {
     }
   }
 
+  /**
+   * Makes a monster move toward the player using pathfinding.
+   */
   monsterSeekerCheckValidMove(monster, currentFrameTime) {
     monster.nextPos = findPath(this.board.gameMap, monster.currentPos, this.player.currentPos)[1];
     monster.timeStart = currentFrameTime;
     monster.moving =  true;
   }
 
+  /**
+   * Makes a monster move in a straight line, reversing direction if blocked.
+   */
   monsterLinearCheckValidMove(monster, currentFrameTime) {
     if (monster.direction === "right" ) {
       if (monster.canMoveRight()) {
@@ -466,6 +483,9 @@ export default class Game {
     monster.moving =  true;
   }
 
+  /**
+   * Checks if the player is within a certain radius of a monster.
+   */
   monsterProximityCheckValidMove(monster, radius) {
     for (let i = 1; i < radius; i ++) {
       if (JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0] + i, monster.currentPos[1] ]) || JSON.stringify(this.player.currentPos) === JSON.stringify([monster.currentPos[0], monster.currentPos[1] + i ]) ) {
@@ -486,18 +506,27 @@ export default class Game {
     }
   }
 
+  /**
+   * Checks if the player is in the "dining room" area for green monster logic.
+   */
   monsterDineRoomCheckValidMove() {
     if ((this.player.currentPos[1] >= 6 && this.player.currentPos[1] <= 16) && (this.player.currentPos[0] >= 25 && this.player.currentPos[0] <= 30)) {
       return true;
     }
   }
 
+  /**
+   * Checks if the player is in the "treasure room" area for boss monster logic.
+   */
   monsterTreasureRoomCheckValidMove() {
     if ((this.player.currentPos[1] >= 20 && this.player.currentPos[1] <= 26) && (this.player.currentPos[0] >= 13 && this.player.currentPos[0] <= 18)) {
       return true;
     }
   }
 
+  /**
+   * Makes a monster move in a random direction.
+   */
   randomCheckValidMove(monster, currentFrameTime){
     let dirs = {
       "left": function() {
@@ -534,6 +563,9 @@ export default class Game {
     dirs[monster.direction]()
   }
 
+  /**
+   * Moves an arrow in its current direction, or destroys it if blocked.
+   */
   arrowCheckValidMove(arrow, currentFrameTime) {
     if (arrow.direction === "right") {
       if (arrow.canMoveRight()) {
@@ -562,6 +594,9 @@ export default class Game {
     }
   }
 
+  /**
+   * Gets the correct animation frame for a sprite based on time and movement.
+   */
   getFrame(sprites, duration, time, moving) {
     if (!moving) return sprites[0]
     time = time % duration;
@@ -570,6 +605,9 @@ export default class Game {
     }
   }
 
+  /**
+   * Checks if a monster has been hit by an arrow and marks it as dead if so.
+   */
   enemyCollision(monster) {
     for (let arrow of this.arrows) {
       if (JSON.stringify(arrow.currentPos) === JSON.stringify(monster.currentPos) && monster.alive) {
@@ -580,6 +618,9 @@ export default class Game {
     }
   }
 
+  /**
+   * Toggles the game pause state.
+   */
   togglePause() {
     if (!this.paused) {
       this.paused = true;
@@ -590,12 +631,19 @@ export default class Game {
     }
   }
 
+  /**
+   * Shows the play again button and resets the game state.
+   */
   reset() {
     let playAgain = document.getElementById("playAgain")
     playAgain.hidden = !playAgain.hidden;
   }
 
+  /**
+   * Draws all red monsters and their animations.
+   */
   drawRedMonsters(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+    // Loop through all red monsters and draw them
     for (let m = 0; m < this.redMonsters.length; m++) {
       if (!this.redMonsters[m].handleMove(currentFrameTime, "red")) {
         this.monsterSeekerCheckValidMove(this.redMonsters[m], currentFrameTime)
@@ -614,7 +662,11 @@ export default class Game {
     }
   }
 
+  /**
+   * Draws all skull monsters and their animations.
+   */
   drawSkullMonsters(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+    // Loop through all skull monsters and draw them
     for (let m = 0; m < this.skullMonsters.length; m++) {
       if (!this.skullMonsters[m].handleMove(currentFrameTime, "skull")) {
         this.monsterLinearCheckValidMove(this.skullMonsters[m], currentFrameTime)
@@ -631,7 +683,11 @@ export default class Game {
     }
   }
 
+  /**
+   * Draws all green monsters and their animations.
+   */
   drawGreenMonsters(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+    // Loop through all green monsters and draw them
     for (let m = 0; m < this.greenMonsters.length; m++) {
       if (!this.greenMonsters[m].handleMove(currentFrameTime, "green")) {
         if (this.monsterDineRoomCheckValidMove()){
@@ -662,7 +718,11 @@ export default class Game {
     }
   }
 
+  /**
+   * Draws all purple monsters and their animations.
+   */
   drawPurpleMonsters(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+    // Loop through all purple monsters and draw them
     for (let m = 0; m < this.purpleMonsters.length; m++) {
       if (!this.purpleMonsters[m].handleMove(currentFrameTime, "purple")) {
         if (this.monsterProximityCheckValidMove(this.purpleMonsters[m], 4)) {
@@ -685,7 +745,11 @@ export default class Game {
     }
   }
 
+  /**
+   * Draws the boss monster and its animation.
+   */
   drawBossMonster(ctx, totalSpriteTime, currentFrameTime, viewPort) {
+    // Draw the boss monster if it exists
     if (this.bossMonster !== null) {
       if (!this.bossMonster.handleMove(currentFrameTime, "boss")) {
         if (this.monsterTreasureRoomCheckValidMove()){
@@ -711,6 +775,103 @@ export default class Game {
       spriteMonster['totalSpriteDuration'] = totalSpriteTime;
       let monsterToon = this.getFrame(spriteMonster.frames, spriteMonster.totalSpriteDuration, currentFrameTime, this.bossMonster.moving)
       ctx.drawImage(window.monsterSet, monsterToon.pos[0], monsterToon.pos[1], monsterToon.size[0], monsterToon.size[1], viewPort.offset[0] + this.bossMonster.mapPos[0], viewPort.offset[1] + this.bossMonster.mapPos[1], this.bossMonster.size[0] / 1.3, this.bossMonster.size[1]  )
+    }
+  }
+
+  /**
+   * Draws the player's health bar and UI elements.
+   */
+  drawPlayerHealthBar() {
+    const barWidth = 200;
+    const barHeight = 50;
+    const x = (this.board.viewPort.screen[0] - barWidth) / 2;
+    const y = 100;
+
+    // Draw the empty bar frame (always full width)
+    this.board.ctx.drawImage(window.healthbar2, x, y + 7, barWidth, barHeight);
+
+    // Calculate width of the red fill based on health (6 = full, 0 = empty)
+    let health = Math.max(0, Math.min(6, this.player.currentHealth));
+    let fillWidth = Math.floor(barWidth * (health / 6));
+
+    // Draw only the filled portion of the bar
+    if (fillWidth > 0) {
+      this.board.ctx.drawImage(
+        window.healthbar,
+        0, 0, fillWidth, barHeight,
+        x, y, fillWidth, barHeight
+      );
+    }
+
+    // Draw UI element below the hearts
+    const uiWidth = 200;
+    const uiHeight = 60;
+    const uiX = (this.board.viewPort.screen[0] - uiWidth) / 2;
+    const uiY = 150;
+    this.board.ctx.drawImage(window.ui, uiX, uiY, uiWidth, uiHeight);
+
+    this.board.ctx.font = "38px Ancient";
+    this.board.ctx.fillStyle = "#fff";
+    this.board.ctx.textAlign = "end";
+    this.board.ctx.letterSpacing = "24px";
+    this.board.ctx.fillText(this.score, uiX + 192, uiY + 40);
+  }
+
+  /**
+   * Draws the game over screen.
+   */
+  drawGameOver() {
+    // Implement the logic to draw the game over screen
+  }
+
+  /**
+   * Checks for collisions between the player and all monsters.
+   */
+  checkCollisions(currentFrameTime) {
+    // Only check collisions if player is not invulnerable
+    if (this.player.isInvulnerable) return;
+
+    // Check collisions with red monsters
+    for (let m in this.redMonsters) {
+      if (this.redMonsters[m].currentPos[0] === this.player.currentPos[0] && 
+          this.redMonsters[m].currentPos[1] === this.player.currentPos[1]) {
+        this.player.takeDamage(currentFrameTime);
+        return;
+      }
+    }
+
+    // Check collisions with green monsters
+    for (let m in this.greenMonsters) {
+      if (this.greenMonsters[m].currentPos[0] === this.player.currentPos[0] && 
+          this.greenMonsters[m].currentPos[1] === this.player.currentPos[1]) {
+        this.player.takeDamage(currentFrameTime);
+        return;
+      }
+    }
+
+    // Check collisions with purple monsters
+    for (let m in this.purpleMonsters) {
+      if (this.purpleMonsters[m].currentPos[0] === this.player.currentPos[0] && 
+          this.purpleMonsters[m].currentPos[1] === this.player.currentPos[1]) {
+        this.player.takeDamage(currentFrameTime);
+        return;
+      }
+    }
+
+    // Check collisions with skull monsters
+    for (let m in this.skullMonsters) {
+      if (this.skullMonsters[m].currentPos[0] === this.player.currentPos[0] && 
+          this.skullMonsters[m].currentPos[1] === this.player.currentPos[1]) {
+        this.player.takeDamage(currentFrameTime);
+        return;
+      }
+    }
+
+    // Check collision with boss monster
+    if (this.bossMonster && 
+        this.bossMonster.currentPos[0] === this.player.currentPos[0] && 
+        this.bossMonster.currentPos[1] === this.player.currentPos[1]) {
+      this.player.takeDamage(currentFrameTime);
     }
   }
 }

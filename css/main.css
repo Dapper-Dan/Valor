@@ -114,22 +114,34 @@
 
 #mute {
   position: absolute;
-  top: 190px;
-  left: 101px;
+  top: 170px;
+  left: 230px;
+  right: 0;
+  margin: auto;
   width: 22px;
+  filter: invert(100%)
 }
 
 #audio {
   position: absolute;
-  top: 190px;
-  left: 101px;
+  top: 170px;
+  left: 230px;
+  right: 0;
+  margin: auto;
   width: 20px;
+  filter: invert(100%)
 }
 
 @font-face {
   font-family: Ancient;
   src: url('../src/fonts/ancient.ttf');
 }
+
+@font-face {
+  font-family: Pixel;
+  src: url('../src/fonts/Letterstyle.ttf');
+}
+
 
 #playAgain {
   position: absolute;

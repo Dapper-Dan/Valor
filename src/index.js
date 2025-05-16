@@ -15,14 +15,17 @@ window.toonSet.src = "./src/images/knightFrames.png"
 window.bloodSet = new Image();
 window.bloodSet.src = "./src/images/bloodEffects.png"
 
-window.HUD = new Image();
-window.HUD.src = "./src/images/HUD.png"
-
 window.scenery = new Image();
 window.scenery.src = "./src/images/scenery.png"
 
-window.logo = new Image();
-window.logo.src = "./src/images/logoValor.png"
+window.ui = new Image();
+window.ui.src = "./src/images/ui.png";
+
+window.healthbar = new Image();
+window.healthbar.src = "./src/images/healthbar.png";
+
+window.healthbar2 = new Image();
+window.healthbar2.src = "./src/images/healthbar2.png";
 
 document.addEventListener("DOMContentLoaded", () => {
   const play = document.getElementById("play")
