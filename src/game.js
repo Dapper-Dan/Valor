@@ -56,7 +56,8 @@ export default class Game {
       6: { pos: [4, 21], taken: false },
       7: { pos: [2, 22], taken: false }
     }
-
+    this.greenRespawnQueue = [];
+    this.greenMonstersInitialized = false;
   }
 
   /**
@@ -144,26 +145,9 @@ export default class Game {
       }
     }
     
-    // Spawn green monsters if needed
-    while (this.greenMonsters.length < greenSpawnMax) { 
-      let monster = new Monster();
-      for (let i = 0; i < Object.keys(this.greenPossibleSpawns).length; i ++) {
-        if (!this.greenPossibleSpawns[i].taken) {
-          monster.nextPos = this.greenPossibleSpawns[i].pos;
-          monster.guardPoint = this.greenPossibleSpawns[i].pos;
-          monster.spawnNum = i;
-          this.greenMonsters.push(monster);
-          this.greenPossibleSpawns[i].taken = true;
-          break
-        }
-      }
-    }
-
-    // Check for dead green monsters and respawn them
-    for (let mon of this.greenMonsters) {
-      if (this.enemyCollision(mon)) {
-        this.score += 10;
-        this.greenPossibleSpawns[mon.spawnNum].taken = false;
+    // Initial spawn of green monsters
+    if (!this.greenMonstersInitialized) {
+      while (this.greenMonsters.length < 3) {
         let monster = new Monster();
         for (let i = 0; i < Object.keys(this.greenPossibleSpawns).length; i ++) {
           if (!this.greenPossibleSpawns[i].taken) {
@@ -175,6 +159,33 @@ export default class Game {
             break
           }
         }
+      }
+      this.greenMonstersInitialized = true;
+    }
+
+    // Check for dead green monsters and queue them for respawn
+    for (let i = this.greenMonsters.length - 1; i >= 0; i--) {
+      let mon = this.greenMonsters[i];
+      if (this.enemyCollision(mon)) {
+        this.score += 10;
+        this.greenPossibleSpawns[mon.spawnNum].taken = false;
+        // Add to respawn queue with timestamp
+        this.greenRespawnQueue.push({ time: currentFrameTime, spawnNum: mon.spawnNum });
+        this.greenMonsters.splice(i, 1);
+      }
+    }
+
+    // Handle green monster respawn delay
+    for (let i = this.greenRespawnQueue.length - 1; i >= 0; i--) {
+      let respawn = this.greenRespawnQueue[i];
+      if (currentFrameTime - respawn.time >= 5000) {
+        let monster = new Monster();
+        monster.nextPos = this.greenPossibleSpawns[respawn.spawnNum].pos;
+        monster.guardPoint = this.greenPossibleSpawns[respawn.spawnNum].pos;
+        monster.spawnNum = respawn.spawnNum;
+        this.greenMonsters.push(monster);
+        this.greenPossibleSpawns[respawn.spawnNum].taken = true;
+        this.greenRespawnQueue.splice(i, 1);
       }
     }
 
