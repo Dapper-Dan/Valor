@@ -410,14 +410,14 @@ export default class Game {
     for (let a in this.arrows) {
       if (this.arrows[a].destroyed) this.arrows.splice(a, 1)
     }
-
-    this.board.ctx.font = "19px Ancient";
+  
     this.lastFrameTime = currentFrameTime;
 
     // Draw game title
     this.board.ctx.font = "48px Pixel";
     this.board.ctx.fillStyle = "#fff";
     this.board.ctx.textAlign = "center";
+    this.board.ctx.letterSpacing = "0px";
     this.board.ctx.fillText("VALOR", viewPort.screen[0] / 2, 100);
 
     // Handle game over state
