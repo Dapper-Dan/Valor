@@ -159,3 +159,12 @@ html, body {
   overflow: hidden;
   margin: 0px;
 }
+
+@media (max-width: 1024px) {
+  canvas {
+    touch-action: none;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+}

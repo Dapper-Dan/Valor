@@ -27,6 +27,74 @@ window.healthbar.src = "./src/images/healthbar.png";
 window.healthbar2 = new Image();
 window.healthbar2.src = "./src/images/healthbar2.png";
 
+// Mobile Touch Controls
+let touchStartX = 0;
+let touchStartY = 0;
+let lastTap = 0;
+
+const canvas = document.querySelector('canvas');
+
+if (canvas) {
+  canvas.addEventListener('touchmove', function(e) { e.preventDefault(); }, { passive: false });
+  canvas.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+      e.preventDefault();
+    }
+    const touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  }, { passive: false });
+
+  // Handle movement while finger is down
+  canvas.addEventListener('touchmove', function(e) {
+    const touch = e.touches[0];
+    const dx = touch.clientX - touchStartX;
+    const dy = touch.clientY - touchStartY;
+    const absDx = Math.abs(dx);
+    const absDy = Math.abs(dy);
+    const swipeThreshold = 30; // px
+
+    // Clear all movement keys
+    window.game.keys[37] = false;
+    window.game.keys[38] = false;
+    window.game.keys[39] = false;
+    window.game.keys[40] = false;
+
+    // Detect direction and set key
+    if (absDx > absDy && absDx > swipeThreshold) {
+      if (dx > 0) {
+        window.game.keys[39] = true;
+      } else {
+        window.game.keys[37] = true;
+      }
+    } else if (absDy > absDx && absDy > swipeThreshold) {
+      if (dy > 0) {
+        window.game.keys[40] = true;
+      } else {
+        window.game.keys[38] = true;
+      }
+    }
+  });
+
+  // On touchend, clear all movement keys and handle shooting
+  canvas.addEventListener('touchend', function(e) {
+    window.game.keys[37] = false;
+    window.game.keys[38] = false;
+    window.game.keys[39] = false;
+    window.game.keys[40] = false;
+
+    
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    if (tapLength < 300 && tapLength > 0) {
+      window.game.keys[32] = true;
+      setTimeout(() => { window.game.keys[32] = false; }, 100);
+    }
+    lastTap = currentTime;
+  }, { passive: false });
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const play = document.getElementById("play")
   play.addEventListener("click", () => { 
@@ -61,7 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     
     const game = new Game();
-   
+    window.game = game;
+    
     window.addEventListener("keydown", function(e) {
       if (e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode === 32) game.keys[e.keyCode] = true;   
     });
