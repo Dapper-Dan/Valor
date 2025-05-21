@@ -1,6 +1,19 @@
+html, body {
+  overflow: hidden;
+  margin: 0px;
+}
+
+@media (max-width: 1024px) {
+  canvas {
+    touch-action: none;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+}
+
 .overlay {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.34);
   height: 100vh;
   width: 100%;
   z-index: 1;
@@ -9,7 +22,7 @@
   justify-content: space-between;
 }
 
-.intro {
+.landingPage {
   background-image: url(../src/images/castle.png);
   height: 100vh;
   background-repeat: no-repeat;
@@ -19,15 +32,22 @@
 }
 
 .gameBackgroundInfo {
-  display: flex;
+  font-family: Pixel;
+  display: none;
+  height: 100%;
   flex-direction: column;
-  z-index: 2;
-  background-color: rgba(0, 0, 0, 0.653);
-  height: fit-content;
-  width: 343px;
+  z-index: 999;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.753);
   padding: 26px;
   text-align: center;
   align-self: center;
+  align-items: center;
+  justify-content: center;
+
+  ul {
+    padding: 0;
+  }
 }
 
 .playInstructions {
@@ -51,26 +71,25 @@
   color: white;
 }
 
+.playInstructions ul {
+  text-align: left;
+}
+
 .gameBackgroundInfo P {
   color: white;
-  font-size: 153%;
+  font-size: 24px;
 }
 
 .enemyInfoBox {
-  display: flex;
+  display: none;
   flex-direction: column;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.653);
-  height: 508px;
-  width: 523px;
-  margin-top: 2%;
-  margin-left: 10px;
+  width: 65%;
   padding-right: 3px;
 }
 
 .enemyInfoBox li {
   display: flex;
-  margin-left: -27px;
 }
 
 .enemyInfoBox ul {
@@ -79,16 +98,36 @@
 
 .enemyInfoBox p {
   color: white;
+  font-size: 18px;
+  padding-left: 18px;
+  text-align: left;
 }
 
 .enemyInfoBox img {
-  width: 27%;
+  max-width: 6%;
+  width: 100%;
   align-self: center;
+
+  @media (min-width: 1024px) {
+    max-width: 5%;
+  }
+
+  @media (min-width: 1440px) {
+    max-width: 4%;
+  }
 }
 
 #ghost, #skull, #greenMonster {
-  width: 15%;
+  max-width: 30%;
   margin-right: 15px;
+
+  @media (min-width: 1024px) {
+    max-width: 3%;
+  }
+
+  @media (min-width: 1440px) {
+    max-width: 2%;
+  }
 }
 
 #ogre {
@@ -99,17 +138,27 @@
   margin-left: -13px;
 }
 
-#play {
-  background-image: url('../src/images/stone.jpg');
-  font-size: 20px;
-  color: white;
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 46px;
+  margin: auto;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
   position: absolute;
-  right: 174px;
-  top: 487px;
-  width: 200px;
-  height: 50px;
+  left: 0;
+  right: 0;
+}
+
+#play, #controls, #info {
   z-index: 99;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
 }
 
 #mute {
@@ -155,16 +204,17 @@
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-html, body {
-  overflow: hidden;
-  margin: 0px;
+.playText, .controlsText, .infoText {
+  font-family: Pixel;
+  color: white;
+  /* text-shadow: 6px 1px black, 0px 0 black, 3px 5px black, 0 -1px black; */
+  font-size: 42px;
+  background: linear-gradient(1deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgb(255 253 235) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
 }
 
-@media (max-width: 1024px) {
-  canvas {
-    touch-action: none;
-    width: 100vw;
-    height: 100vh;
-    display: block;
-  }
+.gameBackgroundInfoText {
+  max-width: 70%;
 }

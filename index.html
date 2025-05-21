@@ -11,38 +11,39 @@
     <title>Valor</title>
   </head>
   <body>
-    <div class="overlay">
-      <div class="enemyInfoBox">
-        <ul>
-          <li>
-            <img id="demon" src="./src/images/demonInfo.png">
-            <p>These demons spawn from lava fountains found on the walls of the dungeon. They will follow you no matter where you go!</p>
-          </li>
-          <li>
-            <img id="skull" src="./src/images/skullInfo.png">
-            <p>They look cute but these little guys are fast... and dangerous. They spawn on skull stacks and can only move horizontally.</p>
-          </li>
-          <li>
-            <img id="ghost" src="./src/images/ghostInfo.png">
-            <p>These lost souls wander the halls found in the lower sections of the dungeon. They are slow, spawn randomly, and will only pursue you if you're in proximity.</p>
-          </li>
-          <li>
-            <img id="greenMonster" src="./src/images/greenInfo.png">
-            <p>There's no time to snack in the dungeon's kitchen. These slimes will attack if you enter their culinary home but leave you be otherwise.</p>
-          </li>
-          <li>
-            <img id="ogre" src="./src/images/ogreInfo.png">
-            <p>Big boss man. He guards the treasurey and a vial of holy water that will temporary super power you!</p>
-          </li>
-        </ul>
-      </div>
+    <div class="landingPage">
       <div class="gameBackgroundInfo">
-        <p>
+        <p class="gameBackgroundInfoText">
           The king and guard have left for vacation. They mistakenly forgot that their best warrior was patrolling the dungeon and locked the door behind them. The future doesn't look good.
-          If you're going out, you might as well take out as many ghouls and creeps down there as you can and leave your name in histoy! Do you have the valor?
+          If you're going out, take as many creeps and ghouls down with you as you can, and leave your name in history! Do you have the valor?
         </p>
+
+        <div class="enemyInfoBox">
+          <ul>
+            <li>
+              <img id="demon" src="./src/images/demonInfo.png">
+              <p>These demons spawn from lava fountains found on the walls of the dungeon. They will follow you no matter where you go!</p>
+            </li>
+            <li>
+              <img id="skull" src="./src/images/skullInfo.png">
+              <p>They look cute but these little guys are fast... and dangerous. They spawn on skull stacks and can only move horizontally.</p>
+            </li>
+            <li>
+              <img id="ghost" src="./src/images/ghostInfo.png">
+              <p>These lost souls wander the halls found in the lower sections of the dungeon. They are slow, spawn randomly, and will only pursue you if you're in proximity.</p>
+            </li>
+            <li>
+              <img id="greenMonster" src="./src/images/greenInfo.png">
+              <p>There's no time to snack in the dungeon's kitchen. These slimes will attack if you enter their culinary home but leave you be otherwise.</p>
+            </li>
+            <li>
+              <img id="ogre" src="./src/images/ogreInfo.png">
+              <p>Big boss man. He guards the treasurey and a vial of holy water that will temporary super power you!</p>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="playInstructions">
+      <!-- <div class="playInstructions">
         <p>It's very simple and straightforward to navigate the dungeon and slay monsters.</p>
         <ul> 
           <li>
@@ -61,10 +62,18 @@
             <p>You only have 6 lives so use them wisely!</p>
           </li> 
         </ul>
-      </div>
+      </div> -->
     </div>
     <div class="intro"> 
-      <button id="play">I Have The Valor!</button>
+      <button id="play">
+        <h1 class="playText">PLAY</h1>
+      </button>
+      <button id="controls">
+        <h1 class="controlsText">CONTROLS</h1>
+      </button>
+      <button id="info">
+        <h1 class="infoText">INFO</h1>
+      </button>
     </div>
     <input type="image"  id="audio" src="./src/images/audioButton.png" hidden="true" />
     <input type="image"  id="mute" src="./src/images/muteButton.png" hidden="true" />

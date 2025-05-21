@@ -96,10 +96,11 @@ if (canvas) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const play = document.getElementById("play")
+  const play = document.getElementById("play");
   play.addEventListener("click", () => { 
     document.querySelectorAll(".intro")[0].setAttribute("hidden", "true")
-    document.querySelectorAll(".overlay")[0].style.display = "none"
+    document.querySelectorAll(".landingPage")[0].style.display = "none";
+    document.querySelectorAll(".intro")[0].style.display = "none";
     
     let gameMusic = new Audio("./src/audio/Resurrections.mp3");
     gameMusic.play()
@@ -113,19 +114,19 @@ document.addEventListener("DOMContentLoaded", () => {
       gameMusic.muted = !gameMusic.muted;
       muteButton.hidden = !muteButton.hidden;
       audioButton.hidden = !audioButton.hidden;
-      audioButton.blur()
+      audioButton.blur();
     })
 
     muteButton.addEventListener("click", () => {
       gameMusic.muted = !gameMusic.muted;
       muteButton.hidden = !muteButton.hidden;
       audioButton.hidden = !audioButton.hidden;
-      muteButton.blur()
+      muteButton.blur();
     })
 
     let playAgain = document.getElementById("playAgain")
     playAgain.addEventListener("click", () => {
-      location.reload()
+      location.reload();
     })
     
     const game = new Game();
@@ -143,10 +144,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.keyCode === 80) game.togglePause();
     });
     
-    game.board.viewPort.screen = [ game.board.gameBoard.width, game.board.gameBoard.height ]
+    game.board.viewPort.screen = [ game.board.gameBoard.width, game.board.gameBoard.height ];
   
     requestAnimationFrame(game.drawGame);
 
+  });
+
+  const info = document.getElementById("info");
+  info.addEventListener("click", () => {
+    document.querySelectorAll(".enemyInfoBox")[0].style.display = "flex";
+    document.querySelectorAll(".gameBackgroundInfo")[0].style.display = "flex";
   });
 });
 
