@@ -58,6 +58,10 @@ export default class Game {
     }
     this.greenRespawnQueue = [];
     this.greenMonstersInitialized = false;
+    this.skullRespawnQueue = [];
+    this.purpleRespawnQueue = [];
+    this.skullMonstersInitialized = false;
+    this.purpleMonstersInitialized = false;
   }
 
   /**
@@ -94,25 +98,9 @@ export default class Game {
     let greenSpawnMax = 3;
     let purpleSpawnMax = 8;
 
-    // Spawn skull monsters if needed
-    while (this.skullMonsters.length < skullSpawnMax) {
-      let monster = new Monster();
-      for (let i = 0; i < Object.keys(this.skullPossibleSpawns).length; i ++) {
-        if (!this.skullPossibleSpawns[i].taken) {
-          monster.nextPos = this.skullPossibleSpawns[i].pos;
-          monster.spawnNum = i;
-          this.skullMonsters.push(monster);
-          this.skullPossibleSpawns[i].taken = true;
-          break
-        }
-      }
-    }
-
-    // Check for dead skull monsters and respawn them
-    for (let mon of this.skullMonsters) {
-      if (this.enemyCollision(mon)) {
-        this.score += 10;
-        this.skullPossibleSpawns[mon.spawnNum].taken = false;
+    // Initial spawn of skull monsters
+    if (!this.skullMonstersInitialized) {
+      while (this.skullMonsters.length < skullSpawnMax) {
         let monster = new Monster();
         for (let i = 0; i < Object.keys(this.skullPossibleSpawns).length; i ++) {
           if (!this.skullPossibleSpawns[i].taken) {
@@ -123,6 +111,31 @@ export default class Game {
             break
           }
         }
+      }
+      this.skullMonstersInitialized = true;
+    }
+
+    // Check for dead skull monsters and queue them for respawn
+    for (let i = this.skullMonsters.length - 1; i >= 0; i--) {
+      let mon = this.skullMonsters[i];
+      if (this.enemyCollision(mon)) {
+        this.score += 10;
+        this.skullPossibleSpawns[mon.spawnNum].taken = false;
+        this.skullRespawnQueue.push({ time: currentFrameTime, spawnNum: mon.spawnNum });
+        this.skullMonsters.splice(i, 1);
+      }
+    }
+
+    // Handle skull monster respawn delay
+    for (let i = this.skullRespawnQueue.length - 1; i >= 0; i--) {
+      let respawn = this.skullRespawnQueue[i];
+      if (currentFrameTime - respawn.time >= 5000) {
+        let monster = new Monster();
+        monster.nextPos = this.skullPossibleSpawns[respawn.spawnNum].pos;
+        monster.spawnNum = respawn.spawnNum;
+        this.skullMonsters.push(monster);
+        this.skullPossibleSpawns[respawn.spawnNum].taken = true;
+        this.skullRespawnQueue.splice(i, 1);
       }
     }
     
@@ -147,7 +160,7 @@ export default class Game {
     
     // Initial spawn of green monsters
     if (!this.greenMonstersInitialized) {
-      while (this.greenMonsters.length < 3) {
+      while (this.greenMonsters.length < greenSpawnMax) {
         let monster = new Monster();
         for (let i = 0; i < Object.keys(this.greenPossibleSpawns).length; i ++) {
           if (!this.greenPossibleSpawns[i].taken) {
@@ -189,25 +202,9 @@ export default class Game {
       }
     }
 
-    // Spawn purple monsters if needed
-    while (this.purpleMonsters.length < purpleSpawnMax) {
-      let monster = new Monster();
-      for (let i = 0; i < Object.keys(this.purplePossibleSpawns).length; i ++) {
-        if (!this.purplePossibleSpawns[i].taken) {
-          monster.nextPos = this.purplePossibleSpawns[i].pos;
-          monster.spawnNum = i;
-          this.purpleMonsters.push(monster);
-          this.purplePossibleSpawns[i].taken = true;
-          break
-        }
-      }
-    }
-
-    // Check for dead purple monsters and respawn them
-    for (let mon of this.purpleMonsters) {
-      if (this.enemyCollision(mon)) {
-        this.score += 10;
-        this.purplePossibleSpawns[mon.spawnNum].taken = false;
+    // Initial spawn of purple monsters
+    if (!this.purpleMonstersInitialized) {
+      while (this.purpleMonsters.length < purpleSpawnMax) {
         let monster = new Monster();
         for (let i = 0; i < Object.keys(this.purplePossibleSpawns).length; i ++) {
           if (!this.purplePossibleSpawns[i].taken) {
@@ -218,6 +215,31 @@ export default class Game {
             break
           }
         }
+      }
+      this.purpleMonstersInitialized = true;
+    }
+
+    // Check for dead purple monsters and queue them for respawn
+    for (let i = this.purpleMonsters.length - 1; i >= 0; i--) {
+      let mon = this.purpleMonsters[i];
+      if (this.enemyCollision(mon)) {
+        this.score += 10;
+        this.purplePossibleSpawns[mon.spawnNum].taken = false;
+        this.purpleRespawnQueue.push({ time: currentFrameTime, spawnNum: mon.spawnNum });
+        this.purpleMonsters.splice(i, 1);
+      }
+    }
+
+    // Handle purple monster respawn delay
+    for (let i = this.purpleRespawnQueue.length - 1; i >= 0; i--) {
+      let respawn = this.purpleRespawnQueue[i];
+      if (currentFrameTime - respawn.time >= 3000) {
+        let monster = new Monster();
+        monster.nextPos = this.purplePossibleSpawns[respawn.spawnNum].pos;
+        monster.spawnNum = respawn.spawnNum;
+        this.purpleMonsters.push(monster);
+        this.purplePossibleSpawns[respawn.spawnNum].taken = true;
+        this.purpleRespawnQueue.splice(i, 1);
       }
     }
 
