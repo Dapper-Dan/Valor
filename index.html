@@ -52,7 +52,7 @@
           x
         </div>
         <p class="playInstructionsText">It's very simple and straightforward to navigate the dungeon and slay monsters.</p>
-        <ul> 
+        <ul class="playInstructionsListDesktop"> 
           <li>
             <p>Use the arrow keys to move in 4 directions.</p>
           </li>
@@ -61,6 +61,20 @@
           </li>
           <li>
             <p>The "P" key will pause the game.</p>
+          </li>
+          <li>
+            <p>There is no win mechanic. Your goal is to slay as many monsters as possible before you meet your end.</p>
+          </li>
+          <li>
+            <p>You only have 6 lives so use them wisely!</p>
+          </li> 
+        </ul>
+        <ul class="playInstructionsListMobile">
+          <li>
+            <p>Press and hold a direction to move.</p>
+          </li>
+          <li>
+            <p>Tap the screen twice to shoot arrows.</p>
           </li>
           <li>
             <p>There is no win mechanic. Your goal is to slay as many monsters as possible before you meet your end.</p>
@@ -84,7 +98,7 @@
     </div>
     <input type="image"  id="audio" src="./src/images/audioButton.png" hidden="true" />
     <input type="image"  id="mute" src="./src/images/muteButton.png" hidden="true" />
-    <button id="playAgain" hidden="true"> Play Again? </button>
+    <button id="playAgain" hidden="true">Play Again?</button>
     <canvas id="gameBoard"></canvas>
     <script type="application/javascript" src="./dist/main.js"> </script>
   </body>

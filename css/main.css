@@ -26,9 +26,14 @@ html, body {
   background-image: url(../src/images/castle.png);
   height: 100vh;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+  background-position: center;
   width: 100%;
   position: absolute;
+
+  @media (min-width: 1024px) {
+    background-size: 100% 100%;
+  }
 
   .closeButton {
     color: white;
@@ -73,8 +78,12 @@ html, body {
   width: 100%;
   position: relative;
   font-family: Pixel;
-  justify-content: center;
   align-items: center;
+  overflow: scroll;
+
+  @media (min-width: 1024px) {
+    justify-content: center;
+  }
 
   ul {
     padding: 0;
@@ -211,24 +220,34 @@ html, body {
 
 #playAgain {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 157px;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   height: 75px;
-  background-image: url('../src/images/stone.jpg');
-  font-size: 20px;
+  font-size: 24px;
   color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  font-family: 'Pixel';
+  background: transparent;
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  text-shadow: 5px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .playText, .controlsText, .infoText {
   font-family: Pixel;
   color: white;
-  font-size: 42px;
-  background: linear-gradient(1deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgb(255 253 235) 100%);
+  font-size: 35px;
+  background: linear-gradient(1deg, rgb(228 234 236) 0%, rgb(249 249 249) 50%, rgb(255 253 235) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0;
+
+  @media (min-width: 1024px) {
+    font-size: 42px;
+  }
 }
 
 .gameBackgroundInfoText {
@@ -246,8 +265,28 @@ html, body {
 .playInstructionsText {
   max-width: 70%;
   font-size: 20px;
+  margin-top: 110px;
 
   @media (min-width: 1024px) {
     font-size: 24px;
+    margin-top: unset;
+  }
+}
+
+.playInstructionsListDesktop {
+  display: none;
+  flex-direction: column;
+
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+}
+
+.playInstructionsListMobile {
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 1024px) {
+    display: none;
   }
 }
