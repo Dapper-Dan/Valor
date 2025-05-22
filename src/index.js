@@ -155,5 +155,21 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".enemyInfoBox")[0].style.display = "flex";
     document.querySelectorAll(".gameBackgroundInfo")[0].style.display = "flex";
   });
+
+  const closeButton = document.querySelector(".gameBackgroundInfo .closeButton");
+  closeButton.addEventListener("click", () => {
+    document.querySelectorAll(".enemyInfoBox")[0].style.display = "none";
+    document.querySelectorAll(".gameBackgroundInfo")[0].style.display = "none";
+  });
+
+  const controls = document.getElementById("controls");
+  controls.addEventListener("click", () => {
+    document.querySelectorAll(".playInstructions")[0].style.display = "flex";
+  });  
+
+  const closeControls = document.querySelector(".playInstructions .closeButton");
+  closeControls.addEventListener("click", () => {
+    document.querySelectorAll(".playInstructions")[0].style.display = "none";
+  });
 });
 

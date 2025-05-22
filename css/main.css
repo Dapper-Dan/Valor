@@ -29,6 +29,15 @@ html, body {
   background-size: 100% 100%;
   width: 100%;
   position: absolute;
+
+  .closeButton {
+    color: white;
+    font-size: 24px;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    cursor: pointer;
+  }
 }
 
 .gameBackgroundInfo {
@@ -39,11 +48,15 @@ html, body {
   z-index: 999;
   position: relative;
   background-color: rgba(0, 0, 0, 0.753);
-  padding: 26px;
+  padding: 0px;
   text-align: center;
-  align-self: center;
   align-items: center;
-  justify-content: center;
+  overflow: scroll;
+
+  @media (min-width: 1024px) {
+    padding: 24px;
+    justify-content: center;
+  }
 
   ul {
     padding: 0;
@@ -51,15 +64,27 @@ html, body {
 }
 
 .playInstructions {
-  display: flex;
+  display: none;
   flex-direction: column;
-  z-index: 2;
-  background-color: rgba(0, 0, 0, 0.653);
-  height: 333px;
-  width: 523px;
-  margin-top: 2%;
-  margin-right: 10px;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.753);
   text-align: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  font-family: Pixel;
+  justify-content: center;
+  align-items: center;
+
+  ul {
+    padding: 0;
+    font-size: 16px;
+    max-width: 70%;
+
+    @media (min-width: 1024px) {
+      font-size: 18px;
+    }
+  }
 }
 
 .playInstructions p {
@@ -75,16 +100,11 @@ html, body {
   text-align: left;
 }
 
-.gameBackgroundInfo P {
-  color: white;
-  font-size: 24px;
-}
-
 .enemyInfoBox {
   display: none;
   flex-direction: column;
   z-index: 2;
-  width: 65%;
+  width: 85%;
   padding-right: 3px;
 }
 
@@ -98,13 +118,17 @@ html, body {
 
 .enemyInfoBox p {
   color: white;
-  font-size: 18px;
+  font-size: 14px;
   padding-left: 18px;
   text-align: left;
+
+  @media (min-width: 1024px) {
+    font-size: 18px;
+  }
 }
 
 .enemyInfoBox img {
-  max-width: 6%;
+  max-width: 8%;
   width: 100%;
   align-self: center;
 
@@ -117,25 +141,18 @@ html, body {
   }
 }
 
+#demon, #ogre {
+  scale: 2;
+
+  @media (min-width: 768px) {
+    scale: 1;
+  }
+}
+
 #ghost, #skull, #greenMonster {
-  max-width: 30%;
-  margin-right: 15px;
-
-  @media (min-width: 1024px) {
-    max-width: 3%;
+  @media (min-width: 768px) {
+    scale: .7;
   }
-
-  @media (min-width: 1440px) {
-    max-width: 2%;
-  }
-}
-
-#ogre {
-  margin-left: -16px;
-}
-
-#demon {
-  margin-left: -13px;
 }
 
 .intro {
@@ -207,7 +224,6 @@ html, body {
 .playText, .controlsText, .infoText {
   font-family: Pixel;
   color: white;
-  /* text-shadow: 6px 1px black, 0px 0 black, 3px 5px black, 0 -1px black; */
   font-size: 42px;
   background: linear-gradient(1deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgb(255 253 235) 100%);
   -webkit-background-clip: text;
@@ -216,5 +232,22 @@ html, body {
 }
 
 .gameBackgroundInfoText {
+  max-width: 85%;
+  font-size: 18px;
+  color: white;
+  margin-top: 110px;
+
+  @media (min-width: 1024px) {
+    font-size: 24px;
+    margin-top: unset;
+  }
+}
+
+.playInstructionsText {
   max-width: 70%;
+  font-size: 20px;
+
+  @media (min-width: 1024px) {
+    font-size: 24px;
+  }
 }
