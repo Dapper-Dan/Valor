@@ -291,10 +291,9 @@ html, body {
 .playInstructionsListMobile {
   display: flex;
   flex-direction: column;
-  padding-bottom: 110px;
+  padding-bottom: 110px !important;
 
   @media (min-width: 1024px) {
     display: none;
-    padding-bottom: 0;
   }
 }
