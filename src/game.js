@@ -845,9 +845,12 @@ export default class Game {
 
     this.board.ctx.font = "38px Ancient";
     this.board.ctx.fillStyle = "#fff";
-    this.board.ctx.textAlign = "end";
-    this.board.ctx.letterSpacing = "24px";
-    this.board.ctx.fillText(this.score, uiX + 192, uiY + 40);
+    const scoreText = this.score.toString();
+    const letterSpacing = 24;
+    const rightEdge = uiX + 177; // Your desired right edge
+    const totalWidth = getTextWidthWithSpacing(this.board.ctx, scoreText, letterSpacing);
+    const startX = rightEdge - totalWidth;
+    drawTextWithLetterSpacing(this.board.ctx, scoreText, startX, uiY + 40, letterSpacing);
   }
 
   /**
@@ -906,5 +909,22 @@ export default class Game {
         this.bossMonster.currentPos[1] === this.player.currentPos[1]) {
       this.player.takeDamage(currentFrameTime);
     }
+  }
+}
+
+function getTextWidthWithSpacing(ctx, text, letterSpacing) {
+  let width = 0;
+  for (let i = 0; i < text.length; i++) {
+    width += ctx.measureText(text[i]).width;
+    if (i < text.length - 1) width += letterSpacing;
+  }
+  return width;
+}
+
+function drawTextWithLetterSpacing(ctx, text, x, y, letterSpacing) {
+  let currentX = x;
+  for (let i = 0; i < text.length; i++) {
+    ctx.fillText(text[i], currentX, y);
+    currentX += ctx.measureText(text[i]).width + letterSpacing;
   }
 }

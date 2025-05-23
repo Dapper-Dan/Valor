@@ -1,6 +1,7 @@
 html, body {
   overflow: hidden;
   margin: 0px;
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
 }
 
 @media (max-width: 1024px) {
