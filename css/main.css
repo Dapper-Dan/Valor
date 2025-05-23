@@ -116,6 +116,11 @@ html, body {
   z-index: 2;
   width: 85%;
   padding-right: 3px;
+  padding-bottom: 110px;
+
+  @media (min-width: 1024px) {
+    padding-bottom: 0;
+  }
 }
 
 .enemyInfoBox li {
@@ -286,8 +291,10 @@ html, body {
 .playInstructionsListMobile {
   display: flex;
   flex-direction: column;
+  padding-bottom: 110px;
 
   @media (min-width: 1024px) {
     display: none;
+    padding-bottom: 0;
   }
 }
