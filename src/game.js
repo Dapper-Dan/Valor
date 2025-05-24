@@ -821,7 +821,7 @@ export default class Game {
     const y = 100;
 
     // Draw the empty bar frame (always full width)
-    this.board.ctx.drawImage(window.healthbar2, x, y + 7, barWidth, barHeight);
+    this.board.ctx.drawImage(window.healthbar2, x, y + 1, barWidth, barHeight + 12);
 
     // Calculate width of the red fill based on health (6 = full, 0 = empty)
     let health = Math.max(0, Math.min(6, this.player.currentHealth));
