@@ -137,3 +137,8 @@ As of 2025 we are mobile friendly! Keep in mind the game is optimaly played on d
 
 ## Song Credit
 Resurrections by Lena Raine
+
+## Contact
+[LinkedIn](https://www.linkedin.com/in/daniel-r-lancaster/)
+<br>
+[Email](mailto:daniel.ray.lancaster@gmail.com)
