@@ -20,7 +20,7 @@ The goal of the game is simple, explore the dungeon and slay as many enemies as 
 
 ![Valor Recording](https://github.com/Dapper-Dan/Valor/blob/master/src/images/videocap.gif)
 
-Pathfinding was by far the most difficult mechanic to implement. The following code shows just how complex it is.
+Pathfinding was by far the most difficult mechanic to implement. I used the popular A* algorithm and customized it to fit my needs. 
 
 ```
 export default function findPath(world, pathStart, pathEnd) { 
@@ -129,5 +129,10 @@ export default function findPath(world, pathStart, pathEnd) {
 }
 
 ```
+
+## 2025
+As of 2025 we are mobile friendly! Keep in mind the game is optimally played on desktop.
+![Valor Controls](https://github.com/Dapper-Dan/Valor/blob/master/src/images/mobileControls.png)
+
 ## Song Credit
 Resurrections by Lena Raine
