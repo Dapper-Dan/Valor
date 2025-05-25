@@ -9,7 +9,7 @@ If you're going out, take as many creeps and ghouls down with you as you can, an
 
 ## Technology 
 - JavaScript
-- HTML
+- Canvas Api(animation)
 
 ## The Rundown
 Upon loading into the game, you are greeted with the main menu with three options: information about the enemies in the game, a backstory, and instructions on how to play. 
