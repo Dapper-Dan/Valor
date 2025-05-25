@@ -131,7 +131,8 @@ export default function findPath(world, pathStart, pathEnd) {
 ```
 
 ## 2025
-As of 2025 we are mobile friendly! Keep in mind the game is optimally played on desktop.
+As of 2025 we are mobile friendly! Keep in mind the game is optimaly played on desktop.
+
 ![Valor Controls](https://github.com/Dapper-Dan/Valor/blob/master/src/images/mobileControls.png)
 
 ## Song Credit
