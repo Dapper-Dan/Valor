@@ -18,7 +18,7 @@ Upon loading into the game, you are greeted with the main menu with three option
 
 The goal of the game is simple, explore the dungeon and slay as many enemies as you can before you die. You have unlimited arrows but limited life. The enemies' movements all vary from being on a horizontal track to proximity tracking to full pathfinding. 
 
-<video src="https://github.com/Dapper-Dan/Valor/blob/master/src/images/videocap.mov" autoplay width="100%"></video>
+<video src="https://github.com/Dapper-Dan/Valor/blob/master/src/images/videocap.mp4" autoplay width="100%"></video>
 
 Pathfinding was by far the most difficult mechanic to implement. The following code shows just how complex it is.
 
